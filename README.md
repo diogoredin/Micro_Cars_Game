@@ -1,2 +1,5 @@
-# CG_project
-CG Course Project
+# CG Course Repo
+Here goes:
+* Examples
+* Project
+* Non-Project class code
