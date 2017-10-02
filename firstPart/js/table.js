@@ -17,7 +17,7 @@ function createTable(x, y, z) {
     addTableLeg(table, -(height / 2) + 3, -(height / 4) + 3, (width / 2) - 3);
     addTableLeg(table, (height / 2) - 3, -(height / 4) + 3, (width / 2) - 3);
 
-    addRoad(table, 0, 1, 0);
+    addRoad(table, 0, 1.5, 0);
 
     scene.add(table);
     table.position.set(x, y, z);
@@ -42,39 +42,40 @@ function createTable(x, y, z) {
 
     function addRoad(obj, pos_x, pos_y, pos_z) {
 
-        addMargin(1);
-        addMargin(1.5);
+        var closedSpline = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-60, 0, -100),
+            new THREE.Vector3(-60, 0, 20),
+            new THREE.Vector3(-60, 0, 120),
+            new THREE.Vector3(60, 0, 20),
+            new THREE.Vector3(60, 0, -100)
+        ]);
 
-        function addMargin(road_size) {
+        closedSpline.type = 'catmullrom';
+        closedSpline.closed = true;
 
-            var closedSpline = new THREE.CatmullRomCurve3([
-                new THREE.Vector3(scaleRoad(-60), 0, scaleRoad(-100)),
-                new THREE.Vector3(scaleRoad(-60), 0, scaleRoad(20)),
-                new THREE.Vector3(scaleRoad(-60), 0, scaleRoad(120)),
-                new THREE.Vector3(scaleRoad(60), 0, scaleRoad(20)),
-                new THREE.Vector3(scaleRoad(60), 0, scaleRoad(-100))
-            ]);
+        var extrudeSettings = {
+            steps: 200,
+            bevelEnabled: false,
+            extrudePath: closedSpline
+        };
 
-            closedSpline.type = 'catmullrom';
-            closedSpline.closed = true;
+        var squareShape = new THREE.Shape();
 
-            var geometry = new THREE.Geometry();
-            geometry.vertices = closedSpline.getPoints(50);
+        var sqLength = 20;
+        var sqHeight = 0.1;
 
-            var material = new THREE.LineBasicMaterial({ color: '#000000', linewidth: 20 });
-            var road = new THREE.Line(geometry, material);
-            road.position.set(pos_x, pos_y, pos_z);
+        squareShape.moveTo(0, 0);
+        squareShape.lineTo(0, sqLength);
+        squareShape.lineTo(sqHeight, sqLength);
+        squareShape.lineTo(sqHeight, 0);
+        squareShape.lineTo(0, 0);
 
-            obj.add(road);
+        var roadGeometry = new THREE.ExtrudeGeometry(squareShape, extrudeSettings);
+        var roadMaterial = new THREE.MeshBasicMaterial({ color: '#444444', wireframe: false });
+        var road = new THREE.Mesh(roadGeometry, roadMaterial);
 
-            function scaleRoad(coordinate) {
-                return Math.floor(coordinate / road_size);
-            }
-
-        }
-
-        function addCheerios() {
-        }
+        road.position.set(pos_x, pos_y, pos_z);
+        obj.add(road);
     }
 
 }
