@@ -54,8 +54,8 @@ function createTable(x, y, z) {
         closedSpline.closed = true;
 
         var geometry = new THREE.Geometry();
-
         var points = closedSpline.getPoints(50);
+
         for (var i = 0; i < points.length; i++) {
             geometry.vertices.push(points[i]);
         }
@@ -65,8 +65,8 @@ function createTable(x, y, z) {
         line.position.set(pos_x, pos_y-2, pos_z);
         obj.add(line);
 
-        addCheerios(obj, closedSpline, 0.8);
-        addCheerios(obj, closedSpline, 1.3);
+        addCheerios(obj, closedSpline);
+        addCheerios(obj, closedSpline);
 
         var squareShape = new THREE.Shape();
 
@@ -95,7 +95,7 @@ function createTable(x, y, z) {
         obj.add(road);
     }
 
-    function addCheerios(obj, closedSpline, distance) {
+    function addCheerios(obj, closedSpline) {
 
         var cheerios = new THREE.Object3D();
         var points = closedSpline.getPoints(50);
@@ -103,13 +103,14 @@ function createTable(x, y, z) {
         for (var i = 0; i < points.length; i++) {
 
             var pos = points[i];
-            pos.multiplyScalar(distance);
-
             var geometry = new THREE.TorusGeometry(3, 1, 8, 50),
                 material = new THREE.MeshBasicMaterial({ color: 'red' }),
                 torus = new THREE.Mesh(geometry, material);
 
-            torus.position.set(pos.x, pos.y + 2, pos.z);
+            var normal = new THREE.Vector3(0, -1, 0);
+            var aux = new THREE.Vector3().crossVectors(normal, pos);
+
+            torus.position.set(aux.x, aux.y + 2, aux.z);
             torus.rotation.x = 1 / 2 * Math.PI;
             cheerios.add(torus);
 
