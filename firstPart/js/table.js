@@ -9,14 +9,14 @@ function createTable(x, y, z) {
         height = 200;
 
     var table = new THREE.Object3D(),
-        tableMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10 });
+        tableMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
     
     addTableTop(table, 0, 0, 0);
     addTableLeg(table, -(width / 2) + 3, -(height / 4) + 3, -(width / 2) + 3);
     addTableLeg(table, (width / 2) - 3, -(height / 4) + 3, -(width / 2) + 3);
     addTableLeg(table, -(width / 2) + 3, -(height / 4) + 3, (width / 2) - 3);
     addTableLeg(table, (width / 2) - 3, -(height / 4) + 3, (width / 2) - 3);
-    
+
     addRoad(table, 0, 1.5, 0);
 
     scene.add(table);
@@ -67,14 +67,13 @@ function createTable(x, y, z) {
         closedSpline.closed = true;
 
         var geometry = new THREE.Geometry();
-        var points = closedSpline.getPoints(50);
 
         addCheerios(obj, closedSpline, 1);
         addCheerios(obj, closedSpline, -1);
 
-        var sqLength = 20;
-        var sqHeight = 0.1;
-        var squareShape = new THREE.Shape();
+        var sqLength = 20,
+            sqHeight = 0.1,
+            squareShape = new THREE.Shape();
 
         squareShape.moveTo(0, -sqLength/2);
         squareShape.lineTo(0, 0);
@@ -85,13 +84,18 @@ function createTable(x, y, z) {
         squareShape.lineTo(0, -sqLength/2);
 
         var extrudeSettings = {
-            steps: 200,
+            steps: 600,
             bevelEnabled: false,
             extrudePath: closedSpline
         };
 
+        var texture = new THREE.TextureLoader().load('./img/road.png');
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(0.3, 0.3);
+
         var roadGeometry = new THREE.ExtrudeGeometry(squareShape, extrudeSettings);
-        var roadMaterial = new THREE.MeshBasicMaterial({ color: '#444444', wireframe: false });
+        var roadMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
         var road = new THREE.Mesh(roadGeometry, roadMaterial);
 
         road.position.set(pos_x, pos_y, pos_z);
@@ -100,12 +104,17 @@ function createTable(x, y, z) {
 
     function addCheerios(obj, closedSpline, normalY) {
 
+        var texture = new THREE.TextureLoader().load('./img/cheerio.png');
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(4, 4);
+
         var cheerios = new THREE.Object3D();
 
         for (i = 0; i < 1; i += 1 / 150) {
 
             var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
-                material = new THREE.MeshBasicMaterial({ color: 'red' }),
+                material = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
                 torus = new THREE.Mesh(geometry, material);
             
             var pos = closedSpline.getPoint(i),
