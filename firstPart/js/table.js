@@ -43,11 +43,24 @@ function createTable(x, y, z) {
     function addRoad(obj, pos_x, pos_y, pos_z) {
 
         var closedSpline = new THREE.CatmullRomCurve3([
-            new THREE.Vector3(-60, 0, -100),
-            new THREE.Vector3(-60, 0, 20),
-            new THREE.Vector3(-60, 0, 120),
-            new THREE.Vector3(60, 0, 20),
-            new THREE.Vector3(60, 0, -100)
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(-100, 0, 0),
+            new THREE.Vector3(-130, 0, -80),
+            new THREE.Vector3(0, 0, -80),
+            new THREE.Vector3(20, 0, -150),
+            new THREE.Vector3(-240, 0, -260),
+            new THREE.Vector3(-240, 0, 0),
+            new THREE.Vector3(-180, 0, 60),
+            new THREE.Vector3(-180, 0, 100),
+            new THREE.Vector3(-240, 0, 140),
+            new THREE.Vector3(-240, 0, 250),
+            new THREE.Vector3(240, 0, 230),
+            new THREE.Vector3(240, 0, -200),
+            new THREE.Vector3(130, 0, -260),
+            new THREE.Vector3(130, 0, -100),
+            new THREE.Vector3(200, 0, 0),
+            new THREE.Vector3(200, 0, 150),
+            new THREE.Vector3(0, 0, 170)
         ]);
 
         closedSpline.type = 'catmullrom';
@@ -82,7 +95,7 @@ function createTable(x, y, z) {
         squareShape.lineTo(0, -sqLength/2);
 
         var extrudeSettings = {
-            steps: 200,
+            steps: 1000,
             bevelEnabled: false,
             extrudePath: closedSpline
         };
@@ -100,7 +113,7 @@ function createTable(x, y, z) {
         var cheerios = new THREE.Object3D();
         var points = closedSpline.getPoints(50);
 
-        for (i=0; i < 1; i += 1/50) {
+        for (i=0; i < 1; i += 1/200) {
             var pos = closedSpline.getPointAt(i);
             var ss = closedSpline.getTangent(i);
 
