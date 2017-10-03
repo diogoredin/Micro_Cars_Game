@@ -69,22 +69,12 @@ function createTable(x, y, z) {
         var geometry = new THREE.Geometry();
         var points = closedSpline.getPoints(50);
 
-        for (var i = 0; i < points.length; i++) {
-            geometry.vertices.push(points[i]);
-        }
-
-        var mat = new THREE.LineBasicMaterial({ color: 'red' });
-        var line = new THREE.Line(geometry, mat);
-        line.position.set(pos_x, pos_y-2, pos_z);
-        obj.add(line);
-
         addCheerios(obj, closedSpline, 1);
         addCheerios(obj, closedSpline, -1);
 
-        var squareShape = new THREE.Shape();
-
         var sqLength = 20;
         var sqHeight = 0.1;
+        var squareShape = new THREE.Shape();
 
         squareShape.moveTo(0, -sqLength/2);
         squareShape.lineTo(0, 0);
@@ -95,7 +85,7 @@ function createTable(x, y, z) {
         squareShape.lineTo(0, -sqLength/2);
 
         var extrudeSettings = {
-            steps: 1000,
+            steps: 200,
             bevelEnabled: false,
             extrudePath: closedSpline
         };
@@ -111,22 +101,24 @@ function createTable(x, y, z) {
     function addCheerios(obj, closedSpline, normalY) {
 
         var cheerios = new THREE.Object3D();
-        var points = closedSpline.getPoints(50);
 
-        for (i=0; i < 1; i += 1/200) {
-            var pos = closedSpline.getPointAt(i);
-            var ss = closedSpline.getTangent(i);
+        for (i = 0; i < 1; i += 1 / 150) {
 
-
-            var geometry = new THREE.TorusGeometry(3, 1, 8, 50),
+            var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
                 material = new THREE.MeshBasicMaterial({ color: 'red' }),
                 torus = new THREE.Mesh(geometry, material);
+            
+            var pos = closedSpline.getPoint(i),
+                tan = closedSpline.getTangent(i);
 
-            var normal = new THREE.Vector3(0, normalY, 0);
-            var aux = new THREE.Vector3().crossVectors(normal, ss);
-            aux.multiplyScalar(1 + (10/aux.length()))
+            var normal = new THREE.Vector3(0, normalY, 0),
+                aux = new THREE.Vector3().crossVectors(normal, tan);
+
+            aux.multiplyScalar(1 + 10/aux.length() );
+            
             torus.position.set(pos.x + aux.x, 2, pos.z + aux.z);
             torus.rotation.x = 1 / 2 * Math.PI;
+
             cheerios.add(torus);
         }
 
