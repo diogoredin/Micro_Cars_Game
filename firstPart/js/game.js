@@ -32,6 +32,16 @@ function createScene() {
 
     createFloor();
     createTable(0, 0, 0);
+    createCar(-50, 10, -10);
+    createButter(100, 0, 200);
+    createButter(-140, 0, 200);
+    createButter(-140, 0, 200);
+    createOrange(100, 0, 0);
+    createOrange(80, 0, 100);
+    createOrange(-200, 0, 200);
+    createButter(-100, 0, 100);
+    createButter(-200, 0, -60);
+    createButter(-200, 0, -160);
 
     scene.add(new THREE.AxisHelper(100));
 }

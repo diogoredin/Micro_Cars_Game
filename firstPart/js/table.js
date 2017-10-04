@@ -10,7 +10,7 @@ function createTable(x, y, z) {
 
     var table = new THREE.Object3D(),
         tableMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
-    
+
     addTableTop(table, 0, 0, 0);
     addTableLeg(table, -(width / 2) + 3, -(height / 4) + 3, -(width / 2) + 3);
     addTableLeg(table, (width / 2) - 3, -(height / 4) + 3, -(width / 2) + 3);
@@ -71,7 +71,7 @@ function createTable(x, y, z) {
         addCheerios(obj, closedSpline, 1);
         addCheerios(obj, closedSpline, -1);
 
-        var sqLength = 20,
+        var sqLength = 30,
             sqHeight = 0.1,
             squareShape = new THREE.Shape();
 
@@ -84,7 +84,7 @@ function createTable(x, y, z) {
         squareShape.lineTo(0, -sqLength/2);
 
         var extrudeSettings = {
-            steps: 600,
+            steps: 200,
             bevelEnabled: false,
             extrudePath: closedSpline
         };
@@ -110,7 +110,6 @@ function createTable(x, y, z) {
             texture.repeat.set(4, 4);
 
         var cheerios = new THREE.Object3D();
-
         for (i = 0; i < 1; i += 1 / 150) {
 
             var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
@@ -123,7 +122,7 @@ function createTable(x, y, z) {
             var normal = new THREE.Vector3(0, normalY, 0),
                 aux = new THREE.Vector3().crossVectors(normal, tan);
 
-            aux.multiplyScalar(1 + 10/aux.length() );
+            aux.multiplyScalar(1 + 15/aux.length() );
             
             torus.position.set(pos.x + aux.x, 2, pos.z + aux.z);
             torus.rotation.x = 1 / 2 * Math.PI;

@@ -1,8 +1,7 @@
 function createCar(x, y, z) {
-	'use strict'
 
 	var car = new THREE.Object3D();
-	car.userData = {velocity: 0,}
+	car.userData = {velocity: 0}
 	var carMaterial = new THREE.MeshLambertMaterial({ color: 0xb23320, wireframe: false });
 
 	// THE MIDDLE
