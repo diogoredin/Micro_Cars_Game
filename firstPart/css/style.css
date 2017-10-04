@@ -13,6 +13,7 @@ TABLE OF CONTENTS
 /* 1.1. Base */
 
 * {
+    overflow: hidden;
     outline: none;
 }
 
