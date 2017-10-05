@@ -42,8 +42,6 @@ function updateCarVelocity(car) {
 	if (car.userData.state == 'accelerating') {
 		car.userData.velocity += 10;
 	} else if (car.userData.state == 'stopping') {
-		car.userData.velocity -= 12;
-	} else {
-		car.userData.velocity 
+		car.userData.velocity -= 20;
 	}
 }
