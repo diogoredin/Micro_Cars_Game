@@ -54,6 +54,8 @@ class movingObject {
 	set position(position) {
 		if (!position instanceof Array) {
 			console.error('Parameter position is not an array');
+		} else if (position.length != this.position.length) {
+			console.error('position has diferent dimensions that the object')
 		} else {
 			this.position = position;
 		}
@@ -70,6 +72,8 @@ class movingObject {
 	set directionOfMovement(directionOfMovement) {
 		if (!directionOfMovement instanceof Array) {
 			console.error('Parameter directionOfMovement is not an array');
+		} else if (directionOfMovement.length != this.directionOfMovement.length) {
+			console.error('directionOfMovement has diferent dimensions that the object')
 		} else {
 			this.directionOfMovement = directionOfMovement;
 		}
