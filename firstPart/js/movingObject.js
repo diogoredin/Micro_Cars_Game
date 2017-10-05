@@ -1,4 +1,4 @@
-class movingObject {
+class MovingObject {
 
 	constructor(initialPosition, initialVelocity, directionOfMovement) {
 		if (!initialPosition instanceof Array) {
