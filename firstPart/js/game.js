@@ -120,6 +120,11 @@ function onKeyDown(e) {
         case 'A':
             scene.traverse(function (node) {
                 if (node instanceof (THREE.Mesh)) {
+                    if (node.material instanceof Array) {
+                        node.material.forEach(function (el) {
+                            el.wireframe = !el.wireframe
+                        });
+                    }
                     node.material.wireframe = !node.material.wireframe;
                 }
             });
