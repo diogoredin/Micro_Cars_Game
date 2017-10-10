@@ -109,25 +109,33 @@ function createTable(x, y, z) {
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(4, 4);
 
-        var cheerios = new THREE.Object3D();
+        var cheerios = new THREE.Object3D(),
+            prev = new THREE.Vector3();
+
         for (i = 0; i < 1; i += 1 / 150) {
 
-            var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
-                material = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
-                torus = new THREE.Mesh(geometry, material);
-            
             var pos = closedSpline.getPoint(i),
                 tan = closedSpline.getTangent(i);
 
             var normal = new THREE.Vector3(0, normalY, 0),
                 aux = new THREE.Vector3().crossVectors(normal, tan);
 
-            aux.multiplyScalar(1 + 15/aux.length() );
-            
-            torus.position.set(pos.x + aux.x, 2, pos.z + aux.z);
-            torus.rotation.x = 1 / 2 * Math.PI;
+            aux.multiplyScalar(1 + 15 / aux.length());
 
-            cheerios.add(torus);
+            var current = new THREE.Vector3(pos.x + aux.x, 2, pos.z + aux.z);
+
+            if (prev.distanceTo(current) > 20) {
+    
+                var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
+                    material = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
+                    torus = new THREE.Mesh(geometry, material);
+
+                torus.position.set(pos.x + aux.x, 2, pos.z + aux.z);
+                torus.rotation.x = 1 / 2 * Math.PI;
+
+                cheerios.add(torus);
+                prev = current;
+            }
         }
 
         obj.add(cheerios);
