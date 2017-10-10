@@ -8,11 +8,11 @@ class Car extends MovingObject {
 		this.maxVelocity = 10;
 		this.minVelocity = -10;
 		
-		this.acceleration = 1;
+		this.acceleration = 2;
 		this.accelerationBit = 0;
 
 		this.angle = 0;
-		this.angleDiffSecond = 180 * Math.PI / 180;
+		this.angleDiffSecond = 2 * Math.PI;
 		this.angleBit = 0;
 
 		this._buildCar();
@@ -103,8 +103,9 @@ class Car extends MovingObject {
 	}
 
 	turn(deltaT) {
-		this.object.rotateY(deltaT * this.angleDiffSecond * this.angleBit);
-		this.directionOfMovement.applyAxisAngle(new THREE.Vector3(0, 1, 0), deltaT * this.angleDiffSecond * this.angleBit);
+		var turningAngle = deltaT * this.angleDiffSecond * this.angleBit * (this.velocity / this.maxVelocity);
+		this.object.rotateY(turningAngle);
+		this.directionOfMovement.applyAxisAngle(new THREE.Vector3(0, 1, 0), turningAngle);
 	}
 
 	update(deltaT) {
