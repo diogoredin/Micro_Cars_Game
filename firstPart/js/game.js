@@ -67,7 +67,7 @@ function createFloor() {
 	var texture = new THREE.TextureLoader().load('./img/floor.png');
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(30, 30);
+		texture.repeat.set(40, 40);
 
 	var floor = new THREE.PlaneGeometry(3000, 3000),
 		floorMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 5 });

@@ -3,7 +3,7 @@ function createTable(x, y, z) {
     var texture = new THREE.TextureLoader().load('./img/wood.png');
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(4, 4);
+        texture.repeat.set(1, 5);
 
     var width = 600,
         height = 200;
