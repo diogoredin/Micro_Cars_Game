@@ -6,25 +6,25 @@ function createTable(x, y, z) {
         texture.repeat.set(1, 5);
 
     var width = 600,
-        height = 200;
+        height = 100;
 
     var table = new THREE.Object3D(),
         tableMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
 
     addTableTop(table, 0, 0, 0);
-    addTableLeg(table, -(width / 2) + 3, -(height / 4) + 3, -(width / 2) + 3);
-    addTableLeg(table, (width / 2) - 3, -(height / 4) + 3, -(width / 2) + 3);
-    addTableLeg(table, -(width / 2) + 3, -(height / 4) + 3, (width / 2) - 3);
-    addTableLeg(table, (width / 2) - 3, -(height / 4) + 3, (width / 2) - 3);
+    addTableLeg(table, -(width / 2) + 10, -height/ 2, -(width / 2) + 10);
+    addTableLeg(table, (width / 2) - 10, -height / 2, -(width / 2) + 10);
+    addTableLeg(table, -(width / 2) + 10, -height / 2, (width / 2) - 10);
+    addTableLeg(table, (width / 2) - 10, -height / 2, (width / 2) - 10);
 
-    addRoad(table, 0, 1.5, 0);
+    addRoad(table, 0, 5.5, 0);
 
     scene.add(table);
     table.position.set(x, y, z);
 
     function addTableTop(obj, pos_x, pos_y, pos_z) {
 
-        var tableTopGeometry = new THREE.CubeGeometry(width, 2, width);
+        var tableTopGeometry = new THREE.CubeGeometry(width, 10, width);
         var tableTopMesh = new THREE.Mesh(tableTopGeometry, tableMaterial);
         tableTopMesh.position.set(pos_x, pos_y, pos_z);
 
@@ -33,9 +33,9 @@ function createTable(x, y, z) {
 
     function addTableLeg(obj, pos_x, pos_y, pos_z) {
 
-        var tableLegGeometry = new THREE.CubeGeometry(3, 100, 3);
+        var tableLegGeometry = new THREE.CubeGeometry(10, 100, 10);
         var tableLegMesh = new THREE.Mesh(tableLegGeometry, tableMaterial);
-        tableLegMesh.position.set(pos_x, pos_y-3, pos_z);
+        tableLegMesh.position.set(pos_x, pos_y, pos_z);
 
         obj.add(tableLegMesh);
     }
@@ -68,8 +68,8 @@ function createTable(x, y, z) {
 
         var geometry = new THREE.Geometry();
 
-        addCheerios(obj, closedSpline, 1);
-        addCheerios(obj, closedSpline, -1);
+        addCheerios(obj, closedSpline, 1, pos_y);
+        addCheerios(obj, closedSpline, -1, pos_y);
 
         var sqLength = 30,
             sqHeight = 0.1,
@@ -102,7 +102,7 @@ function createTable(x, y, z) {
         obj.add(road);
     }
 
-    function addCheerios(obj, closedSpline, normalY) {
+    function addCheerios(obj, closedSpline, normalY, pos_y) {
 
         var texture = new THREE.TextureLoader().load('./img/cheerio.png');
             texture.wrapS = THREE.RepeatWrapping;
@@ -124,13 +124,13 @@ function createTable(x, y, z) {
 
             var current = new THREE.Vector3(pos.x + aux.x, 2, pos.z + aux.z);
 
-            if (prev.distanceTo(current) > 20) {
+            if ( prev.distanceTo(current) > 20 ) {
     
                 var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
                     material = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
                     torus = new THREE.Mesh(geometry, material);
 
-                torus.position.set(pos.x + aux.x, 2, pos.z + aux.z);
+                torus.position.set(pos.x + aux.x, pos_y+0.5, pos.z + aux.z);
                 torus.rotation.x = 1 / 2 * Math.PI;
 
                 cheerios.add(torus);

@@ -10,7 +10,7 @@ function createOrange(pos_x, pos_y, pos_z) {
     var orange = new THREE.Object3D(),
         orangeMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
     
-    var geometry = new THREE.SphereGeometry(radius, 32, 32);
+    var geometry = new THREE.SphereGeometry(radius, 20, 20);
     var orangeBody = new THREE.Mesh(geometry, orangeMaterial);
     orange.add(orangeBody);
 

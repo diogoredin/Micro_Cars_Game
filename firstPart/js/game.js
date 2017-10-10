@@ -35,16 +35,16 @@ function createScene() {
 
 	createFloor();
 	createTable(0, 0, 0);
-	car = new Car(new THREE.Vector3(-50, 0, -10), 0, new THREE.Vector3(1,0,0));
-	createButter(100, 0, 200);
-	createButter(-140, 0, 200);
-	createButter(-140, 0, 200);
-	createOrange(100, 0, 0);
-	createOrange(80, 0, 100);
-	createOrange(-200, 0, 200);
-	createButter(-100, 0, 100);
-	createButter(-200, 0, -60);
-	createButter(-200, 0, -160);
+	car = new Car(new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1,0,0));
+	createButter(100, 5.5, 200);
+	createButter(-140, 5.5, 200);
+	createButter(-140, 5.5, 200);
+	createOrange(100, 5.5, 0);
+	createOrange(80, 5.5, 100);
+	createOrange(-200, 5.5, 200);
+	createButter(-100, 5.5, 100);
+	createButter(-200, 5.5, -60);
+	createButter(-200, 5.5, -160);
 
 	scene.add(new THREE.AxisHelper(100));
 }
@@ -64,7 +64,7 @@ function addFocusLight() {
 
 function createFloor() {
 	
-	var texture = new THREE.TextureLoader().load('./img/floor.png');
+	var texture = new THREE.TextureLoader().load('./img/floor.jpg');
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 		texture.repeat.set(40, 40);

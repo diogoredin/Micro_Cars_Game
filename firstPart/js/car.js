@@ -2,7 +2,7 @@ class Car extends MovingObject {
 	
 	constructor(initialPosition, initialVelocity, directionOfMovement) {
 
-		initialPosition.setY(3.4);
+		initialPosition.setY(10);
 		super(initialPosition, initialVelocity, directionOfMovement);
 
 		this.maxVelocity = 10;
