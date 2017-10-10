@@ -6,7 +6,7 @@ function createTable(x, y, z) {
         texture.repeat.set(4, 4);
 
     var width = 600,
-        height = 200;
+        height = 600;
 
     var table = new THREE.Object3D(),
         tableMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });

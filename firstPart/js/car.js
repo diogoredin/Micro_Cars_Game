@@ -2,10 +2,11 @@ class Car extends MovingObject {
 	
 	constructor(initialPosition, initialVelocity, directionOfMovement) {
 
+		initialPosition.setY(3.4);
 		super(initialPosition, initialVelocity, directionOfMovement);
 
 		this.maxVelocity = 10;
-		this.minVelocity = 0;
+		this.minVelocity = -10;
 		
 		this.acceleration = 1;
 		this.accelerationBit = 0;
@@ -14,43 +15,72 @@ class Car extends MovingObject {
 		this.angleDiffSecond = 180 * Math.PI / 180;
 		this.angleBit = 0;
 
-		this._addToScene();
+		this._buildCar();
+		scene.add(this.object);
 	}
 
-	_addToScene() {
+	_buildCar() {
 		var carMaterial = new THREE.MeshLambertMaterial({ color: 0xb23320, wireframe: false });
-		// THE MIDDLE
-		var middleCarGeometry = new THREE.CubeGeometry(44, 3, 18);
-		var middleCarMesh = new THREE.Mesh(middleCarGeometry, carMaterial);
-		middleCarMesh.position.set(0, -2, 0);
 
+		//THE BOTTOM
+		var bottom = new THREE.Object3D();
+		bottom.position.set(0, -0.5, 0);
 
-		// THE BOTTOM
-		var frontBottomGeometry = new THREE.CubeGeometry(7, 4, 18);
-		var middleBottomGeometry = new THREE.CubeGeometry(18, 4, 18);
-		var backBottomGeometry = new THREE.CubeGeometry(1, 4, 18);
+		this._addCarRectMesh(2, 1, 8, -6, 0, 0, bottom, carMaterial);
+		this._addCarRectMesh(2, 1, 6, -4, 0, 0, bottom, carMaterial);
+		this._addCarRectMesh(5, 1, 8, -0.5, 0, 0, bottom, carMaterial);
+		this._addCarRectMesh(2, 1, 6, 3, 0, 0, bottom, carMaterial);
+		this._addCarRectMesh(3, 1, 8, 5.5, 0, 0, bottom, carMaterial);
+		
+		//THE MIDDLE
+		var middle = new THREE.Object3D();
+		middle.position.set(0, 0.5, 0);
 
-		var frontBottomMesh = new THREE.Mesh(frontBottomGeometry, carMaterial);
-		var middleBottomMesh = new THREE.Mesh(middleBottomGeometry, carMaterial);
-		var backBottomMesh = new THREE.Mesh(backBottomGeometry, carMaterial);
+		this._addCarRectMesh(9, 1, 8, 2.5, 0, 0, middle, carMaterial);
 
-		frontBottomMesh.position.set(-18.5, -5.5, 0);
-		middleBottomMesh.position.set(4, -5.5, 0);
-		backBottomMesh.position.set(21.5, -5.5, 0);
+		//THE TOP
+		var top = new THREE.Object3D();
+		top.position.set(0, 2, 0);
 
-		// THE TOP
-		var topCarGeometry = new THREE.CubeGeometry(27, 8, 18);
-		var topCarMesh = new THREE.Mesh(topCarGeometry, carMaterial);
-		topCarMesh.position.set(8.5, 2, 0);
+		this._addCarRectMesh(4, 2, 8, 0, 0, 0, top, carMaterial);
 
+		//THE BOX
+		var box = new THREE.Object3D();
+		box.position.set(0, 0.75, 0);
 
-		this.addObject(middleCarMesh);
-		this.addObject(frontBottomMesh);
-		this.addObject(middleBottomMesh);
-		this.addObject(backBottomMesh);
-		this.addObject(topCarMesh);
+		this._addCarRectMesh(5, 1.5, 0.1, -4.5, 0, 3.95, box, carMaterial);
+		this._addCarRectMesh(5, 1.5, 0.1, -4.5, 0, -3.95, box, carMaterial);
+		this._addCarRectMesh(0.1, 1.5, 8, -6.95, 0, 0, box, carMaterial);
+		this._addCarRectMesh(5, 0.1, 8, -4.5, -0.7, 0, box, carMaterial);
+		
+		//THE WHEELS
+		var wheels = new THREE.Object3D();
+		wheels.position.set(0, -1, 0);
 
-		scene.add(this.object);
+		this._addCarWheelMesh(0.7, 0.25, 3, 0, 3.5, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.25, 3, 0, -3.5, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.25, -4, 0, 3.5, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.25, -4, 0, -3.5, wheels, carMaterial);
+
+		this.object.add(bottom);
+		this.object.add(middle);
+		this.object.add(top);
+		this.object.add(box);
+		this.object.add(wheels);
+	}
+
+	_addCarRectMesh(sizeX, sizeY, sizeZ, posX, posY, posZ, obj, material) {
+		var rectGeometry = new THREE.CubeGeometry(sizeX, sizeY, sizeZ);
+		var rectMesh =  new THREE.Mesh(rectGeometry, material);
+		rectMesh.position.set(posX, posY, posZ);
+		obj.add(rectMesh);
+	}
+
+	_addCarWheelMesh(radius, tube, posX, posY, posZ, obj, material) {
+		var wheelGeometry = new THREE.TorusBufferGeometry(radius, tube, 30, 30);
+		var wheelMesh = new THREE.Mesh(wheelGeometry, material);
+		wheelMesh.position.set(posX, posY, posZ);
+		obj.add(wheelMesh);
 	}
 
 	setAccelerationBit(bit) {

@@ -35,7 +35,7 @@ function createScene() {
 
 	createFloor();
 	createTable(0, 0, 0);
-	car = new Car(new THREE.Vector3(-50, 10, -10), 0, new THREE.Vector3(-1,0,0));
+	car = new Car(new THREE.Vector3(-50, 0, -10), 0, new THREE.Vector3(1,0,0));
 	createButter(100, 0, 200);
 	createButter(-140, 0, 200);
 	createButter(-140, 0, 200);
@@ -82,6 +82,7 @@ function createFloor() {
 
 function createCamera() {
 
+	//camera = new THREE.OrthographicCamera( -600,  600, 600, -600, -600, 400);
 	camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 4000);
 	camera.position.set(50, 20, 50);
 	camera.lookAt(scene.position);
@@ -99,7 +100,13 @@ function animate() {
 	var deltaT = thisFrameTime - previousFrameTime;
 	car.update(deltaT / 1000);
 	render();
-	requestAnimationFrame(animate);
+
+
+	setTimeout(function () {
+
+		requestAnimationFrame(animate);
+
+	}, 1000 / 60);
 
 	previousFrameTime = thisFrameTime;
 }
