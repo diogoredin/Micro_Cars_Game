@@ -7,7 +7,7 @@
 'use strict'
 var scene, camera, renderer;
 var previousFrameTime = Date.now();
-
+var keyPressed = {};
 var car;
 
 function init() {
@@ -19,8 +19,8 @@ function init() {
 	createScene();
 	createCamera();
 
-	window.addEventListener('resize', onResize);
-	window.addEventListener('keydown', onKeyDown);
+	// window.addEventListener('resize', onResize);
+	// window.addEventListener('keydown', onKeyDown);
 }
 
 function render() {
@@ -95,7 +95,7 @@ function createCamera() {
 }
 
 function animate() {
-	
+	checkKeysPressed();
 	var thisFrameTime = Date.now();
 	var deltaT = thisFrameTime - previousFrameTime;
 	car.update(deltaT / 1000);
@@ -127,38 +127,79 @@ function onResize() {
 	}
 }
 
-/* 2.2. Allows keyboard interaction with the game */
-function onKeyDown(e) {
-	switch (e.key) {
-		case 'a':
-		case 'A':
-			scene.traverse(function (node) {
-				if (node instanceof (THREE.Mesh)) {
-					if (node.material instanceof Array) {
-						node.material.forEach(function (el) {
-							el.wireframe = !el.wireframe
-						});
-					}
-					node.material.wireframe = !node.material.wireframe;
+document.addEventListener('keydown', function (e) {
+	keyPressed[e.key] = true;
+}, false);
+document.addEventListener('keyup', function (e) {
+	keyPressed[e.key] = false;
+}, false);
+
+function checkKeysPressed() {
+	if (keyPressed['a'] || keyPressed['A']) {
+		scene.traverse(function (node) {
+			if (node instanceof (THREE.Mesh)) {
+				if (node.material instanceof Array) {
+					node.material.forEach(function (el) {
+						el.wireframe = !el.wireframe
+					});
 				}
-			});
-			break;
+				node.material.wireframe = !node.material.wireframe;
+			}
+		});
+		
+		keyPressed['a'] = false;
+		keyPressed['A'] = false;
+	}
 
-		case 'ArrowUp':
-			car.setAccelerationBit(1);
-			break;
+	if (keyPressed['ArrowUp']) {
+		car.setAccelerationBit(1);
+	} else if (keyPressed['ArrowDown'] ){
+		car.setAccelerationBit(-1);
+	} else {
+		car.setAccelerationBit(0);
+	}
 
-		case 'ArrowDown':
-			car.setAccelerationBit(-1);
-			break;
-
-		case 'ArrowRight':
-			car.setAngleBit(-1);
-			break;
-
-		case 'ArrowLeft':
-			car.setAngleBit(1);
-			break;
-
+	if (keyPressed['ArrowRight']) {
+		car.setAngleBit(-1);
+	} else if (keyPressed['ArrowLeft']) {
+		car.setAngleBit(1);
+	} else {
+		car.setAngleBit(0);
 	}
 }
+
+// /* 2.2. Allows keyboard interaction with the game */
+// function onKeyDown(e) {
+// 	switch (e.key) {
+// 		case 'a':
+// 		case 'A':
+// 			scene.traverse(function (node) {
+// 				if (node instanceof (THREE.Mesh)) {
+// 					if (node.material instanceof Array) {
+// 						node.material.forEach(function (el) {
+// 							el.wireframe = !el.wireframe
+// 						});
+// 					}
+// 					node.material.wireframe = !node.material.wireframe;
+// 				}
+// 			});
+// 			break;
+
+// 		case 'ArrowUp':
+// 			car.setAccelerationBit(1);
+// 			break;
+
+// 		case 'ArrowDown':
+// 			car.setAccelerationBit(-1);
+// 			break;
+
+// 		case 'ArrowRight':
+// 			car.setAngleBit(-1);
+// 			break;
+
+// 		case 'ArrowLeft':
+// 			car.setAngleBit(1);
+// 			break;
+
+// 	}
+// }
