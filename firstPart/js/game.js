@@ -9,6 +9,7 @@ var scene, camera, renderer;
 var previousFrameTime = Date.now();
 var keyPressed = {};
 var car;
+var tableSize = 600;
 
 function init() {
 
@@ -19,8 +20,7 @@ function init() {
 	createScene();
 	createCamera();
 
-	// window.addEventListener('resize', onResize);
-	// window.addEventListener('keydown', onKeyDown);
+	window.addEventListener('resize', onResize);
 }
 
 function render() {
@@ -81,10 +81,16 @@ function createFloor() {
 }
 
 function createCamera() {
+	var aspect = window.innerWidth / window.innerHeight;
 
-	//camera = new THREE.OrthographicCamera( -600,  600, 600, -600, -600, 400);
-	camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 4000);
-	camera.position.set(50, 20, 50);
+	if (aspect > 1) {
+		camera = new THREE.OrthographicCamera(-tableSize * aspect * 0.5, tableSize * aspect * 0.5, tableSize * 0.5, -tableSize * 0.5, 1, 601);
+	} else {
+		camera = new THREE.OrthographicCamera(-tableSize * 0.5, tableSize * 0.5, tableSize * 0.5 / aspect, -tableSize * 0.5 / aspect, 1, 601);
+	}
+	//camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 4000);
+	camera.position.set(0, 500, 0);
+	camera.aspect = aspect;
 	camera.lookAt(scene.position);
 
 	var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -120,9 +126,21 @@ function animate() {
 /* 2.1. Repositions animation on the window after resizing */
 function onResize() {
 
-	renderer.setSize(window.innerWidth, window.innerHeight);
 	if (window.innerWidth > 0 && window.innerHeight > 0) {
-		camera.aspect = renderer.getSize().width / renderer.getSize().height;
+		var aspect = window.innerWidth / window.innerHeight;
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		if (aspect > 1) {
+			camera.left = -tableSize * aspect * 0.5;
+			camera.right = tableSize * aspect * 0.5;
+			camera.top = tableSize * 0.5;
+			camera.bottom = -tableSize * 0.5;
+		} else {
+			camera.left = -tableSize  * 0.5;
+			camera.right = tableSize * 0.5;
+			camera.top = tableSize * 0.5 / aspect;
+			camera.bottom = -tableSize * 0.5 / aspect;
+		}
+		camera.aspect = aspect;
 		camera.updateProjectionMatrix();
 	}
 }
@@ -167,39 +185,3 @@ function checkKeysPressed() {
 		car.setAngleBit(0);
 	}
 }
-
-// /* 2.2. Allows keyboard interaction with the game */
-// function onKeyDown(e) {
-// 	switch (e.key) {
-// 		case 'a':
-// 		case 'A':
-// 			scene.traverse(function (node) {
-// 				if (node instanceof (THREE.Mesh)) {
-// 					if (node.material instanceof Array) {
-// 						node.material.forEach(function (el) {
-// 							el.wireframe = !el.wireframe
-// 						});
-// 					}
-// 					node.material.wireframe = !node.material.wireframe;
-// 				}
-// 			});
-// 			break;
-
-// 		case 'ArrowUp':
-// 			car.setAccelerationBit(1);
-// 			break;
-
-// 		case 'ArrowDown':
-// 			car.setAccelerationBit(-1);
-// 			break;
-
-// 		case 'ArrowRight':
-// 			car.setAngleBit(-1);
-// 			break;
-
-// 		case 'ArrowLeft':
-// 			car.setAngleBit(1);
-// 			break;
-
-// 	}
-// }
