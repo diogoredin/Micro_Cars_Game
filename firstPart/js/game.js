@@ -88,16 +88,9 @@ function createCamera() {
 	} else {
 		camera = new THREE.OrthographicCamera(-tableSize * 0.5, tableSize * 0.5, tableSize * 0.5 / aspect, -tableSize * 0.5 / aspect, 1, 601);
 	}
-	//camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 4000);
 	camera.position.set(0, 500, 0);
 	camera.aspect = aspect;
 	camera.lookAt(scene.position);
-
-	var controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.addEventListener('change', render);
-	controls.minDistance = 20;
-	controls.maxDistance = 500;
-	controls.enablePan = false;
 }
 
 function animate() {
