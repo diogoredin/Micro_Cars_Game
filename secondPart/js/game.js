@@ -5,7 +5,8 @@
 *******************************************************************/
 
 'use strict'
-var scene, camera, renderer;
+var scene, renderer;
+var orthographicTopCamera, perspectiveTopCamera, chaseCamera, cameraIndex = 1;
 var previousFrameTime = Date.now();
 var keyPressed = {};
 var car;
@@ -18,13 +19,17 @@ function init() {
 	document.body.appendChild(renderer.domElement);
 
 	createScene();
-	createCamera();
+	createChaseCamera();
+	createOrthographicTopCamera();
+	createPerspectiveTopCamera();
 
 	window.addEventListener('resize', onResize);
 }
 
 function render() {
-	renderer.render(scene, camera);
+	if (cameraIndex == 1) { renderer.render(scene, orthographicTopCamera); }
+	else if (cameraIndex == 2) { renderer.render(scene, perspectiveTopCamera); }
+	else { renderer.render(scene, chaseCamera) }
 }
 
 function createScene() {
@@ -35,7 +40,7 @@ function createScene() {
 
 	createFloor();
 	createTable(0, 0, 0);
-	car = new Car(new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1,0,0));
+	car = new Car(new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1, 0, 0));
 	createButter(100, 5.5, 200);
 	createButter(-140, 5.5, 200);
 	createButter(-140, 5.5, 200);
@@ -63,41 +68,48 @@ function addFocusLight() {
 }
 
 function createFloor() {
-	
+
 	var texture = new THREE.TextureLoader().load('./img/floor.jpg');
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(40, 40);
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(40, 40);
 
 	var floor = new THREE.PlaneGeometry(3000, 3000),
 		floorMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 5 });
 
 	var plane = new THREE.Mesh(floor, floorMaterial);
-		plane.material.side = THREE.DoubleSide;
-		plane.rotation.x = Math.PI / 2;
-		plane.position.set(0, -100, 0);
-	
+	plane.material.side = THREE.DoubleSide;
+	plane.rotation.x = Math.PI / 2;
+	plane.position.set(0, -100, 0);
+
 	scene.add(plane);
 }
 
-function createCamera() {
+function createOrthographicTopCamera() {
 	var aspect = window.innerWidth / window.innerHeight;
 
 	if (aspect > 1) {
-		camera = new THREE.OrthographicCamera(-tableSize * aspect * 0.5, tableSize * aspect * 0.5, tableSize * 0.5, -tableSize * 0.5, 1, 601);
+		orthographicTopCamera = new THREE.OrthographicCamera(-tableSize * aspect * 0.5, tableSize * aspect * 0.5, tableSize * 0.5, -tableSize * 0.5, 1, 601);
 	} else {
-		camera = new THREE.OrthographicCamera(-tableSize * 0.5, tableSize * 0.5, tableSize * 0.5 / aspect, -tableSize * 0.5 / aspect, 1, 601);
+		orthographicTopCamera = new THREE.OrthographicCamera(-tableSize * 0.5, tableSize * 0.5, tableSize * 0.5 / aspect, -tableSize * 0.5 / aspect, 1, 601);
 	}
-	//camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 4000);
-	camera.position.set(0, 500, 0);
-	camera.aspect = aspect;
-	camera.lookAt(scene.position);
+	orthographicTopCamera.position.set(0, 500, 0);
+	orthographicTopCamera.aspect = aspect;
+	orthographicTopCamera.lookAt(scene.position);
+}
 
-	var controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.addEventListener('change', render);
-	controls.minDistance = 20;
-	controls.maxDistance = 500;
-	controls.enablePan = false;
+function createPerspectiveTopCamera() {
+	'use strict'
+
+	perspectiveTopCamera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 1, 1000);
+	perspectiveTopCamera.position.set(0, 500, 0);
+	perspectiveTopCamera.lookAt(scene.position);
+}
+
+function createChaseCamera() {
+	'use strict'
+
+	chaseCamera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 1, 1000);
 }
 
 function animate() {
@@ -105,6 +117,15 @@ function animate() {
 	var thisFrameTime = Date.now();
 	var deltaT = thisFrameTime - previousFrameTime;
 	car.update(deltaT / 1000);
+
+	var relativeCameraOffset = new THREE.Vector3(-50, 30, 0);
+	var cameraOffset = relativeCameraOffset.applyMatrix4(car.object.matrixWorld);
+	chaseCamera.position.x = cameraOffset.x;
+	chaseCamera.position.y = cameraOffset.y;
+	chaseCamera.position.z = cameraOffset.z;
+	chaseCamera.lookAt(car.object.position);
+
+
 	render();
 
 
@@ -130,18 +151,23 @@ function onResize() {
 		var aspect = window.innerWidth / window.innerHeight;
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		if (aspect > 1) {
-			camera.left = -tableSize * aspect * 0.5;
-			camera.right = tableSize * aspect * 0.5;
-			camera.top = tableSize * 0.5;
-			camera.bottom = -tableSize * 0.5;
+			orthographicTopCamera.left = -tableSize * aspect * 0.5;
+			orthographicTopCamera.right = tableSize * aspect * 0.5;
+			orthographicTopCamera.top = tableSize * 0.5;
+			orthographicTopCamera.bottom = -tableSize * 0.5;
 		} else {
-			camera.left = -tableSize  * 0.5;
-			camera.right = tableSize * 0.5;
-			camera.top = tableSize * 0.5 / aspect;
-			camera.bottom = -tableSize * 0.5 / aspect;
+			orthographicTopCamera.left = -tableSize * 0.5;
+			orthographicTopCamera.right = tableSize * 0.5;
+			orthographicTopCamera.top = tableSize * 0.5 / aspect;
+			orthographicTopCamera.bottom = -tableSize * 0.5 / aspect;
 		}
-		camera.aspect = aspect;
-		camera.updateProjectionMatrix();
+
+		orthographicTopCamera.aspect = aspect;
+		orthographicTopCamera.updateProjectionMatrix();
+		perspectiveTopCamera.aspect = aspect;
+		perspectiveTopCamera.updateProjectionMatrix();
+		chaseCamera.aspect = aspect;
+		chaseCamera.updateProjectionMatrix();
 	}
 }
 
@@ -164,14 +190,18 @@ function checkKeysPressed() {
 				node.material.wireframe = !node.material.wireframe;
 			}
 		});
-		
+
 		keyPressed['a'] = false;
 		keyPressed['A'] = false;
 	}
 
+	if (keyPressed['1']) { cameraIndex = 1 }
+	else if (keyPressed['2']) { cameraIndex = 2 }
+	else if (keyPressed['3']) { cameraIndex = 3 }
+
 	if (keyPressed['ArrowUp']) {
 		car.setAccelerationBit(1);
-	} else if (keyPressed['ArrowDown'] ){
+	} else if (keyPressed['ArrowDown']) {
 		car.setAccelerationBit(-1);
 	} else {
 		car.setAccelerationBit(0);
