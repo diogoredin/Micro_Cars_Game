@@ -139,13 +139,19 @@ function intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length
     /* MATH EXPLANATION */
     /* alt_x, alt_y, alt_z and alt_radius belongs to the Sphere */
     /* x, y, z, width, height, length belongs to the Cube */
-    /* A cube intersects with a sphere if one of its side is between the diameter of the sphere */
+    /* A cube intersects with a sphere if their axis all overlap at some point. Otherwise they might just be on top or side. */
+    /* Imagine these values projected onto the axis and overlapped with each other */
     
-    if ( x - grl > alt_x - alt_radius && x + radius < alt_x + alt_radius &&
-        y - radius > alt_y - alt_radius && y + radius < alt_y + alt_radius &&
-        z - radius > alt_z - alt_radius && z + radius < alt_z + alt_radius) {
+    if (x - alt_x < width / 2 + alt_radius) {
 
-        return true;
+        if (y - alt_y < height / 2 + alt_radius) {
+
+            if (z - alt_z < length / 2 + alt_radius) {
+                return true;
+            }
+
+        }
+
     }
 
     else {
@@ -154,19 +160,25 @@ function intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length
 
 }
 
-/* Intersect Cube with another Sphere */
+/* Intersect Cube with another Cube */
 function intersectCubeCube(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_width, alt_length, alt_heigth) {
 
     /* MATH EXPLANATION */
     /* alt_x, alt_y, alt_z and alt_radius belongs to the Sphere */
     /* x, y, z, width, height, length belongs to the Cube */
-    /* A cube intersects with a sphere if one of its side is between the diameter of the sphere */
+    /* Two cubes intersect only if their axis all overlap at some point. Otherwise they might just be on top or side. */
+    /* Imagine these values projected onto the axis and overlapped with each other */
 
-    if (x - grl > alt_x - alt_radius && x + radius < alt_x + alt_radius &&
-        y - radius > alt_y - alt_radius && y + radius < alt_y + alt_radius &&
-        z - radius > alt_z - alt_radius && z + radius < alt_z + alt_radius) {
+    if ( x - alt_x < width/2 + alt_width/2 ) {
+        
+        if ( y - alt_y < height/2 + alt_heigth/2 ) {
 
-        return true;
+            if ( z - alt_z < length/2 + alt_length/2 ) {
+                return true;
+            }
+    
+        }
+
     }
 
     else {
