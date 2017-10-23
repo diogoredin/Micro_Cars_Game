@@ -36,26 +36,54 @@ function detectCollisions() {
                 if (intersectSphereSphere(a.self, b.self)) {
                     
                     /* For debugging purposes */
-                    console.log('Passed Sphere on Sphere collision test');
+                    console.log('Passed Sphere on Sphere collision test.');
 
                     /* SPHERE/SPHERE COLLISION BOX */
                     if (a.self.size.length == 1 && b.self.size.length == 1) {
-                        //intersectSphereSphere(a.self, b.self);
+                        if (intersectSphereSphere(a.self, b.self)) {
+
+                            /* For debugging purposes */
+                            console.log('Passed Sphere on Sphere second collision test.');
+
+                            a.self.collision();
+                            b.self.collision();
+                        }
                     }
 
                     /* BOX/BOX AXIS ALIGNED COLLISION BOX */
                     else if (a.self.size.length == 3 && b.self.size.length == 3) {
-                        //intersectCubeCube(a.self, b.self);
+                        if (intersectCubeCube(a.self, b.self)) {
+
+                            /* For debugging purposes */
+                            console.log('Passed Box on Box collision test.');
+
+                            a.self.collision();
+                            b.self.collision();
+                        }
                     }
 
                     /* SPHERE/BOX AXIS ALIGNED COLLISION BOX */
                     else if (a.self.size.length == 1 && b.self.size.length == 3) {
-                        //intersectCubeSphere(b.self, a.self);
+                        if (intersectCubeSphere(b.self, a.self)) {
+
+                            /* For debugging purposes */
+                            console.log('Passed Sphere on Box collision test.');
+
+                            a.self.collision();
+                            b.self.collision();
+                        }
                     }
 
                     /* BOX/SPHERE AXIS ALIGNED COLLISION BOX */
                     else if (a.self.size.length == 3 && b.self.size.length == 1) {
-                        //intersectCubeSphere(a.self, b.self);
+                        if (intersectCubeSphere(a.self, b.self)) {
+
+                            /* For debugging purposes */
+                            console.log('Passed Box on Sphere collision test.');
+
+                            a.self.collision();
+                            b.self.collision();
+                        }
                     }
                 
                 }   
@@ -95,7 +123,7 @@ function intersectSphereSphere(a, b) {
 
     /* MATH EXPLANATION */
     /* Pitagoras theorem applied to all three axis */
-    
+
     /* (ra + rb)^2 => (cax - cbx)^2 + (cax - cbx)^2 */
     let square = (a_radius + b_radius) * (a_radius + b_radius);
     let square_sum = (a_cx - b_cx) * (a_cx - b_cx) + (a_cx - b_cx) * (a_cx - b_cx);
@@ -113,21 +141,80 @@ function intersectSphereSphere(a, b) {
 }
 
 /* Intersect Cube with another Sphere */
-function intersectCubeSphere(a,b) {
+function intersectCubeSphere(a, b) {
+    
+    /* Cube Properties */
+    let a_width = a.size[0]/2,
+        a_length = a.size[1]/2,
+        a_height = a.size[2]/2;
+
+    let a_max_x = a.object.position.x + a_width,
+        a_max_y = a.object.position.y + a_height,
+        a_max_z = a.object.position.z + a_length;
+
+    let a_min_x = a.object.position.x - a_width,
+        a_min_y = a.object.position.y - a_height,
+        a_min_z = a.object.position.z - a_length;
+    
+    /* Sphere Properties */
+    /* Width here it's actually the radius of the sphere */
+
+    let b_width = b.size[0];
+
+    let b_max_x = b.object.position.x + b_width,
+        b_max_y = b.object.position.y + b_width,
+        b_max_z = b.object.position.z + b_width;
+
+    let b_min_x = b.object.position.x - b_width,
+        b_min_y = b.object.position.y - b_width,
+        b_min_z = b.object.position.z - b_width;
 
     /* MATH EXPLANATION */
-    /* A cube intersects with a sphere if their axis all overlap at some point. Otherwise they might just be on top or side. */
-    /* Imagine these values projected onto the axis and overlapped with each other */
+    /* Bounding box extreme points comparison */
+    /* Adapated from cube to cube to fit comparison between sphere and cube */
     
-    return (false);
+    let test_x = (a_max_x > b_min_x && a_min_x < b_max_x);
+    let test_y = (a_max_y > b_min_y && a_min_y < b_max_y);
+    let test_z = (a_max_z > b_min_z && a_min_z < b_max_z);
+
+    return (test_x && test_y && test_z);
 }
 
 /* Intersect Cube with another Cube */
 function intersectCubeCube(a,b) {
 
-    /* MATH EXPLANATION */
-    /* Two cubes intersect only if their axis all overlap at some point. Otherwise they might just be on top or side. */
-    /* Imagine these values projected onto the axis and overlapped with each other */
+    /* Cube Properties */
+    let a_width = a.size[0]/2,
+        a_length = a.size[1]/2,
+        a_height = a.size[2]/2;
 
-    return (false);
+    let a_max_x = a.object.position.x + a_width,
+        a_max_y = a.object.position.y + a_height,
+        a_max_z = a.object.position.z + a_length;
+
+    let a_min_x = a.object.position.x - a_width,
+        a_min_y = a.object.position.y - a_height,
+        a_min_z = a.object.position.z - a_length;
+
+    /* Cube Properties */
+    let b_width = b.size[0]/2,
+        b_length = b.size[1]/2,
+        b_height = b.size[2]/2;
+
+    let b_max_x = b.object.position.x + b_width,
+        b_max_y = b.object.position.y + b_height,
+        b_max_z = b.object.position.z + b_length;
+
+    let b_min_x = b.object.position.x - b_width,
+        b_min_y = b.object.position.y - b_height,
+        b_min_z = b.object.position.z - b_length;
+
+    /* MATH EXPLANATION */
+    /* Bounding box extreme points comparison */
+
+    let test_x = (a_max_x > b_min_x && a_min_x < b_max_x);
+    let test_y = (a_max_y > b_min_y && a_min_y < b_max_y);
+    let test_z = (a_max_z > b_min_z && a_min_z < b_max_z);
+
+    return (test_x && test_y && test_z);
 }
