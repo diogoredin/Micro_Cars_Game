@@ -105,7 +105,7 @@ function animate() {
 	});
 
 	/* Detect colisions */
-	detectColisions();
+	detectCollisions();
 
 	/* Makes Camera Look at the Car */
 	scene.traverse( function(object) {

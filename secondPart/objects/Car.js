@@ -19,7 +19,7 @@ class Car extends MovingObject {
 		this.angleBit = 0;
 
 		/* Collision box definitions */
-		this.size = [20, 20, 20];
+		this.size = [8, 8, 8];
 
 		/* Models the car in 3d */
 		this._buildCar();
