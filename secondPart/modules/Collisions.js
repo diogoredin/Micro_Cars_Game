@@ -23,7 +23,7 @@ function detectColisions() {
 
         /* SPHERE COLLISION BOX */
         if (self.size.length == 1) {
-            var radius = self.size.length[0];
+            var radius = self.size[0];
         }
 
         /* AXIS ALIGNED COLLISION BOX */
@@ -120,7 +120,7 @@ function detectColisions() {
 
 /* Intersect Sphere with another Sphere */
 function intersectSphereSphere(x, y, z, alt_x, alt_y, alt_z, radius, alt_radius) {
-    
+
     if (x - radius > alt_x - alt_radius && x + radius < alt_x + alt_radius &&
         y - radius > alt_y - alt_radius && y + radius < alt_y + alt_radius &&
         z - radius > alt_z - alt_radius && z + radius < alt_z + alt_radius) {
