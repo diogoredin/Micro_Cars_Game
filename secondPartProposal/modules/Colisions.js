@@ -33,7 +33,9 @@ function detectColisions() {
                 if (x - radius > ext_x - ext_radius && x + radius < ext_x + ext_radius &&
                     y - radius > ext_y - ext_radius && y + radius < ext_y + ext_radius &&
                     z - radius > ext_z - ext_radius && z + radius < ext_z + ext_radius ) {
-                    console.log('colision!')
+                    console.log('colision!');
+
+                    object.directionOfMovement.applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI);
                 }
             
             }

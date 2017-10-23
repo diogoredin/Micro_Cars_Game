@@ -134,6 +134,7 @@ class Table extends StaticObject {
                         torus = new THREE.Mesh(geometry, material);
 
                     torus.position.set(pos.x + aux.x, pos_y + 0.5, pos.z + aux.z);
+                    torus.size = 3;
                     torus.rotation.x = 1 / 2 * Math.PI;
 
                     /* Saves them for later. yummy */
