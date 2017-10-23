@@ -41,14 +41,14 @@ class Orange extends MovingObject {
         this.setVelocity(newVelocity);
     }
 
-    turn() {
-        var angle = -Math.PI/10;
+    turn(deltaT) {
+        var angle = - this.velocity * deltaT / (this.size);
         this.object.rotateZ(angle);
     }
 
     update(deltaT) {
-        this.turn();
-        this.move()
+        this.turn(deltaT);
+        this.move(deltaT)
     }
 
     /* Collision handler */

@@ -8,10 +8,10 @@ class Car extends MovingObject {
 		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement);
 
-		this.maxVelocity = 10;
-		this.minVelocity = -10;
+		this.maxVelocity = 1000;
+		this.minVelocity = -1000;
 		
-		this.acceleration = 2;
+		this.acceleration = 200;
 		this.accelerationBit = 0;
 
 		this.angle = 0;
@@ -124,7 +124,7 @@ class Car extends MovingObject {
 	update(deltaT) {
 		this.accelerate(deltaT);
 		this.turn(deltaT);
-		this.move()
+		this.move(deltaT)
 
 		this.setAccelerationBit(0);
 		this.setAngleBit(0);

@@ -55,10 +55,10 @@ class MovingObject {
 		}
 	}
 	
-	move() {
+	move(deltaT) {
 
 		this.directionOfMovement.normalize();
-		this.object.position.addScaledVector(this.directionOfMovement, this.velocity);
+		this.object.position.addScaledVector(this.directionOfMovement, this.velocity * deltaT);
 
 		return this.object.position;
 	}
