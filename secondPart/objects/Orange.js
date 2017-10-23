@@ -2,13 +2,21 @@ class Orange extends MovingObject {
 
     constructor(initialPosition, initialVelocity, directionOfMovement, size) {
 
+        /* Invokes constructor of parent class */
         super(initialPosition, initialVelocity, directionOfMovement);
 
-        this.size = size;
+        /* Collision box definitions */
+        this.size = [size];
 
+        /* Models the car in 3d */
         this._buildOrange();
-        this.object.name = 'orange';
+
+        /* Saves reference to itself */
+        this.object.self = this;
+
+        /* Adds object to the scene */
         scene.add(this.object);
+
     }
 
     _buildOrange() {
@@ -21,7 +29,7 @@ class Orange extends MovingObject {
         var orange = new THREE.Object3D(),
             orangeMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
 
-        var geometry = new THREE.SphereGeometry(this.size, 20, 20);
+        var geometry = new THREE.SphereGeometry(this.size[0], 20, 20);
         var orangeBody = new THREE.Mesh(geometry, orangeMaterial);
 
         orange.add(orangeBody);
@@ -41,6 +49,11 @@ class Orange extends MovingObject {
     update(deltaT) {
         this.turn();
         this.move()
+    }
+
+    /* Collision handler */
+    collision() {
+        console.log('collision!');
     }
 
 }

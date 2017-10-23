@@ -2,7 +2,10 @@ class Car extends MovingObject {
 	
 	constructor(initialPosition, initialVelocity, directionOfMovement) {
 
+		/* Position +10 on top of the road */
 		initialPosition.setY(10);
+
+		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement);
 
 		this.maxVelocity = 10;
@@ -15,10 +18,18 @@ class Car extends MovingObject {
 		this.angleDiffSecond = 2 * Math.PI;
 		this.angleBit = 0;
 
-		this.size = 10;
+		/* Collision box definitions */
+		this.size = [10, 10, 10];
 
+		/* Models the car in 3d */
 		this._buildCar();
+
+		/* Saves reference to itself */
+		this.object.self = this;
+
+		/* Adds object to the scene */
 		scene.add(this.object);
+
 	}
 
 	_buildCar() {
@@ -117,6 +128,11 @@ class Car extends MovingObject {
 
 		this.setAccelerationBit(0);
 		this.setAngleBit(0);
+	}
+
+	/* Collision handler */
+	collision() {
+		console.log('collision!');
 	}
 
 }

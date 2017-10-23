@@ -2,11 +2,25 @@ class Butter extends StaticObject {
 
     constructor(initialPosition) {
 
+        /* Invokes constructor of parent class */
         super(initialPosition);
 
-        this.size = 26;
+        /* Butter Sizes */
+        this.base = 40,
+        this.length = 20,
+        this.height = 20,
+        this.border = 6;
+        
+        /* Collision box definitions */
+        this.size = [this.base, this.length, this.height];
 
+        /* Models the car in 3d */
         this._buildButter();
+
+        /* Saves reference to itself */
+        this.object.self = this;
+
+        /* Adds object to the scene */
         scene.add(this.object);
     }
 
@@ -14,23 +28,18 @@ class Butter extends StaticObject {
         var texture = new THREE.TextureLoader().load('./tiles/butter.png'),
             butter = new THREE.Object3D();
 
-        var base = 40,
-            length = 20,
-            height = 20,
-            border = 6;
-
-        var geometry = new THREE.CubeGeometry(base, height, length),
+        var geometry = new THREE.CubeGeometry(this.base, this.height, this.length),
             butterBodyMaterial = new THREE.MeshPhongMaterial({ map: texture, color: '#FFFFFF', shininess: 10, wireframe: false }),
             butterBody = new THREE.Mesh(geometry, butterBodyMaterial);
 
-        butterBody.position.set(base / 2, height / 2, length / 2);
+        butterBody.position.set(this.base / 2, this.height / 2, this.length / 2);
         butter.add(butterBody);
 
-        addBorder(height, border, length, null, base);
-        addBorder(height, border, length, Math.PI, -base);
-        addTop(height, length, base + border * 2, border);
+        addborder(this.height, this.border, this.length, null, this.base);
+        addborder(this.height, this.border, this.length, Math.PI, -this.base);
+        addTop(this.height, this.length, this.base + this.border * 2, this.border);
 
-        function addBorder(height, border, length, rotation, relative_pos) {
+        function addborder(height, border, length, rotation, relative_pos) {
 
             var shape = new THREE.Shape();
             shape.moveTo(0, 0);
@@ -48,16 +57,16 @@ class Butter extends StaticObject {
 
             var geometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings),
                 material = new THREE.MeshPhongMaterial({ color: '#EEEEEE', shininess: 10, wireframe: false }),
-                butterBorder = new THREE.Mesh(geometry, material);
+                border = new THREE.Mesh(geometry, material);
 
             if (rotation != null) {
-                butterBorder.position.set(0, 0, -relative_pos / 2);
-                butterBorder.rotation.y = rotation;
+                border.position.set(0, 0, -relative_pos / 2);
+                border.rotation.y = rotation;
             } else {
-                butterBorder.position.set(relative_pos, 0, 0);
+                border.position.set(relative_pos, 0, 0);
             }
 
-            butter.add(butterBorder);
+            butter.add(border);
         }
 
         function addTop(height, length, base, border) {
@@ -77,6 +86,11 @@ class Butter extends StaticObject {
         }
 
         this.object.add(butter);
+    }
+
+    /* Collision handler */
+    collision() {
+        console.log('collision!');
     }
 
 }
