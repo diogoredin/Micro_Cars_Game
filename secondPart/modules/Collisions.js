@@ -28,9 +28,9 @@ function detectColisions() {
 
         /* AXIS ALIGNED COLLISION BOX */
         else if (self.size.length == 3) {
-            var width = self.size.length[0],
-                length = self.size.length[1],
-                heigth = self.size.length[2];
+            var width = self.size[0],
+                length = self.size[1],
+                height = self.size[2];
         }
 
         /* Center of the object Coordinates */
@@ -58,7 +58,7 @@ function detectColisions() {
 
                 /* SPHERE COLLISION BOX */
                 if (self.size.length == 1) {
-                    var alt_radius = self.size.length[0];
+                    var alt_radius = self.size[0];
 
                     /* Test against another sphere (e.g. orange and orange) */
                     if (radius != undefined &&
@@ -72,7 +72,7 @@ function detectColisions() {
                     
                     /* Test against another box (e.g. car and orange) */
                     else if (width != undefined && height != undefined && length != undefined &&
-                        intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_radius) ) {
+                        intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_radius)) {
 
                         /* Now process the collision! */
                         a.self.collision();
@@ -84,9 +84,9 @@ function detectColisions() {
 
                 /* AXIS ALIGNED COLLISION BOX */
                 else if (self.size.length == 3) {
-                    var alt_width = self.size.length[0],
-                        alt_length = self.size.length[1],
-                        alt_heigth = self.size.length[2];
+                    var alt_width = self.size[0],
+                        alt_length = self.size[1],
+                        alt_heigth = self.size[2];
                     
                     /* Test against another sphere (e.g. car and orange) */
                     if (radius != undefined &&
@@ -142,12 +142,12 @@ function intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length
     /* A cube intersects with a sphere if their axis all overlap at some point. Otherwise they might just be on top or side. */
     /* Imagine these values projected onto the axis and overlapped with each other */
     
-    if (x - alt_x < width / 2 + alt_radius) {
+    if (x - alt_x < width + alt_radius) {
 
-        if (y - alt_y < height / 2 + alt_radius) {
+        if (y - alt_y < height + alt_radius) {
 
-            if (z - alt_z < length / 2 + alt_radius) {
-                return true;
+            if (z - alt_z < length + alt_radius) {
+                return false;
             }
 
         }
@@ -169,12 +169,12 @@ function intersectCubeCube(x, y, z, alt_x, alt_y, alt_z, width, height, length, 
     /* Two cubes intersect only if their axis all overlap at some point. Otherwise they might just be on top or side. */
     /* Imagine these values projected onto the axis and overlapped with each other */
 
-    if ( x - alt_x < width/2 + alt_width/2 ) {
+    if ( x - alt_x < width + alt_width ) {
         
-        if ( y - alt_y < height/2 + alt_heigth/2 ) {
+        if ( y - alt_y < height + alt_heigth ) {
 
-            if ( z - alt_z < length/2 + alt_length/2 ) {
-                return true;
+            if ( z - alt_z < length + alt_length ) {
+                return false;
             }
     
         }
