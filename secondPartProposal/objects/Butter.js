@@ -4,7 +4,7 @@ class Butter extends StaticObject {
 
         super(initialPosition);
 
-        this.size = 40;
+        this.size = 26;
 
         this._buildButter();
         scene.add(this.object);

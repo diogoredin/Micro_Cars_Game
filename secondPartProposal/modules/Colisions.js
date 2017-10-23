@@ -25,6 +25,7 @@ function detectColisions() {
         sceneObjects.forEach(function (testObject) {
 
             if (testObject.object.id != object.object.id) {
+
                 var ext_radius = testObject.size,
                     ext_x = testObject.object.position.x,
                     ext_y = testObject.object.position.y,
@@ -33,9 +34,8 @@ function detectColisions() {
                 if (x - radius > ext_x - ext_radius && x + radius < ext_x + ext_radius &&
                     y - radius > ext_y - ext_radius && y + radius < ext_y + ext_radius &&
                     z - radius > ext_z - ext_radius && z + radius < ext_z + ext_radius ) {
-                    console.log('colision!');
-
-                    object.directionOfMovement.applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI);
+                    
+                    processColision(object, testObject);
                 }
             
             }
@@ -43,5 +43,17 @@ function detectColisions() {
         });
 
     });
+
+}
+
+function processColision(object, testObject) {
+
+    if (object instanceof Car == true) {
+        object.setVelocity(0);
+    } 
+    
+    if (object instanceof Orange == true) {
+        object.directionOfMovement.applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI);
+    } 
 
 }
