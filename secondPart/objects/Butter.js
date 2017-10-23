@@ -14,7 +14,7 @@ class Butter extends StaticObject {
         /* Collision box definitions */
         this.size = [this.base, this.length, this.height];
 
-        /* Models the car in 3d */
+        /* Models the butter in 3d */
         this._buildButter();
 
         /* Saves reference to itself */

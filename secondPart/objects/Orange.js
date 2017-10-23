@@ -8,7 +8,7 @@ class Orange extends MovingObject {
         /* Collision box definitions */
         this.size = [size];
 
-        /* Models the car in 3d */
+        /* Models the orange in 3d */
         this._buildOrange();
 
         /* Saves reference to itself */

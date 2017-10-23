@@ -8,13 +8,7 @@
 
 var scene, camera, renderer;
 var previousFrameTime = Date.now();
-
 var keyStates = {};
-
-var cheerios = [];
-var butters = [];
-var oranges = [];
-var car;
 
 function init() {
 
@@ -59,7 +53,7 @@ function createScene() {
 	new Table( new THREE.Vector3(0, 0, 0) );
 
 	/* Adds a car on height 8 because of the height of the table top. Second vector defines initial direction */
-	car = new Car( new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1, 0, 0) );
+	new Car( new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1, 0, 0) );
 
 	/* Adds 5 butters to our table on height 5.5 because of the height of the table top. */
 	var butter_positions = [new THREE.Vector3(100, 5.5, 200),
@@ -69,7 +63,7 @@ function createScene() {
 							new THREE.Vector3(-200, 5.5, -160)];
 
 	for ( var i = 0; i < 5; i++ ) {
-		butters[i] = new Butter(butter_positions[i]);
+		new Butter(butter_positions[i]);
 	}
 
 	/* Adds 3 oranges to our table on height 5.5 because of the height of the table top. */
@@ -78,15 +72,8 @@ function createScene() {
 							new THREE.Vector3( -200, 15, 200 )];
 			
 	for ( var i = 0; i < 3; i++ ) {
-		oranges[i] = new Orange(orange_positions[i], 0.5, new THREE.Vector3(1, 0, 0), 10);
+		new Orange(orange_positions[i], 0.5, new THREE.Vector3(1, 0, 0), 10);
 	}
-
-	/* Increase velocity every 5s */
-	setInterval(function () {
-		oranges.forEach(function (orange) {
-			orange.increaseVelocity(1);
-		});
-	}, 5000);
 
 	/* Adds an axis helper to visualize axis */
 	scene.add(new THREE.AxisHelper(100));
@@ -102,25 +89,41 @@ function animate() {
 	var currentFrameTime = Date.now(),
 		deltaT = currentFrameTime - previousFrameTime;
 
-	/* Updates the position of our car */
-	car.update(deltaT / 1000);
-	
-	/* Updates the position of oranges */
-	oranges.forEach(function(orange) {
-		orange.update(deltaT / 1000);
+	/* Updates the position of our moving objects */
+	scene.traverse( function(object) {
+
+		/* Updates Car */
+		if (object.type == 'Object3D' && object.self instanceof Car == true) {
+			object.self.update(deltaT / 1000);
+		}
+
+		/* Updates Oranges */
+		if (object.type == 'Object3D' && object.self instanceof Orange == true) {
+			object.self.update(deltaT / 1000);
+		}
+
 	});
 
 	/* Detect colisions */
 	detectColisions();
 
 	/* Makes Camera Look at the Car */
-	var relativeCameraOffset = new THREE.Vector3(-50, 30, 0),
-		cameraOffset = relativeCameraOffset.applyMatrix4(car.object.matrixWorld);
+	scene.traverse( function(object) {
 
-	chaseCamera.position.x = cameraOffset.x;
-	chaseCamera.position.y = cameraOffset.y;
-	chaseCamera.position.z = cameraOffset.z;
-	chaseCamera.lookAt(car.object.position);
+		/* Updates Car */
+		if (object.type == 'Object3D' && object.self instanceof Car == true) {
+
+			var relativeCameraOffset = new THREE.Vector3(-50, 30, 0),
+				cameraOffset = relativeCameraOffset.applyMatrix4(object.matrixWorld);
+
+			chaseCamera.position.x = cameraOffset.x;
+			chaseCamera.position.y = cameraOffset.y;
+			chaseCamera.position.z = cameraOffset.z;
+
+			chaseCamera.lookAt(object.position);
+		}
+
+	});
 
 	/* Renders the new frame */
 	render();
@@ -201,20 +204,30 @@ function processKeys() {
 	else if ( keyStates['3'] ) { cameraIndex = 3 }
 
 	/* Car Controls */
-	if (keyStates['ArrowUp']) {
-		car.setAccelerationBit(1);
-	} else if (keyStates['ArrowDown'] ){
-		car.setAccelerationBit(-1);
-	} else {
-		car.setAccelerationBit(0);
-	}
+	scene.traverse( function(object) {
 
-	if (keyStates['ArrowRight']) {
-		car.setAngleBit(-1);
-	} else if (keyStates['ArrowLeft']) {
-		car.setAngleBit(1);
-	} else {
-		car.setAngleBit(0);
-	}
+		/* Updates Car */
+		if (object.type == 'Object3D' && object.self instanceof Car == true) {
+			
+			var car = object.self;
+
+			if (keyStates['ArrowUp']) {
+				car.setAccelerationBit(1);
+			} else if (keyStates['ArrowDown']) {
+				car.setAccelerationBit(-1);
+			} else {
+				car.setAccelerationBit(0);
+			}
+
+			if (keyStates['ArrowRight']) {
+				car.setAngleBit(-1);
+			} else if (keyStates['ArrowLeft']) {
+				car.setAngleBit(1);
+			} else {
+				car.setAngleBit(0);
+			}
+		}
+
+	});
 
 }

@@ -52,17 +52,17 @@ function detectColisions() {
             if (a.self.object.id != b.self.object.id) {
 
                 /* Center of the object Coordinates */
-                var ext_x = obj3D.position.x,
-                    ext_y = obj3D.position.y,
-                    ext_z = obj3D.position.z;
+                var alt_x = obj3D.position.x,
+                    alt_y = obj3D.position.y,
+                    alt_z = obj3D.position.z;
 
                 /* SPHERE COLLISION BOX */
                 if (self.size.length == 1) {
-                    var ext_radius = self.size.length[0];
+                    var alt_radius = self.size.length[0];
 
                     /* Test against another sphere (e.g. orange and orange) */
                     if (radius != undefined &&
-                        intersectSphereSphere(x,y,z,ext_x,ext_y,ext_z,radius,ext_radius) ) {
+                        intersectSphereSphere(x,y,z,alt_x,alt_y,alt_z,radius,alt_radius) ) {
 
                         /* Now process the collision! */
                         a.self.collision();
@@ -72,7 +72,7 @@ function detectColisions() {
                     
                     /* Test against another box (e.g. car and orange) */
                     else if (width != undefined && height != undefined && length != undefined &&
-                        intersectCubeSphere(x, y, z, ext_x, ext_y, ext_z, width, height, length, ext_radius) ) {
+                        intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_radius) ) {
 
                         /* Now process the collision! */
                         a.self.collision();
@@ -84,13 +84,13 @@ function detectColisions() {
 
                 /* AXIS ALIGNED COLLISION BOX */
                 else if (self.size.length == 3) {
-                    var ext_width = self.size.length[0],
-                        ext_length = self.size.length[1],
-                        ext_heigth = self.size.length[2];
+                    var alt_width = self.size.length[0],
+                        alt_length = self.size.length[1],
+                        alt_heigth = self.size.length[2];
                     
                     /* Test against another sphere (e.g. car and orange) */
                     if (radius != undefined &&
-                        intersectCubeSphere(x, y, z, ext_x, ext_y, ext_z, width, height, length, ext_radius)) {
+                        intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_radius)) {
 
                         /* Now process the collision! */
                         a.self.collision();
@@ -100,7 +100,7 @@ function detectColisions() {
 
                     /* Test against another box (e.g. car and car) */
                     else if (width != undefined && height != undefined && length != undefined &&
-                        intersectCubeCube(x, y, z, ext_x, ext_y, ext_z, width, height, length, ext_width, ext_length, ext_heigth)) {
+                        intersectCubeCube(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_width, alt_length, alt_heigth)) {
 
                         /* Now process the collision! */
                         a.self.collision();
@@ -119,11 +119,11 @@ function detectColisions() {
 }
 
 /* Intersect Sphere with another Sphere */
-function intersectSphereSphere(x, y, z, ext_x, ext_y, ext_z, radius, ext_radius) {
+function intersectSphereSphere(x, y, z, alt_x, alt_y, alt_z, radius, alt_radius) {
     
-    if (x - radius > ext_x - ext_radius && x + radius < ext_x + ext_radius &&
-        y - radius > ext_y - ext_radius && y + radius < ext_y + ext_radius &&
-        z - radius > ext_z - ext_radius && z + radius < ext_z + ext_radius) {
+    if (x - radius > alt_x - alt_radius && x + radius < alt_x + alt_radius &&
+        y - radius > alt_y - alt_radius && y + radius < alt_y + alt_radius &&
+        z - radius > alt_z - alt_radius && z + radius < alt_z + alt_radius) {
         return true;
     }
 
@@ -134,16 +134,16 @@ function intersectSphereSphere(x, y, z, ext_x, ext_y, ext_z, radius, ext_radius)
 }
 
 /* Intersect Cube with another Sphere */
-function intersectCubeSphere(x, y, z, ext_x, ext_y, ext_z, width, height, length, ext_radius) {
+function intersectCubeSphere(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_radius) {
 
     /* MATH EXPLANATION */
-    /* ext_x, ext_y, ext_z and ext_radius belongs to the Sphere */
+    /* alt_x, alt_y, alt_z and alt_radius belongs to the Sphere */
     /* x, y, z, width, height, length belongs to the Cube */
     /* A cube intersects with a sphere if one of its side is between the diameter of the sphere */
     
-    if ( x - grl > ext_x - ext_radius && x + radius < ext_x + ext_radius &&
-        y - radius > ext_y - ext_radius && y + radius < ext_y + ext_radius &&
-        z - radius > ext_z - ext_radius && z + radius < ext_z + ext_radius) {
+    if ( x - grl > alt_x - alt_radius && x + radius < alt_x + alt_radius &&
+        y - radius > alt_y - alt_radius && y + radius < alt_y + alt_radius &&
+        z - radius > alt_z - alt_radius && z + radius < alt_z + alt_radius) {
 
         return true;
     }
@@ -155,16 +155,16 @@ function intersectCubeSphere(x, y, z, ext_x, ext_y, ext_z, width, height, length
 }
 
 /* Intersect Cube with another Sphere */
-function intersectCubeCube(x, y, z, ext_x, ext_y, ext_z, width, height, length, ext_width, ext_length, ext_heigth) {
+function intersectCubeCube(x, y, z, alt_x, alt_y, alt_z, width, height, length, alt_width, alt_length, alt_heigth) {
 
     /* MATH EXPLANATION */
-    /* ext_x, ext_y, ext_z and ext_radius belongs to the Sphere */
+    /* alt_x, alt_y, alt_z and alt_radius belongs to the Sphere */
     /* x, y, z, width, height, length belongs to the Cube */
     /* A cube intersects with a sphere if one of its side is between the diameter of the sphere */
 
-    if (x - grl > ext_x - ext_radius && x + radius < ext_x + ext_radius &&
-        y - radius > ext_y - ext_radius && y + radius < ext_y + ext_radius &&
-        z - radius > ext_z - ext_radius && z + radius < ext_z + ext_radius) {
+    if (x - grl > alt_x - alt_radius && x + radius < alt_x + alt_radius &&
+        y - radius > alt_y - alt_radius && y + radius < alt_y + alt_radius &&
+        z - radius > alt_z - alt_radius && z + radius < alt_z + alt_radius) {
 
         return true;
     }

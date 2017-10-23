@@ -137,9 +137,6 @@ class Table extends StaticObject {
                     torus.size = 3;
                     torus.rotation.x = 1 / 2 * Math.PI;
 
-                    /* Saves them for later. yummy */
-                    cheerios[i] = torus;
-
                     newcheerios.add(torus);
                     prev = current;
                 }
