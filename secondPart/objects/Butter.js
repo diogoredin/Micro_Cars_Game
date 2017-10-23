@@ -93,4 +93,9 @@ class Butter extends StaticObject {
         console.log('collision!');
     }
 
+    /* Falling off table handler */
+    fallOffTable() {
+        console.log('fall off!');
+    }
+
 }

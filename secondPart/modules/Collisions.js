@@ -1,8 +1,12 @@
 /*******************************************************************
 
 COLLISIONS
-1. Detect Collisions
-2. Process Collisions
+1. Detect Collisions - Traverses the scene to find possible collisions.
+2. Test Collisions - Tests to apply to the elements on the scene.
+    2.1. Sphere/Sphere
+    2.2. Cube/Sphere
+    2.3. Cube/Cube
+3. Table Bounds
 
 *******************************************************************/
 
@@ -21,7 +25,10 @@ function detectCollisions() {
     scene.traverse( function(a) {
 
         /* Return if it isn't an object */
-        if ( a.type != 'Object3D' || a.self == undefined ) { return; }
+        if (a.type != 'Object3D' || a.self == undefined) { return; }
+        
+        /* Checks if it will fall off the table */
+        tableBounds(a.self);
 
         /* Now we test it against every other object */
         scene.traverse( function(b) {
@@ -45,8 +52,8 @@ function detectCollisions() {
                             /* For debugging purposes */
                             console.log('Passed Sphere on Sphere second collision test.');
 
-                            a.self.collision();
-                            b.self.collision();
+                            a.self.collision(b.self);
+                            b.self.collision(a.self);
                         }
                     }
 
@@ -57,8 +64,8 @@ function detectCollisions() {
                             /* For debugging purposes */
                             console.log('Passed Box on Box collision test.');
 
-                            a.self.collision();
-                            b.self.collision();
+                            a.self.collision(b.self);
+                            b.self.collision(a.self);
                         }
                     }
 
@@ -69,8 +76,8 @@ function detectCollisions() {
                             /* For debugging purposes */
                             console.log('Passed Sphere on Box collision test.');
 
-                            a.self.collision();
-                            b.self.collision();
+                            a.self.collision(b.self);
+                            b.self.collision(a.self);
                         }
                     }
 
@@ -81,8 +88,8 @@ function detectCollisions() {
                             /* For debugging purposes */
                             console.log('Passed Box on Sphere collision test.');
 
-                            a.self.collision();
-                            b.self.collision();
+                            a.self.collision(b.self);
+                            b.self.collision(a.self);
                         }
                     }
                 
@@ -95,6 +102,12 @@ function detectCollisions() {
     });
 
 }
+
+/********************************************************************
+
+Collision Tests
+
+*******************************************************************/
 
 /* Intersect Sphere with another Sphere */
 function intersectSphereSphere(a, b) {
@@ -217,4 +230,33 @@ function intersectCubeCube(a,b) {
     let test_z = (a_max_z > b_min_z && a_min_z < b_max_z);
 
     return (test_x && test_y && test_z);
+}
+
+/********************************************************************
+
+Table Bounds
+
+*******************************************************************/
+
+/* Checks and handles an element that gets out of the table */
+function tableBounds( element ) {
+
+    /* Provisory */
+    var tableSize = 650;
+
+    /* Current pos */
+    let x = element.object.position.x,
+        y = element.object.position.y,
+        z = element.object.position.z;
+    
+    /* Checks x, y and z */
+    let test_x = (x < tableSize && x > -tableSize),
+        test_y = (y < tableSize && y > -tableSize),
+        test_z = (z < tableSize && z > -tableSize);
+
+    /* Fires the appriate event */
+    if ( !(test_x && test_y && test_z) ) {
+        element.fallOffTable();
+    }
+
 }

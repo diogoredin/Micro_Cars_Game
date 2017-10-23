@@ -131,8 +131,13 @@ class Car extends MovingObject {
 	}
 
 	/* Collision handler */
-	collision() {
+	collision(element) {
 		console.log('collision!');
+	}
+
+	/* Falling off table handler */
+	fallOffTable() {
+		console.log('fall off!');
 	}
 
 }
