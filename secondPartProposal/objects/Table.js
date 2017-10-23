@@ -112,7 +112,7 @@ class Table extends StaticObject {
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(4, 4);
 
-            var cheerios = new THREE.Object3D(),
+            var newcheerios = new THREE.Object3D(),
                 prev = new THREE.Vector3();
 
             for (var i = 0; i < 1; i += 1 / 150) {
@@ -136,12 +136,15 @@ class Table extends StaticObject {
                     torus.position.set(pos.x + aux.x, pos_y + 0.5, pos.z + aux.z);
                     torus.rotation.x = 1 / 2 * Math.PI;
 
-                    cheerios.add(torus);
+                    /* Saves them for later. yummy */
+                    cheerios[i] = torus;
+
+                    newcheerios.add(torus);
                     prev = current;
                 }
             }
 
-            obj.add(cheerios);
+            obj.add(newcheerios);
         }
     
     }    

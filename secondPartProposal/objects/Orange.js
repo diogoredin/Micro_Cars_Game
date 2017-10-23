@@ -7,6 +7,7 @@ class Orange extends MovingObject {
         this.size = size;
 
         this._buildOrange();
+        this.object.name = 'orange';
         scene.add(this.object);
     }
 

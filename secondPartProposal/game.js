@@ -11,6 +11,8 @@ var previousFrameTime = Date.now();
 
 var keyStates = {};
 
+var cheerios = [];
+var butters = [];
 var oranges = [];
 var car;
 
@@ -67,7 +69,7 @@ function createScene() {
 							new THREE.Vector3(-200, 5.5, -160)];
 
 	for ( var i = 0; i < 5; i++ ) {
-		new Butter(butter_positions[i]);
+		butters[i] = new Butter(butter_positions[i]);
 	}
 
 	/* Adds 3 oranges to our table on height 5.5 because of the height of the table top. */
@@ -108,6 +110,9 @@ function animate() {
 		orange.update(deltaT / 1000);
 	});
 
+	/* Detect colisions */
+	detectColisions();
+
 	/* Makes Camera Look at the Car */
 	var relativeCameraOffset = new THREE.Vector3(-50, 30, 0),
 		cameraOffset = relativeCameraOffset.applyMatrix4(car.object.matrixWorld);
@@ -138,11 +143,31 @@ function animate() {
 
 /* 2.1. Repositions animation on the window after resizing */
 function onResize() {
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	var tableSize = 600;
 
 	if (window.innerWidth > 0 && window.innerHeight > 0) {
-		camera.aspect = renderer.getSize().width / renderer.getSize().height;
-		camera.updateProjectionMatrix();
+
+		var aspect = window.innerWidth / window.innerHeight;
+		renderer.setSize(window.innerWidth, window.innerHeight);
+
+		if (aspect > 1) {
+			orthographicTopCamera.left = -tableSize * aspect * 0.5;
+			orthographicTopCamera.right = tableSize * aspect * 0.5;
+			orthographicTopCamera.top = tableSize * 0.5;
+			orthographicTopCamera.bottom = -tableSize * 0.5;
+		} else {
+			orthographicTopCamera.left = -tableSize * 0.5;
+			orthographicTopCamera.right = tableSize * 0.5;
+			orthographicTopCamera.top = tableSize * 0.5 / aspect;
+			orthographicTopCamera.bottom = -tableSize * 0.5 / aspect;
+		}
+
+		orthographicTopCamera.aspect = aspect;
+		orthographicTopCamera.updateProjectionMatrix();
+		perspectiveTopCamera.aspect = aspect;
+		perspectiveTopCamera.updateProjectionMatrix();
+		chaseCamera.aspect = aspect;
+		chaseCamera.updateProjectionMatrix();
 	}
 
 }

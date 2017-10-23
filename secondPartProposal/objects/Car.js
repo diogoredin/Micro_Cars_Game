@@ -15,6 +15,8 @@ class Car extends MovingObject {
 		this.angleDiffSecond = 2 * Math.PI;
 		this.angleBit = 0;
 
+		this.size = 10;
+
 		this._buildCar();
 		scene.add(this.object);
 	}
