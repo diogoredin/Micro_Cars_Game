@@ -42,7 +42,7 @@ class Orange extends MovingObject {
     }
 
     turn(deltaT) {
-        var angle = - this.velocity * deltaT / (this.size);
+        var angle = - this.velocity * deltaT / (this.size[0]);
         this.object.rotateZ(angle);
     }
 

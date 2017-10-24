@@ -6,7 +6,7 @@ class Cheerio extends MovingObject {
         super(initialPosition, initialVelocity, directionOfMovement);
 
         /* Collision box definitions */
-        this.size = [size];
+        this.size = [size, size, size];
 
         /* Models the orange in 3d */
         this._buildCheerio();
@@ -26,23 +26,18 @@ class Cheerio extends MovingObject {
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(4, 4);
 
-        let geometry = new THREE.TorusGeometry(3, 1, 8, 30),
+        let geometry = new THREE.TorusGeometry(this.size[0], 1, 8, 30),
             material = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false }),
             torus = new THREE.Mesh(geometry, material);
 
-        torus.size = 3;
+        torus.size = this.size[0];
         torus.rotation.x = 1 / 2 * Math.PI;
 
         this.object.add(torus);
     }
 
-    increaseVelocity(increase) {
-        var newVelocity = this.velocity + increase;
-        this.setVelocity(newVelocity);
-    }
-
     turn(deltaT) {
-        var angle = - this.velocity * deltaT / (this.size);
+        var angle = - this.velocity * deltaT / (this.size[0]);
         this.object.rotateZ(angle);
     }
 
@@ -52,8 +47,13 @@ class Cheerio extends MovingObject {
     }
 
     /* Collision handler */
-    collision() {
-        console.log('collision!');
+    collision(element) {
+
+        if (element instanceof Car) {
+            console.log('collision of car with cheerio!');
+            this.setVelocity(50);
+        }
+
     }
 
     /*************************************************************************
