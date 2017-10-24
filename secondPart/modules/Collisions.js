@@ -242,7 +242,7 @@ Table Bounds
 function tableBounds( element ) {
 
     /* Provisory */
-    var tableSize = 650;
+    var tableSize = 650/2;
 
     /* Current pos */
     let x = element.object.position.x,
@@ -255,7 +255,7 @@ function tableBounds( element ) {
         test_z = (z < tableSize && z > -tableSize);
 
     /* Fires the appriate event */
-    if ( !(test_x && test_y && test_z) ) {
+    if (!(test_x && test_y && test_z)) {
         element.fallOffTable();
     }
 

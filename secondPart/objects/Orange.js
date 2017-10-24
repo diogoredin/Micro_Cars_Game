@@ -56,9 +56,46 @@ class Orange extends MovingObject {
         console.log('collision!');
     }
 
-    /* Falling off table handler */
+    /*************************************************************************
+    *
+    *    Falling off table handler
+    *
+    *************************************************************************/
+
     fallOffTable() {
-        console.log('fall off!');
+
+        /* Prevent it from firing more than one timeout */
+        if (this.object.visible) {
+
+            /* Store orange so we dont lose context */
+            var orange = this;
+
+            /* Removes orange and re-adds at random time */
+            orange.object.visible = false;
+            var random_time = Math.random() * (3000 - 100) + 100; // Math.random() * (max - min) + min;
+
+            /* The time until an orange appears again must be random */
+            setTimeout(function () {
+
+                /* Oranges that fall off must be placed randomly again on the table */
+                let table_size = 650 / 3,
+                    random_x = Math.random() * (table_size - (-table_size)) - table_size,
+                    random_z = Math.random() * (table_size - (-table_size)) - table_size;
+
+                let position = new THREE.Vector3(random_x, 5.5, random_z);
+                orange.setPosition(position);
+
+                /* Oranges that fall off must have a random new velocity */
+                let random_increase = Math.random() * (2 - 1) + 1;
+                orange.setVelocity(orange.velocity + 0.5 * random_increase);
+            
+                /* Re-adds it */
+                orange.object.visible = true;
+
+            }, random_time);
+        
+        }    
+
     }
 
 }
