@@ -102,6 +102,13 @@ function animate() {
 			object.self.update(deltaT / 1000);
 		}
 
+		/* Updates Oranges */
+		if (object.type == 'Object3D' && object.self instanceof Cheerio == true) {
+			if (object.self.velocity) {
+				object.self.update(deltaT / 1000);
+			}
+		}
+
 	});
 
 	/* Detect colisions */

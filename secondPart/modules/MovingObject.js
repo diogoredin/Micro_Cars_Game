@@ -83,9 +83,9 @@ class MovingObject {
 		this.velocity = vf;
 		movingObject.velocity = vf;
 		if (this.mass > movingObject.mass) {
-			movingObject.directionOfMovement  = new THREE.Vector3().addVector(this.directionOfMovement)
+			movingObject.directionOfMovement  = new THREE.Vector3().add(this.directionOfMovement)
 		} else {
-			this.directionOfMovement = new THREE.Vector3().addVector(movingObject.directionOfMovement)
+			this.directionOfMovement = new THREE.Vector3().add(movingObject.directionOfMovement)
 		}
 	}
 }

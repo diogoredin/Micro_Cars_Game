@@ -19,7 +19,7 @@ class Car extends MovingObject {
 		this.angleBit = 0;
 
 		/* Collision box definitions */
-		this.size = [8, 8, 8];
+		this.size = [12, 6, 8];
 
 		/* Models the car in 3d */
 		this._buildCar();
@@ -159,8 +159,7 @@ class Car extends MovingObject {
 		/* When colliding with cheerio stops */
 		if (element instanceof Cheerio) {
 
-			/* Re-sets velocity */
-			car.setVelocity(0);
+			this.elasticColision(element);
 
 		}
 
