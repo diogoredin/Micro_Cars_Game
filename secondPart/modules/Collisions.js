@@ -22,11 +22,14 @@ class BoundingBox {
 
         /* Temporary properties */
         var size = a.size,
-            position = a.object.position,
-            direction_movement = a.directionOfMovement,
+            position = new THREE.Vector3(0, 0, 0),
+            direction_movement = new THREE.Vector3(0, 0, 0),
             velocity = a.velocity;
 
         /* Simulates the movement we are about to make */
+        direction_movement.add(a.directionOfMovement);
+        position.add(a.object.position);
+
         direction_movement.normalize();
         position.addScaledVector(direction_movement, velocity * deltaT);
 
@@ -60,14 +63,14 @@ class BoundingBox {
                 if (a.intersectSphereSphere(b.self)) {
 
                     /* For debugging purposes */
-                    console.log('Passed Sphere on Sphere collision test.');
+                    //console.log('Passed Sphere on Sphere collision test.');
 
                     /* SPHERE/SPHERE COLLISION BOX */
                     if (a.size.length == 1 && b.self.size.length == 1) {
                         if (a.intersectSphereSphere(b.self)) {
 
                             /* For debugging purposes */
-                            console.log('Passed Sphere on Sphere second collision test.');
+                            //console.log('Passed Sphere on Sphere second collision test.');
                             
                             /* Processes collision */
                             a.obj.collision(b.self);
@@ -83,7 +86,7 @@ class BoundingBox {
                         if (a.intersectCubeCube(b.self)) {
 
                             /* For debugging purposes */
-                            console.log('Passed Box on Box collision test.');
+                            //console.log('Passed Box on Box collision test.');
 
                             /* Processes collision */
                             a.obj.collision(b.self);
@@ -98,7 +101,7 @@ class BoundingBox {
                         if (a.intersectCubeSphere(b.self)) {
 
                             /* For debugging purposes */
-                            console.log('Passed Sphere on Box collision test.');
+                            //console.log('Passed Sphere on Box collision test.');
 
                             /* Processes collision */
                             a.obj.collision(b.self);
@@ -113,7 +116,7 @@ class BoundingBox {
                         if (a.intersectCubeSphere(b.self)) {
 
                             /* For debugging purposes */
-                            console.log('Passed Box on Sphere collision test.');
+                            //console.log('Passed Box on Sphere collision test.');
 
                             /* Processes collision */
                             a.obj.collision(b.self);
@@ -233,9 +236,9 @@ class BoundingBox {
         var a = this;
 
         /* Cube Properties */
-        let a_width = a.size[0] / 2,
-            a_length = a.size[1] / 2,
-            a_height = a.size[2] / 2;
+        let a_width = a.size[1],
+            a_length = a.size[0],
+            a_height = a.size[2];
 
         let a_max_x = a.x + a_width,
             a_max_y = a.y + a_height,
@@ -246,9 +249,9 @@ class BoundingBox {
             a_min_z = a.z - a_length;
 
         /* Cube Properties */
-        let b_width = b.size[0] / 2,
-            b_length = b.size[1] / 2,
-            b_height = b.size[2] / 2;
+        let b_width = b.size[1],
+            b_length = b.size[0],
+            b_height = b.size[2];
 
         let b_max_x = b.object.position.x + b_width,
             b_max_y = b.object.position.y + b_height,

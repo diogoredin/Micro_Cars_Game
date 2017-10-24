@@ -58,10 +58,14 @@ class MovingObject {
 	
 	move(deltaT) {
 
-		/* Creates a bounding box for this object */
-		var boudingBox = new BoundingBox( this, deltaT );
+		/* Temporary properties */
+		let size = this.size,
+			position = this.object.position,
+			direction_movement = this.directionOfMovement,
+			velocity = this.velocity;
 
-		console.log(boudingBox.testCollision());
+		/* Creates a bounding box for this object */
+		var boudingBox = new BoundingBox(this, deltaT );
 		
 		/* Tests the collision of the bounding box */
 		if (!boudingBox.testCollision()) {
