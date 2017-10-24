@@ -57,10 +57,16 @@ class MovingObject {
 	
 	move(deltaT) {
 
-		this.directionOfMovement.normalize();
-		this.object.position.addScaledVector(this.directionOfMovement, this.velocity * deltaT);
+		/* Creates a bounding box for this object */
+		var boudingBox = new BoundingBox( this, deltaT );
 
-		return this.object.position;
+		/* Tests the collision of the bounding box */
+		if (!boudingBox.testCollision()) {
+			this.directionOfMovement.normalize();
+			this.object.position.addScaledVector(this.directionOfMovement, this.velocity * deltaT);
+			return this.object.position;
+		}
+
 	}
 
 	addObject(object) {
