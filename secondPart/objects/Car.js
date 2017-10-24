@@ -24,9 +24,6 @@ class Car extends MovingObject {
 		/* Models the car in 3d */
 		this._buildCar();
 
-		/* Saves reference to itself */
-		this.object.self = this;
-
 		/* Adds object to the scene */
 		scene.add(this.object);
 
@@ -159,9 +156,7 @@ class Car extends MovingObject {
 
 		/* When colliding with cheerio stops */
 		if (element instanceof Cheerio) {
-
 			this.elasticColision(element);
-
 		}
 
 	}
