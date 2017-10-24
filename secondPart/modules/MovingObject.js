@@ -238,6 +238,22 @@ class MovingObject {
 
 				}
 
+				/* PLANES COLLISION BOX */
+				else if (b.self.size.length == 2) {
+					if (a.intersectObjectPlane(b.self)) {
+
+						/* For debugging purposes */
+						//console.log('Passed Object on Plane collision test.');
+
+						/* Processes collision */
+						a.fallOffTable();
+
+						/* Informs that we collide (only allows for one collision ...) */
+						return true;
+
+					}
+				}
+
 			}
 
 		});
@@ -380,5 +396,19 @@ class MovingObject {
 
 		return (test_x && test_y && test_z);
 	}
+
+	/* Intersect Object with a Plane */
+	intersectObjectPlane(b) {
+
+		/* Current pos */
+		let x = this.nextX,
+			z = this.nextZ;
+
+		/* Checks x, y and z */
+		let test_x = (x < b.size[0]/2 && x > -b.size[0]/2),
+			test_z = (z < b.size[0]/2 && z > -b.size[0]/2);
+
+		return (!(test_x && test_z));
+	}	
 
 }
