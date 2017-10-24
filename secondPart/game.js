@@ -56,7 +56,7 @@ function createScene() {
 	new Car( new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1, 0, 0) );
 
 	/* Adds 5 butters to our table on height 5.5 because of the height of the table top. */
-	var butter_positions = [new THREE.Vector3(100, 5.5, 200),
+	var butter_positions = [new THREE.Vector3(100, 5.5, 100),
 							new THREE.Vector3(-140, 5.5, 200 ),
 							new THREE.Vector3(-100, 5.5, 100 ),
 							new THREE.Vector3(-200, 5.5, -60 ),
@@ -67,8 +67,8 @@ function createScene() {
 	}
 
 	/* Adds 3 oranges to our table on height 5.5 because of the height of the table top. */
-	var orange_positions = [new THREE.Vector3( 100, 15, 0 ),
-							new THREE.Vector3( 80, 15, 100 ),
+	var orange_positions = [new THREE.Vector3( 200, 15, 0 ),
+							new THREE.Vector3( -30, 15, 100 ),
 							new THREE.Vector3( -200, 15, 200 )];
 			
 	for ( var i = 0; i < 3; i++ ) {
@@ -76,7 +76,7 @@ function createScene() {
 	}
 
 	/* Adds an axis helper to visualize axis */
-	scene.add(new THREE.AxisHelper(100));
+	//scene.add(new THREE.AxisHelper(100));
 
 }
 

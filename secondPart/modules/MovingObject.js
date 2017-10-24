@@ -235,7 +235,9 @@ class MovingObject {
 					}
 
 					/* SPHERE/BOX AXIS ALIGNED COLLISION BOX */
-					else if (a.size.length == 1 && b.self.size.length == 3) {
+					else if ( a.size.length == 1 && b.self.size.length == 3 ||
+							  a.size.length == 3 && b.self.size.length == 1) {
+					
 						if (a.intersectCubeSphere(b.self)) {
 
 							/* For debugging purposes */
@@ -249,21 +251,22 @@ class MovingObject {
 						}
 					}
 
-					/* BOX/SPHERE AXIS ALIGNED COLLISION BOX */
-					else if (a.size.length == 3 && b.self.size.length == 1) {
-						if (a.intersectCubeSphere(b.self)) {
+				}
 
-							/* For debugging purposes */
-							//console.log('Passed Box on Sphere collision test.');
+				/* PLANES COLLISION BOX */
+				else if (b.self.size.length == 2) {
+					if (a.intersectObjectPlane(b.self)) {
 
-							/* Processes collision */
-							a.collision(b.self);
+						/* For debugging purposes */
+						//console.log('Passed Object on Plane collision test.');
 
-							/* Informs that we collide (only allows for one collision ...) */
-							return true;
-						}
+						/* Processes collision */
+						a.fallOffTable();
+
+						/* Informs that we collide (only allows for one collision ...) */
+						return true;
+
 					}
-
 				}
 
 			}
@@ -328,8 +331,9 @@ class MovingObject {
 	intersectCubeSphere(b) {
 
 		/* Stores the object for later reference */
-		var a = this;
-
+		if ( b.size.length == 3 ) { var a = b; b = this; }
+		else { var a = this; }
+		
 		/* Cube Properties */
 		let a_width = a.size[0] / 2,
 			a_length = a.size[1] / 2,
@@ -408,5 +412,19 @@ class MovingObject {
 
 		return (test_x && test_y && test_z);
 	}
+
+	/* Intersect Object with a Plane */
+	intersectObjectPlane(b) {
+
+		/* Current pos */
+		let x = this.nextX,
+			z = this.nextZ;
+
+		/* Checks x, y and z */
+		let test_x = (x < b.size[0]/2 && x > -b.size[0]/2),
+			test_z = (z < b.size[0]/2 && z > -b.size[0]/2);
+
+		return (!(test_x && test_z));
+	}	
 
 }

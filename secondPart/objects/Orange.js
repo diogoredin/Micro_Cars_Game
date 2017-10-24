@@ -26,11 +26,18 @@ class Orange extends MovingObject {
         texture.repeat.set(2, 2);
 
         var orange = new THREE.Object3D(),
-            orangeMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
+            orangeMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false }),
+            stemMaterial = new THREE.MeshPhongMaterial({ color: 0x009900, specular: 0x555555, shininess: 10, wireframe: false });
+       
+        var orangeGeometry = new THREE.SphereGeometry(this.size[0], 20, 20),
+            orangeBody = new THREE.Mesh(orangeGeometry, orangeMaterial);
 
-        var geometry = new THREE.SphereGeometry(this.size[0], 20, 20);
-        var orangeBody = new THREE.Mesh(geometry, orangeMaterial);
+        var stemGeometry = new THREE.CylinderBufferGeometry(0.5, 0.5, 5, 32),
+            stemBody = new THREE.Mesh(stemGeometry, stemMaterial);
 
+        stemBody.position.set(0, -10, 0);
+
+        orange.add(stemBody);
         orange.add(orangeBody);
         this.object.add(orange);
     }
@@ -52,7 +59,24 @@ class Orange extends MovingObject {
     }
 
     /* Collision handler */
-    collision() {
+    collision(element) {
+
+        /* Store orange so we dont lose context */
+        var orange = this;
+
+        /* When colliding with an orange goes to start */
+        if (element instanceof Butter || element instanceof Orange) {
+
+            /* Oranges that fall off must be placed randomly again on the table */
+            let table_size = 650 / 3,
+                random_x = Math.random() * (table_size - (-table_size)) - table_size,
+                random_z = Math.random() * (table_size - (-table_size)) - table_size;
+
+            let position = new THREE.Vector3(random_x, 15, random_z);
+            orange.setPosition(position);
+
+        }    
+
     }
 
     /*************************************************************************

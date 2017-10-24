@@ -8,14 +8,14 @@ class Car extends MovingObject {
 		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement, 100);
 
-		this.maxVelocity = 1000;
-		this.minVelocity = -1000;
+		this.maxVelocity = 100;
+		this.minVelocity = -100;
 		
-		this.acceleration = 200;
+		this.acceleration = 25;
 		this.accelerationBit = 0;
 
 		this.angle = 0;
-		this.angleDiffSecond = 2 * Math.PI;
+		this.angleDiffSecond = Math.PI;
 		this.angleBit = 0;
 
 		/* Collision box definitions */
@@ -102,7 +102,13 @@ class Car extends MovingObject {
 	}
 
 	accelerate(deltaT) {
-		var newVelocity = this.velocity + this.acceleration * deltaT * this.accelerationBit;
+
+		if (this.accelerationBit == - 1) {
+			var newVelocity = this.velocity + this.acceleration * deltaT * this.accelerationBit * 5;
+		}
+		else {
+			var newVelocity = this.velocity + this.acceleration * deltaT * this.accelerationBit;
+		}
 
 		if (newVelocity > this.maxVelocity) {
 			newVelocity = this.maxVelocity;
@@ -149,7 +155,6 @@ class Car extends MovingObject {
 		if (element instanceof Butter) {
 
 			/* Re-sets velocity */
-			console.log('butter colision!');
 			car.setVelocity(0);
 
 		}

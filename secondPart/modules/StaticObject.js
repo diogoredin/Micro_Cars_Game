@@ -6,9 +6,15 @@ class StaticObject {
 			return undefined;
 		}
 
+		/* Object properties */
 		this.object = new THREE.Object3D();
 		this.object.position.set(0, 0, 0);
 		this.object.position.add(position);
+
+		/* Bounding Box Properties */
+		this.nextX = this.object.position.x;
+		this.nextY = this.object.position.y;
+		this.nextZ = this.object.position.z;
 	}
 
 	setObject(object) {

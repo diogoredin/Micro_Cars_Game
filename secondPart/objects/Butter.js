@@ -43,8 +43,8 @@ class Butter extends StaticObject {
 
             var shape = new THREE.Shape();
             shape.moveTo(0, 0);
-            shape.lineTo(0, height/2);
-            shape.lineTo(border, height/2);
+            shape.lineTo(0, height/2 - 0.2);
+            shape.lineTo(border, height/2 - 0.2);
 
             var extrudeSettings = {
                 steps: 2,
@@ -81,7 +81,7 @@ class Butter extends StaticObject {
             var butterTopGeometry = new THREE.CubeGeometry(base+border*2, 2, length),
                 butterTop = new THREE.Mesh(butterTopGeometry, materials);
         
-            butterTop.position.set(0, height/2 + 1, 0);
+            butterTop.position.set(0, height/2 + 0.7, 0);
             butter.add(butterTop);
         }
 
