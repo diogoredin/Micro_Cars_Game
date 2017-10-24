@@ -236,9 +236,9 @@ class BoundingBox {
         var a = this;
 
         /* Cube Properties */
-        let a_width = a.size[1],
-            a_length = a.size[0],
-            a_height = a.size[2];
+        let a_width = a.size[0] / 2,
+            a_length = a.size[1] / 2,
+            a_height = a.size[2] / 2;
 
         let a_max_x = a.x + a_width,
             a_max_y = a.y + a_height,
@@ -249,9 +249,9 @@ class BoundingBox {
             a_min_z = a.z - a_length;
 
         /* Cube Properties */
-        let b_width = b.size[1],
-            b_length = b.size[0],
-            b_height = b.size[2];
+        let b_width = b.size[0] / 2,
+            b_length = b.size[1] / 2,
+            b_height = b.size[2] / 2;
 
         let b_max_x = b.object.position.x + b_width,
             b_max_y = b.object.position.y + b_height,

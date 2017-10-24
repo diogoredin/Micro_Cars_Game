@@ -56,7 +56,6 @@ class Orange extends MovingObject {
 
     /* Collision handler */
     collision() {
-        console.log('collision!');
     }
 
     /*************************************************************************

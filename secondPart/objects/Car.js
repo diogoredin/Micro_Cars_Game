@@ -139,7 +139,7 @@ class Car extends MovingObject {
 		/* When colliding with an orange goes to start */
 		if (element instanceof Orange) {
 
-			/* Removes orange and re-adds at random time */
+			/* Removes car and re-adds initial position */
 			let position = new THREE.Vector3(-50, 8, -10);
 			car.setPosition(position);
 
@@ -152,6 +152,7 @@ class Car extends MovingObject {
 		if (element instanceof Butter) {
 
 			/* Re-sets velocity */
+			console.log('butter colision!');
 			car.setVelocity(0);
 
 		}
