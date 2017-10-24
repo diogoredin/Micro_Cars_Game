@@ -132,12 +132,41 @@ class Car extends MovingObject {
 
 	/* Collision handler */
 	collision(element) {
-		console.log('collision!');
+		
+		/* Store car so we dont lose context */
+		var car = this;
+		
+		/* When colliding with an orange goes to start */
+		if (element instanceof Orange) {
+
+			/* Removes orange and re-adds at random time */
+			let position = new THREE.Vector3(-50, 8, -10);
+			car.setPosition(position);
+
+			/* Re-sets velocity */
+			car.setVelocity(0);
+
+		}
 	}
 
-	/* Falling off table handler */
+	/*************************************************************************
+    *
+    *    Falling off table handler
+    *
+    *************************************************************************/
+
 	fallOffTable() {
-		console.log('fall off!');
+
+		/* Store car so we dont lose context */
+		var car = this;
+
+		/* Removes orange and re-adds at random time */
+		let position = new THREE.Vector3(-50, 8, -10);
+		car.setPosition(position);
+
+		/* Re-sets velocity */
+		car.setVelocity(0);
+
 	}
 
 }
