@@ -76,7 +76,7 @@ function createScene() {
 	}
 
 	/* Adds an axis helper to visualize axis */
-	scene.add(new THREE.AxisHelper(100));
+	//scene.add(new THREE.AxisHelper(100));
 
 }
 

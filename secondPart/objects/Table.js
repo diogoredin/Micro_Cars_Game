@@ -92,7 +92,7 @@ class Table extends StaticObject {
         this.addCheerios(obj, closedSpline, 1, pos_y);
         this.addCheerios(obj, closedSpline, -1, pos_y);
 
-        var sqLength = 30,
+        var sqLength = 40,
             sqHeight = 0.1,
             squareShape = new THREE.Shape();
 
@@ -136,7 +136,7 @@ class Table extends StaticObject {
             var normal = new THREE.Vector3(0, normalY, 0),
                 aux = new THREE.Vector3().crossVectors(normal, tan);
 
-            aux.multiplyScalar(1 + 15 / aux.length());
+            aux.multiplyScalar(1 + 20 / aux.length());
 
             var current = new THREE.Vector3(pos.x + aux.x, 2, pos.z + aux.z);
             if (prev.distanceTo(current) > 20) {
