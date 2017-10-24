@@ -12,7 +12,7 @@ class Butter extends StaticObject {
         this.border = 6;
         
         /* Collision box definitions */
-        this.size = [this.base + this.border*2, this.length, this.height];
+        this.size = [this.base+this.border*2, this.length, this.height];
 
         /* Models the butter in 3d */
         this._buildButter();
@@ -28,10 +28,11 @@ class Butter extends StaticObject {
         var texture = new THREE.TextureLoader().load('./tiles/butter.png'),
             butter = new THREE.Object3D();
 
-        var geometry = new THREE.CubeGeometry(this.base, this.height, this.length),
+        var geometry = new THREE.CubeGeometry(this.base, this.height/2, this.length),
             butterBodyMaterial = new THREE.MeshPhongMaterial({ map: texture, color: '#FFFFFF', shininess: 10, wireframe: false }),
             butterBody = new THREE.Mesh(geometry, butterBodyMaterial);
 
+        butterBody.position.set(0, 6, 0);
         butter.add(butterBody);
 
         addborder(this.height, this.border, this.length, null, this.base);
@@ -85,16 +86,6 @@ class Butter extends StaticObject {
         }
 
         this.object.add(butter);
-    }
-
-    /* Collision handler */
-    collision() {
-        console.log('collision!');
-    }
-
-    /* Falling off table handler */
-    fallOffTable() {
-        console.log('fall off!');
     }
 
 }

@@ -111,9 +111,6 @@ function animate() {
 
 	});
 
-	/* Detect colisions */
-	tableBounds();
-
 	/* Makes Camera Look at the Car */
 	scene.traverse( function(object) {
 

@@ -13,9 +13,6 @@ class Orange extends MovingObject {
         /* Models the orange in 3d */
         this._buildOrange();
 
-        /* Saves reference to itself */
-        this.object.self = this;
-
         /* Adds object to the scene */
         scene.add(this.object);
 
