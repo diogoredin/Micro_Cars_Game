@@ -5,6 +5,8 @@ class Orange extends MovingObject {
         /* Invokes constructor of parent class */
         super(initialPosition, initialVelocity, directionOfMovement, 60);
 
+        this.rotationAxis = new THREE.Vector3().crossVectors(directionOfMovement, new THREE.Vector3(0,1,0));
+
         /* Collision box definitions */
         this.size = [size];
 
@@ -43,7 +45,8 @@ class Orange extends MovingObject {
 
     turn(deltaT) {
         var angle = - this.velocity * deltaT / (this.size[0]);
-        this.object.rotateZ(angle);
+        var quaternion = new THREE.Quaternion().setFromAxisAngle(this.rotationAxis, angle);
+        this.object.rotateOnAxis(this.rotationAxis, angle)
     }
 
     update(deltaT) {
@@ -89,13 +92,22 @@ class Orange extends MovingObject {
                 let random_increase = Math.random() * (2 - 1) + 1;
                 orange.setVelocity(orange.velocity + 0.5 * random_increase);
             
+                orange.setDirectionOfMovement(new THREE.Vector3(Math.random(), 0, Math.random()));
+
                 /* Re-adds it */
                 orange.object.visible = true;
+
+
 
             }, random_time);
         
         }    
 
+    }
+
+    setDirectionOfMovement(directionOfMovement) {
+        this.rotationAxis = new THREE.Vector3().crossVectors(directionOfMovement, new THREE.Vector3(0, 1, 0));
+        super.setDirectionOfMovement(directionOfMovement);
     }
 
 }
