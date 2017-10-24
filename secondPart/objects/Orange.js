@@ -3,7 +3,7 @@ class Orange extends MovingObject {
     constructor(initialPosition, initialVelocity, directionOfMovement, size) {
 
         /* Invokes constructor of parent class */
-        super(initialPosition, initialVelocity, directionOfMovement);
+        super(initialPosition, initialVelocity, directionOfMovement, 60);
 
         /* Collision box definitions */
         this.size = [size];

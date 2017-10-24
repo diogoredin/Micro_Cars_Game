@@ -1,6 +1,6 @@
 class MovingObject {
 
-	constructor(initialPosition, initialVelocity, directionOfMovement) {
+	constructor(initialPosition, initialVelocity, directionOfMovement, mass) {
 		if (!initialPosition instanceof THREE.Vector3) {
 			console.error('Parameter position is not a THREE.Vector3');
 			return undefined;
@@ -20,6 +20,7 @@ class MovingObject {
 		this.object.position.add(initialPosition);
 		this.velocity = initialVelocity;
 		this.directionOfMovement = directionOfMovement;
+		this.mass = mass;
 	}
 
 	setObject(object) {
@@ -67,4 +68,16 @@ class MovingObject {
 		this.object.add(object);
 	}
 
+	elasticColision(movingObject) {
+		var thisMomentum = this.velocity * this.mass;
+		var otherMomentum = movingObject.velocity * movingObject.mass;
+		var vf = (thisMomentum + otherMomentum) / (this.mass + movingObject.mass);
+		this.velocity = vf;
+		movingObject.velocity = vf;
+		if (this.mass > movingObject.mass) {
+			movingObject.directionOfMovement  = new THREE.Vector3().addVector(this.directionOfMovement)
+		} else {
+			this.directionOfMovement = new THREE.Vector3().addVector(movingObject.directionOfMovement)
+		}
+	}
 }
