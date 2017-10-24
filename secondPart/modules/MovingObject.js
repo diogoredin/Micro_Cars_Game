@@ -111,8 +111,37 @@ class MovingObject {
 	*******************************************************************/
 
 	/* Defines the behaviour of an elastic collision */
-	elasticColision(movingObject) {
+	elasticCollision(other) {
 
+		var thisV3 = new THREE.Vector3(0, 0, 0).addScaledVector(this.directionOfMovement, this.velocity);
+		var otherV3 = new THREE.Vector3(0, 0, 0).addScaledVector(other.directionOfMovement, other.velocity);
+		var thisV = new THREE.Vector2(thisV3.x, thisV3.z);
+		var otherV = new THREE.Vector2(otherV3.x, otherV3.z);
+		var thisPos = new THREE.Vector2(this.object.position.x, this.object.position.z);
+		var otherPos = new THREE.Vector2(other.object.position.x, other.object.position.z);
+		var vectorVDiff = new THREE.Vector2().subVectors(thisV, otherV);
+		console.log(vectorVDiff, this.velocity);
+		var vectorPosDiff1 = new THREE.Vector2().subVectors(thisPos, otherPos);
+		var vectorPosDiff2 = new THREE.Vector2().subVectors(otherPos, thisPos);
+
+
+		var v1Scale = -2 * other.mass * vectorVDiff.dot(vectorPosDiff1) / ((this.mass + other.mass) * (vectorPosDiff1.length()) ** 2)
+		
+		var v2Scale = -2 * this.mass * vectorVDiff.dot(vectorPosDiff2) / ((this.mass + other.mass) * (vectorPosDiff2.length()) ** 2)
+		
+		var v1f = new THREE.Vector2().addVectors(thisV, vectorPosDiff1.multiplyScalar(v1Scale))
+		var v2f = new THREE.Vector2().addVectors(otherV, vectorPosDiff2.multiplyScalar(v2Scale))
+
+		this.velocity = v1f.length();
+		this.directionOfMovement = new THREE.Vector3(v1f.x, 0, v1f.y).normalize();
+		other.velocity = v2f.length();
+		other.directionOfMovement = new THREE.Vector3(v2f.x, 0, v2f.y).normalize();
+
+		this.object.setRotationFromAxisAngle(new THREE.Vector3(0,1,0), v1f.angle());
+		other.object.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), v2f.angle());
+	}
+
+	inelasticCollision(movingObject) {
 		var thisMomentum = this.velocity * this.mass;
 		var otherMomentum = movingObject.velocity * movingObject.mass;
 		var vf = (thisMomentum + otherMomentum) / (this.mass + movingObject.mass);
@@ -121,11 +150,10 @@ class MovingObject {
 		movingObject.velocity = vf;
 
 		if (this.mass > movingObject.mass) {
-			movingObject.directionOfMovement  = new THREE.Vector3().add(this.directionOfMovement)
+			movingObject.directionOfMovement = new THREE.Vector3().add(this.directionOfMovement)
 		} else {
 			this.directionOfMovement = new THREE.Vector3().add(movingObject.directionOfMovement)
 		}
-
 	}
 
 	/********************************************************************

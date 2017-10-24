@@ -156,7 +156,7 @@ class Car extends MovingObject {
 
 		/* When colliding with cheerio stops */
 		if (element instanceof Cheerio) {
-			this.elasticColision(element);
+			this.elasticCollision(element);
 		}
 
 	}
