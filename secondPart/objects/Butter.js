@@ -8,7 +8,7 @@ class Butter extends StaticObject {
         /* Butter Sizes */
         this.base = 40,
         this.length = 20,
-        this.height = 20,
+        this.height = 25,
         this.border = 6;
         
         /* Collision box definitions */
@@ -32,19 +32,18 @@ class Butter extends StaticObject {
             butterBodyMaterial = new THREE.MeshPhongMaterial({ map: texture, color: '#FFFFFF', shininess: 10, wireframe: false }),
             butterBody = new THREE.Mesh(geometry, butterBodyMaterial);
 
-        butterBody.position.set(this.base / 2, this.height / 2, this.length / 2);
         butter.add(butterBody);
 
         addborder(this.height, this.border, this.length, null, this.base);
-        addborder(this.height, this.border, this.length, Math.PI, -this.base);
-        addTop(this.height, this.length, this.base + this.border * 2, this.border);
+        addborder(this.height, this.border, this.length, Math.PI, this.base);
+        addTop(this.height, this.length, this.base, this.border);
 
         function addborder(height, border, length, rotation, relative_pos) {
 
             var shape = new THREE.Shape();
             shape.moveTo(0, 0);
-            shape.lineTo(0, height);
-            shape.lineTo(border, height);
+            shape.lineTo(0, height/2);
+            shape.lineTo(border, height/2);
 
             var extrudeSettings = {
                 steps: 2,
@@ -60,10 +59,10 @@ class Butter extends StaticObject {
                 border = new THREE.Mesh(geometry, material);
 
             if (rotation != null) {
-                border.position.set(0, 0, -relative_pos / 2);
+                border.position.set(-relative_pos/2, 0, 0);
                 border.rotation.y = rotation;
             } else {
-                border.position.set(relative_pos, 0, 0);
+                border.position.set(relative_pos/2, 0, 0);
             }
 
             butter.add(border);
@@ -81,7 +80,7 @@ class Butter extends StaticObject {
             var butterTopGeometry = new THREE.CubeGeometry(base, 2, length),
                 butterTop = new THREE.Mesh(butterTopGeometry, materials);
         
-            butterTop.position.set((base / 2) - border, height + 1, length / 2);
+            butterTop.position.set(0, height/2 + 1, 0);
             butter.add(butterTop);
         }
 
