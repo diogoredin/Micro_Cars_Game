@@ -42,7 +42,10 @@ class Cheerio extends MovingObject {
     /* Collision handler */
     collision(element) {
 
-        if (element instanceof Car) {
+        if (element instanceof Orange || element instanceof Butter) {
+            this.velocity = 0
+            this.object.position.set(0, 0, 0);
+            this.object.position.add(this.initialPosition);
         }
 
     }

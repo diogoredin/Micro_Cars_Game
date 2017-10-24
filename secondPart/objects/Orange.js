@@ -59,7 +59,24 @@ class Orange extends MovingObject {
     }
 
     /* Collision handler */
-    collision() {
+    collision(element) {
+
+        /* Store orange so we dont lose context */
+        var orange = this;
+
+        /* When colliding with an orange goes to start */
+        if (element instanceof Butter || element instanceof Orange) {
+
+            /* Oranges that fall off must be placed randomly again on the table */
+            let table_size = 650 / 3,
+                random_x = Math.random() * (table_size - (-table_size)) - table_size,
+                random_z = Math.random() * (table_size - (-table_size)) - table_size;
+
+            let position = new THREE.Vector3(random_x, 15, random_z);
+            orange.setPosition(position);
+
+        }    
+
     }
 
     /*************************************************************************

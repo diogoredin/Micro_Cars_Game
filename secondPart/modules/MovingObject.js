@@ -207,26 +207,13 @@ class MovingObject {
 					}
 
 					/* SPHERE/BOX AXIS ALIGNED COLLISION BOX */
-					else if (a.size.length == 1 && b.self.size.length == 3) {
+					else if ( a.size.length == 1 && b.self.size.length == 3 ||
+							  a.size.length == 3 && b.self.size.length == 1) {
+					
 						if (a.intersectCubeSphere(b.self)) {
 
 							/* For debugging purposes */
 							//console.log('Passed Sphere on Box collision test.');
-
-							/* Processes collision */
-							a.collision(b.self);
-
-							/* Informs that we collide (only allows for one collision ...) */
-							return true;
-						}
-					}
-
-					/* BOX/SPHERE AXIS ALIGNED COLLISION BOX */
-					else if (a.size.length == 3 && b.self.size.length == 1) {
-						if (a.intersectCubeSphere(b.self)) {
-
-							/* For debugging purposes */
-							//console.log('Passed Box on Sphere collision test.');
 
 							/* Processes collision */
 							a.collision(b.self);
@@ -316,8 +303,9 @@ class MovingObject {
 	intersectCubeSphere(b) {
 
 		/* Stores the object for later reference */
-		var a = this;
-
+		if ( b.size.length == 3 ) { var a = b; b = this; }
+		else { var a = this; }
+		
 		/* Cube Properties */
 		let a_width = a.size[0] / 2,
 			a_length = a.size[1] / 2,
