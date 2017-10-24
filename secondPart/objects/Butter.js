@@ -59,10 +59,10 @@ class Butter extends StaticObject {
                 border = new THREE.Mesh(geometry, material);
 
             if (rotation != null) {
-                border.position.set(-relative_pos/2, 0, 0);
+                border.position.set(-relative_pos / 2, 0, length/2);
                 border.rotation.y = rotation;
             } else {
-                border.position.set(relative_pos/2, 0, 0);
+                border.position.set(relative_pos / 2, 0, -length/2);
             }
 
             butter.add(border);
@@ -77,7 +77,7 @@ class Butter extends StaticObject {
             new THREE.MeshPhongMaterial({ color: '#EEEEEE', shininess: 10, wireframe: false }),
             new THREE.MeshPhongMaterial({ color: '#EEEEEE', shininess: 10, wireframe: false })];
     
-            var butterTopGeometry = new THREE.CubeGeometry(base, 2, length),
+            var butterTopGeometry = new THREE.CubeGeometry(base+border*2, 2, length),
                 butterTop = new THREE.Mesh(butterTopGeometry, materials);
         
             butterTop.position.set(0, height/2 + 1, 0);
