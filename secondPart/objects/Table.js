@@ -107,11 +107,6 @@ class Table extends StaticObject {
 
         function addCheerios(obj, closedSpline, normalY, pos_y) {
 
-            var texture = new THREE.TextureLoader().load('./tiles/cheerio.png');
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(4, 4);
-
             var newcheerios = new THREE.Object3D(),
                 prev = new THREE.Vector3();
 
@@ -126,19 +121,15 @@ class Table extends StaticObject {
                 aux.multiplyScalar(1 + 15 / aux.length());
 
                 var current = new THREE.Vector3(pos.x + aux.x, 2, pos.z + aux.z);
-
                 if (prev.distanceTo(current) > 20) {
-    
-                    var geometry = new THREE.TorusGeometry(3, 1, 8, 30),
-                        material = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false }),
-                        torus = new THREE.Mesh(geometry, material);
-
-                    torus.position.set(pos.x + aux.x, pos_y + 0.5, pos.z + aux.z);
-                    torus.size = 3;
-                    torus.rotation.x = 1 / 2 * Math.PI;
-
-                    newcheerios.add(torus);
+                    
+                    let position = new THREE.Vector3(pos.x + aux.x, pos_y + 0.5, pos.z + aux.z),
+                        cheerio = new Cheerio(position, 5, new THREE.Vector3(1, 0, 0), 10);
+                    
+                    newcheerios.add(cheerio.object);
                     prev = current;
+    
+
                 }
             }
 
