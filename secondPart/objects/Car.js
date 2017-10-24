@@ -156,6 +156,14 @@ class Car extends MovingObject {
 
 		}
 
+		/* When colliding with cheerio stops */
+		if (element instanceof Cheerio) {
+
+			/* Re-sets velocity */
+			car.setVelocity(0);
+
+		}
+
 	}
 
 	/*************************************************************************
