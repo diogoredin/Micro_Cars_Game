@@ -90,9 +90,9 @@ class Orange extends MovingObject {
                 /* Oranges that fall off must have a random new velocity */
                 let random_increase = Math.random() * (2 - 1) + 1;
                 orange.setVelocity(orange.velocity + 0.5 * random_increase);
-            
+                
                 orange.setDirectionOfMovement(new THREE.Vector3(Math.random(), 0, Math.random()));
-
+                
                 /* Re-adds it */
                 orange.object.visible = true;
 
@@ -105,7 +105,8 @@ class Orange extends MovingObject {
     }
 
     setDirectionOfMovement(directionOfMovement) {
-        this.rotationAxis = new THREE.Vector3().crossVectors(directionOfMovement, new THREE.Vector3(0, 1, 0));
+        this.object.setRotationFromAxisAngle(this.rotationAxis, 0)
+        this.rotationAxis = new THREE.Vector3().crossVectors(directionOfMovement, new THREE.Vector3(0, 1, 0)).normalize();
         super.setDirectionOfMovement(directionOfMovement);
     }
 

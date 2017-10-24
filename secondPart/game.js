@@ -72,7 +72,7 @@ function createScene() {
 							new THREE.Vector3( -200, 15, 200 )];
 			
 	for ( var i = 0; i < 3; i++ ) {
-		new Orange(orange_positions[i], 5, new THREE.Vector3(1, 0, 0), 10);
+		new Orange(orange_positions[i], 20, new THREE.Vector3(1, 0, 0), 10);
 	}
 
 	/* Adds an axis helper to visualize axis */
