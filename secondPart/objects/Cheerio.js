@@ -31,18 +31,11 @@ class Cheerio extends MovingObject {
             torus = new THREE.Mesh(geometry, material);
 
         torus.size = this.size[0];
-        torus.rotation.x = 1 / 2 * Math.PI;
 
         this.object.add(torus);
     }
 
-    turn(deltaT) {
-        var angle = - this.velocity * deltaT / (this.size[0]);
-        this.object.rotateZ(angle);
-    }
-
     update(deltaT) {
-        this.turn(deltaT);
         this.move(deltaT)
     }
 
