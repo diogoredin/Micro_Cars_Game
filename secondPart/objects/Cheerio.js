@@ -5,6 +5,8 @@ class Cheerio extends MovingObject {
         /* Invokes constructor of parent class */
         super(initialPosition, initialVelocity, directionOfMovement, 10);
 
+        this.initialPosition = initialPosition;
+
         /* Collision box definitions */
         this.size = [size, size, size];
 
@@ -31,6 +33,7 @@ class Cheerio extends MovingObject {
             torus = new THREE.Mesh(geometry, material);
 
         torus.size = this.size[0];
+        torus.rotation.x = 1 / 2 * Math.PI;
 
         this.object.add(torus);
     }
@@ -54,7 +57,9 @@ class Cheerio extends MovingObject {
     *************************************************************************/
 
     fallOffTable() {
-        this.object.visible = false;
+        this.velocity = 0
+        this.object.position.set(0, 0, 0);
+        this.object.position.add(this.initialPosition);
     }
 
 }
