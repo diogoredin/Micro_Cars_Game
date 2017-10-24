@@ -135,7 +135,7 @@ class Car extends MovingObject {
 		
 		/* Store car so we dont lose context */
 		var car = this;
-		
+
 		/* When colliding with an orange goes to start */
 		if (element instanceof Orange) {
 
@@ -147,6 +147,15 @@ class Car extends MovingObject {
 			car.setVelocity(0);
 
 		}
+
+		/* When colliding with butter stops */
+		if (element instanceof Butter) {
+
+			/* Re-sets velocity */
+			car.setVelocity(0);
+
+		}
+
 	}
 
 	/*************************************************************************

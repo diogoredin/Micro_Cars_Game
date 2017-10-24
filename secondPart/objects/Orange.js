@@ -82,7 +82,7 @@ class Orange extends MovingObject {
                     random_x = Math.random() * (table_size - (-table_size)) - table_size,
                     random_z = Math.random() * (table_size - (-table_size)) - table_size;
 
-                let position = new THREE.Vector3(random_x, 5.5, random_z);
+                let position = new THREE.Vector3(random_x, 15, random_z);
                 orange.setPosition(position);
 
                 /* Oranges that fall off must have a random new velocity */

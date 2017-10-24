@@ -12,7 +12,7 @@ class Butter extends StaticObject {
         this.border = 6;
         
         /* Collision box definitions */
-        this.size = [this.base + this.border, this.length + this.border, this.height];
+        this.size = [this.base, this.length, this.height];
 
         /* Models the butter in 3d */
         this._buildButter();
