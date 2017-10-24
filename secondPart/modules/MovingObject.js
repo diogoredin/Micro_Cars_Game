@@ -61,6 +61,8 @@ class MovingObject {
 		/* Creates a bounding box for this object */
 		var boudingBox = new BoundingBox( this, deltaT );
 
+		console.log(boudingBox.testCollision());
+		
 		/* Tests the collision of the bounding box */
 		if (!boudingBox.testCollision()) {
 			this.directionOfMovement.normalize();

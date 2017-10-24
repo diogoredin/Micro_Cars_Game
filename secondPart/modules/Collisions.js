@@ -71,7 +71,7 @@ class BoundingBox {
                             
                             /* Processes collision */
                             a.obj.collision(b.self);
-
+                            
                             /* Informs that we collide (only allows for one collision ...) */
                             return true;
 

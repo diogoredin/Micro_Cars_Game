@@ -51,7 +51,6 @@ class Cheerio extends MovingObject {
 
         if (element instanceof Car) {
             console.log('collision of car with cheerio!');
-            this.setVelocity(50);
         }
 
     }
