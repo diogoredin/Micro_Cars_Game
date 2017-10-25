@@ -143,11 +143,11 @@ class MovingObject {
 		this.velocity = vectorV1nPrime.length();
 		other.velocity = vectorV2Prime.length();
 
-		this.directionOfMovement = new THREE.Vector3(vectorV1Prime.x, 0, vectorV1Prime.y);
-		other.directionOfMovement = new THREE.Vector3(vectorV2Prime.x, 0, vectorV2Prime.y);
+		this.directionOfMovement = new THREE.Vector3(vectorV1Prime.x, 0, vectorV1Prime.y).normalize();
+		other.directionOfMovement = new THREE.Vector3(vectorV2Prime.x, 0, vectorV2Prime.y).normalize();
 
-		var pos1 = new THREE.Vector3().addVectors(this.object.position, this.directionOfMovement);
-		var pos2 = new THREE.Vector3().addVectors(other.object.position, other.directionOfMovement);
+		var pos1 = new THREE.Vector3().addVectors(this.object.position, this.directionOfMovement.clone().cross(new THREE.Vector3(0,1,0)));
+		var pos2 = new THREE.Vector3().addVectors(other.object.position, other.directionOfMovement.clone().cross(new THREE.Vector3(0, 1, 0)));
 		this.object.lookAt(pos1);
 		other.object.lookAt(pos2);
 	}
