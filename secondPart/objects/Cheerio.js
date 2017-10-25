@@ -8,7 +8,7 @@ class Cheerio extends MovingObject {
         this.initialPosition = initialPosition;
 
         /* Collision box definitions */
-        this.size = [size, size, size];
+        this.size = [size];
 
         /* Models the orange in 3d */
         this._buildCheerio();
