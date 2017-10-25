@@ -146,7 +146,10 @@ class MovingObject {
 		this.directionOfMovement = new THREE.Vector3(vectorV1Prime.x, 0, vectorV1Prime.y);
 		other.directionOfMovement = new THREE.Vector3(vectorV2Prime.x, 0, vectorV2Prime.y);
 
-		// SET ANGLE OF DIFFERENCE BETWEEN THOSE Y and DOM
+		var pos1 = new THREE.Vector3().addVectors(this.object.position, this.directionOfMovement);
+		var pos2 = new THREE.Vector3().addVectors(other.object.position, other.directionOfMovement);
+		this.object.lookAt(pos1);
+		other.object.lookAt(pos2);
 	}
 
 	/********************************************************************
