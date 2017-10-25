@@ -142,7 +142,7 @@ class Table extends StaticObject {
             if (prev.distanceTo(current) > 20) {
 
                 let position = new THREE.Vector3(pos.x + aux.x, pos_y + 0.5, pos.z + aux.z),
-                    cheerio = new Cheerio(position, 0, new THREE.Vector3(1, 0, 0), 3);
+                    cheerio = new Cheerio(position, 0, new THREE.Vector3(1, 0, 0), 6);
 
                 newcheerios.add(cheerio.object);
                 prev = current;

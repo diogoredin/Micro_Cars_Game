@@ -6,7 +6,7 @@ class Car extends MovingObject {
 		initialPosition.setY(10);
 
 		/* Invokes constructor of parent class */
-		super(initialPosition, initialVelocity, directionOfMovement, 100);
+		super(initialPosition, initialVelocity, directionOfMovement, 300);
 
 		this.maxVelocity = 100;
 		this.minVelocity = -100;
