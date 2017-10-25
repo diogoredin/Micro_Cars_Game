@@ -111,7 +111,7 @@ class MovingObject {
 	*******************************************************************/
 
 	/* Defines the behaviour of an elastic collision */
-	elasticCollision(other) {
+	elasticCollision1(other) {
 
 		var thisV3 = new THREE.Vector3(0, 0, 0).addScaledVector(this.directionOfMovement, this.velocity);
 		var otherV3 = new THREE.Vector3(0, 0, 0).addScaledVector(other.directionOfMovement, other.velocity);
@@ -123,7 +123,6 @@ class MovingObject {
 		console.log(vectorVDiff, this.velocity);
 		var vectorPosDiff1 = new THREE.Vector2().subVectors(thisPos, otherPos);
 		var vectorPosDiff2 = new THREE.Vector2().subVectors(otherPos, thisPos);
-
 
 		var v1Scale = -2 * other.mass * vectorVDiff.dot(vectorPosDiff1) / ((this.mass + other.mass) * (vectorPosDiff1.length()) ** 2)
 		
@@ -139,6 +138,43 @@ class MovingObject {
 
 		this.object.setRotationFromAxisAngle(new THREE.Vector3(0,1,0), v1f.angle());
 		other.object.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), v2f.angle());
+	}
+
+	elasticCollision(other) {
+		this.directionOfMovement.normalize();
+		other.directionOfMovement.normalize();
+
+		var collisionNormal = new THREE.Vector2(this.object.position.x - other.object.position.x, 
+			this.object.position.z - other.object.position.z).normalize();
+		var collisionTangent = new THREE.Vector2(-collisionNormal.y, collisionNormal.x);
+		var v1 = this.directionOfMovement.clone().multiplyScalar(this.velocity);
+		var v2 = other.directionOfMovement.clone().multiplyScalar(other.velocity);
+		
+		v1 = new THREE.Vector2(v1.x, v1.z);
+		v2 = new THREE.Vector2(v2.x, v2.z);
+		
+		var v1n = v1.clone().dot(collisionNormal);
+		var v1t = v1.clone().dot(collisionTangent);
+		var v2n = v2.clone().dot(collisionNormal);
+		var v2t = v2.clone().dot(collisionTangent);
+
+		var v1nPrime = (v1n * (this.mass - other.mass) + 2 * other.mass * v2n) / (this.mass + other.mass);
+		var v2nPrime = (v1n * (other.mass - this.mass) + 2 * this.mass * v1n) / (this.mass + other.mass);
+
+		var vectorV1nPrime = collisionNormal.clone().multiplyScalar(v1nPrime);
+		var vectorV1tPrime = collisionTangent.clone().multiplyScalar(v1t);
+		var vectorV2nPrime = collisionNormal.clone().multiplyScalar(v2nPrime);
+		var vectorV2tPrime = collisionTangent.clone().multiplyScalar(v2t);
+		
+		var vectorV1Prime = new THREE.Vector2().addVectors(vectorV1nPrime, vectorV1tPrime);
+		var vectorV2Prime = new THREE.Vector2().addVectors(vectorV2nPrime, vectorV2tPrime);
+
+		this.velocity = vectorV1nPrime.length();
+		other.velocity = vectorV2Prime.length();
+
+		this.directionOfMovement = new THREE.Vector3(vectorV1Prime.x, 0, vectorV1Prime.y);
+		other.directionOfMovement = new THREE.Vector3(vectorV2Prime.x, 0, vectorV2Prime.y);
+
 	}
 
 	inelasticCollision(movingObject) {
@@ -235,9 +271,7 @@ class MovingObject {
 					}
 
 					/* SPHERE/BOX AXIS ALIGNED COLLISION BOX */
-					else if ( a.size.length == 1 && b.self.size.length == 3 ||
-							  a.size.length == 3 && b.self.size.length == 1) {
-					
+					else if (a.size.length == 1 && b.self.size.length == 3) {
 						if (a.intersectCubeSphere(b.self)) {
 
 							/* For debugging purposes */
@@ -251,22 +285,21 @@ class MovingObject {
 						}
 					}
 
-				}
+					/* BOX/SPHERE AXIS ALIGNED COLLISION BOX */
+					else if (a.size.length == 3 && b.self.size.length == 1) {
+						if (a.intersectCubeSphere(b.self)) {
 
-				/* PLANES COLLISION BOX */
-				else if (b.self.size.length == 2) {
-					if (a.intersectObjectPlane(b.self)) {
+							/* For debugging purposes */
+							//console.log('Passed Box on Sphere collision test.');
 
-						/* For debugging purposes */
-						//console.log('Passed Object on Plane collision test.');
+							/* Processes collision */
+							a.collision(b.self);
 
-						/* Processes collision */
-						a.fallOffTable();
-
-						/* Informs that we collide (only allows for one collision ...) */
-						return true;
-
+							/* Informs that we collide (only allows for one collision ...) */
+							return true;
+						}
 					}
+
 				}
 
 			}
@@ -331,9 +364,8 @@ class MovingObject {
 	intersectCubeSphere(b) {
 
 		/* Stores the object for later reference */
-		if ( b.size.length == 3 ) { var a = b; b = this; }
-		else { var a = this; }
-		
+		var a = this;
+
 		/* Cube Properties */
 		let a_width = a.size[0] / 2,
 			a_length = a.size[1] / 2,
@@ -412,19 +444,5 @@ class MovingObject {
 
 		return (test_x && test_y && test_z);
 	}
-
-	/* Intersect Object with a Plane */
-	intersectObjectPlane(b) {
-
-		/* Current pos */
-		let x = this.nextX,
-			z = this.nextZ;
-
-		/* Checks x, y and z */
-		let test_x = (x < b.size[0]/2 && x > -b.size[0]/2),
-			test_z = (z < b.size[0]/2 && z > -b.size[0]/2);
-
-		return (!(test_x && test_z));
-	}	
 
 }
