@@ -140,6 +140,14 @@ class MovingObject {
 		var vectorV1Prime = new THREE.Vector2().addVectors(vectorV1nPrime, vectorV1tPrime);
 		var vectorV2Prime = new THREE.Vector2().addVectors(vectorV2nPrime, vectorV2tPrime);
 
+		if (this.velocity < 0) {
+			vectorV1Prime.multiplyScalar(-1);
+		}
+
+		if (other.velocity < 0) {
+			vectorV2Prime.multiplyScalar(-1);
+		}
+
 		this.velocity = vectorV1nPrime.length();
 		other.velocity = vectorV2Prime.length();
 
