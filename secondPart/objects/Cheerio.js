@@ -3,12 +3,12 @@ class Cheerio extends MovingObject {
     constructor(initialPosition, initialVelocity, directionOfMovement, size) {
 
         /* Invokes constructor of parent class */
-        super(initialPosition, initialVelocity, directionOfMovement, 10);
+        super(initialPosition, initialVelocity, directionOfMovement, 1);
 
         this.initialPosition = initialPosition;
 
         /* Collision box definitions */
-        this.size = [size];
+        this.size = [size, size, size];
 
         /* Models the orange in 3d */
         this._buildCheerio();

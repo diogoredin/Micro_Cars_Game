@@ -11,7 +11,7 @@ class Car extends MovingObject {
 		this.maxVelocity = 100;
 		this.minVelocity = -100;
 		
-		this.acceleration = 25;
+		this.acceleration = 100;
 		this.accelerationBit = 0;
 
 		this.angle = 0;
