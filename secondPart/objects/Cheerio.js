@@ -48,6 +48,10 @@ class Cheerio extends MovingObject {
             this.object.position.add(this.initialPosition);
         }
 
+        if (element instanceof Cheerio) {
+            this.elasticColision(element);
+        }
+
     }
 
     /*************************************************************************

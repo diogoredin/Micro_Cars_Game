@@ -111,21 +111,42 @@ class MovingObject {
 	*******************************************************************/
 
 	/* Defines the behaviour of an elastic collision */
-	elasticColision(movingObject) {
+	elasticColision(other) {
+		this.directionOfMovement.normalize();
+		other.directionOfMovement.normalize();
 
-		var thisMomentum = this.velocity * this.mass;
-		var otherMomentum = movingObject.velocity * movingObject.mass;
-		var vf = (thisMomentum + otherMomentum) / (this.mass + movingObject.mass);
+		var collisionNormal = new THREE.Vector2(this.object.position.x - other.object.position.x,
+			this.object.position.z - other.object.position.z).normalize();
+		var collisionTangent = new THREE.Vector2(-collisionNormal.y, collisionNormal.x);
+		var v1 = this.directionOfMovement.clone().multiplyScalar(this.velocity);
+		var v2 = other.directionOfMovement.clone().multiplyScalar(other.velocity);
 
-		this.velocity = vf;
-		movingObject.velocity = vf;
+		v1 = new THREE.Vector2(v1.x, v1.z);
+		v2 = new THREE.Vector2(v2.x, v2.z);
 
-		if (this.mass > movingObject.mass) {
-			movingObject.directionOfMovement  = new THREE.Vector3().add(this.directionOfMovement)
-		} else {
-			this.directionOfMovement = new THREE.Vector3().add(movingObject.directionOfMovement)
-		}
+		var v1n = v1.clone().dot(collisionNormal);
+		var v1t = v1.clone().dot(collisionTangent);
+		var v2n = v2.clone().dot(collisionNormal);
+		var v2t = v2.clone().dot(collisionTangent);
 
+		var v1nPrime = (v1n * (this.mass - other.mass) + 2 * other.mass * v2n) / (this.mass + other.mass);
+		var v2nPrime = (v1n * (other.mass - this.mass) + 2 * this.mass * v1n) / (this.mass + other.mass);
+
+		var vectorV1nPrime = collisionNormal.clone().multiplyScalar(v1nPrime);
+		var vectorV1tPrime = collisionTangent.clone().multiplyScalar(v1t);
+		var vectorV2nPrime = collisionNormal.clone().multiplyScalar(v2nPrime);
+		var vectorV2tPrime = collisionTangent.clone().multiplyScalar(v2t);
+
+		var vectorV1Prime = new THREE.Vector2().addVectors(vectorV1nPrime, vectorV1tPrime);
+		var vectorV2Prime = new THREE.Vector2().addVectors(vectorV2nPrime, vectorV2tPrime);
+
+		this.velocity = vectorV1nPrime.length();
+		other.velocity = vectorV2Prime.length();
+
+		this.directionOfMovement = new THREE.Vector3(vectorV1Prime.x, 0, vectorV1Prime.y);
+		other.directionOfMovement = new THREE.Vector3(vectorV2Prime.x, 0, vectorV2Prime.y);
+
+		// SET ANGLE OF DIFFERENCE BETWEEN THOSE Y and DOM
 	}
 
 	/********************************************************************
