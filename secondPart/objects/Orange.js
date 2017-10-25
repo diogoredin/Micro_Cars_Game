@@ -49,7 +49,6 @@ class Orange extends MovingObject {
 
     turn(deltaT) {
         var angle = - this.velocity * deltaT / (this.size[0]);
-        var quaternion = new THREE.Quaternion().setFromAxisAngle(this.rotationAxis, angle);
         this.object.rotateOnAxis(this.rotationAxis, angle)
     }
 
