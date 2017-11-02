@@ -71,6 +71,7 @@ class Car extends MovingObject {
 		var wheels = new THREE.Object3D();
 		wheels.position.set(0, -1, 0);
 
+		this.object.add(new Circle(30,30));
 		this._addCarWheelMesh(0.7, 0.25, 3, 0, 3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, 3, 0, -3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, -4, 0, 3.5, wheels, carMaterial);
