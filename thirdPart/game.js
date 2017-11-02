@@ -11,7 +11,7 @@ var previousFrameTime = Date.now();
 var keyStates = {};
 
 var lightCalculation = true;
-var materialKind = 'Gourad';
+var materialKind = false;
 
 function init() {
 
@@ -249,23 +249,34 @@ function processKeys() {
 		keyStates['F'] = false;
 	}
 
-	/* Changes Light Calculation */
-	if ( keyStates['l'] || keyStates['L'] ) {
+	/* Changes Light Calculation or Texture Type */
+	if ( keyStates['l'] || keyStates['L'] || keyStates['g'] || keyStates['G'] ) {
 
-		lightCalculation = !lightCalculation;
+		/* Changes Light Calculation on/off */
+		if ( keyStates['l'] || keyStates['L'] ) {
+			lightCalculation = !lightCalculation;
+
+			console.info( 'Light Calculation', lightCalculation ? 'On' : 'Off' );			
+		}
+
+		/* Changes Materials Gourad/Phong */
+		if ( keyStates['g'] || keyStates['G'] ) {
+			materialKind = !materialKind;
+
+			console.info( 'Material', materialKind ? 'Gourad' : 'Phong' );
+		}
 
 		/* Goes through the scene and grabs each object to change its material */
 		scene.traverse(function(node) {
-
 			if ( node instanceof THREE.Mesh ) {
 
 				/* Grabs existing properties of the object */
-				var color, map, wireframe;
+				var color, map, side, wireframe;
 				if ( node.material.color != undefined ) color = node.material.color; else color = '#FFFFFF';
 				if ( node.material.map != undefined ) map = node.material.map; else map = false;
 				if ( node.material.wireframe != undefined ) wireframe = node.material.wireframe; else wireframe = false;
 			
-				/* Checks if light calculation is activated or not */
+				/* Checks if light calculation is on or off */
 				if ( !lightCalculation ) {
 			
 					if ( map != false ) {
@@ -279,22 +290,22 @@ function processKeys() {
 			
 					/* Diferent calls depending whether texture is defined or not */
 					if ( !map ) {
-			
+
 						/* Applies Gourad or Phong */
-						if ( materialKind == 'Gourad' ) {
+						if ( materialKind ) {
 							node.material = new THREE.MeshLambertMaterial({ color: color, wireframe: wireframe });
 			
-						} else if ( materialKind == 'Phong' ) {
+						} else {
 							node.material = new THREE.MeshPhongMaterial({ color: color, wireframe: wireframe });
 						}
 						
 					} else {
-			
+
 						/* Applies Gourad or Phong */
-						if ( materialKind == 'Gourad' ) {
+						if ( materialKind ) {
 							node.material = new THREE.MeshLambertMaterial({ color: color, wireframe: wireframe, map: map });
 			
-						} else if ( materialKind == 'Phong' ) {
+						} else {
 							node.material = new THREE.MeshPhongMaterial({ color: color, wireframe: wireframe, map: map });
 						}
 			
@@ -304,8 +315,16 @@ function processKeys() {
 			}
 		});
 
-		keyStates['l'] = false;
-		keyStates['L'] = false;	
+		if ( keyStates['l'] || keyStates['L'] ) {
+			keyStates['l'] = false;
+			keyStates['L'] = false;
+		}
+
+		if ( keyStates['g'] || keyStates['G'] ) {
+			keyStates['g'] = false;
+			keyStates['G'] = false;
+		}
+
 	}
 
 	/* Camera Controls */
