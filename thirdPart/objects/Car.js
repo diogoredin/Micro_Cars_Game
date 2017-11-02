@@ -2,9 +2,6 @@ class Car extends MovingObject {
 	
 	constructor(initialPosition, initialVelocity, directionOfMovement) {
 
-		/* Position +10 on top of the road */
-		initialPosition.setY(10);
-
 		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement, 300);
 
@@ -71,7 +68,7 @@ class Car extends MovingObject {
 		var wheels = new THREE.Object3D();
 		wheels.position.set(0, -1, 0);
 
-		this.object.add(new Circle(30,30));
+		this.object.add(new Circle(10,20));
 		this._addCarWheelMesh(0.7, 0.25, 3, 0, 3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, 3, 0, -3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, -4, 0, 3.5, wheels, carMaterial);

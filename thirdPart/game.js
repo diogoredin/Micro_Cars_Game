@@ -23,6 +23,7 @@ function init() {
 	createChaseCamera();
 	createOrthographicTopCamera();
 	createPerspectiveTopCamera();
+	createHelpCamera();
 
 	window.addEventListener('resize', onResize);
 	window.addEventListener('keydown', function(e) { keyStates[e.key] = true; } );
@@ -33,7 +34,8 @@ function init() {
 function render() {
 	if (cameraIndex == 1) { renderer.render(scene, orthographicTopCamera); }
 	else if (cameraIndex == 2) { renderer.render(scene, perspectiveTopCamera); }
-	else { renderer.render(scene, chaseCamera) }
+	else if (cameraIndex == 3) { renderer.render(scene, chaseCamera) }
+	else if (cameraIndex == 4) { renderer.render(scene, helpCamera) }
 }
 
 /*******************************************************************
@@ -331,6 +333,7 @@ function processKeys() {
 	if ( keyStates['1'] ) { cameraIndex = 1 }
 	else if ( keyStates['2'] ) { cameraIndex = 2 }
 	else if ( keyStates['3'] ) { cameraIndex = 3 }
+	else if ( keyStates['4'] ) { cameraIndex = 4 }
 
 	/* Car Controls */
 	scene.traverse( function(object) {

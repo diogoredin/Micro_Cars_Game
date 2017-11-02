@@ -1,4 +1,4 @@
-var orthographicTopCamera, perspectiveTopCamera, chaseCamera, cameraIndex = 1;
+var orthographicTopCamera, perspectiveTopCamera, chaseCamera, helpCamera, controls, cameraIndex = 1;
 
 function createOrthographicTopCamera() {
     var tableSize = 600;
@@ -23,4 +23,12 @@ function createPerspectiveTopCamera() {
 
 function createChaseCamera() {
     chaseCamera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 1, 1000);
+}
+
+function createHelpCamera() {
+    helpCamera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+    helpCamera.position.z = 500;
+  
+    controls = new THREE.OrbitControls( helpCamera );
+    controls.addEventListener( 'change', render );
 }
