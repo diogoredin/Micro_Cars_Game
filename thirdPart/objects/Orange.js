@@ -26,8 +26,8 @@ class Orange extends MovingObject {
         texture.repeat.set(2, 2);
 
         var orange = new THREE.Object3D(),
-            orangeMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false }),
-            stemMaterial = new THREE.MeshPhongMaterial({ color: 0x009900, specular: 0x555555, shininess: 10, wireframe: false });
+            orangeMaterial = new THREE.MeshPhongMaterial({ map: texture, wireframe: false }),
+            stemMaterial = new THREE.MeshPhongMaterial({ color: 0x009900, wireframe: false });
        
         var orangeGeometry = new THREE.SphereGeometry(this.size[0], 20, 20),
             orangeBody = new THREE.Mesh(orangeGeometry, orangeMaterial);

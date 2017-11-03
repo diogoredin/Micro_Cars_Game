@@ -16,7 +16,7 @@ class Table extends StaticObject {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(1, 5);
-        this.tableMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
+        this.tableMaterial = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
 
         /* Models the butter in 3d */
         this._buildTable();
@@ -116,7 +116,7 @@ class Table extends StaticObject {
         texture.repeat.set(0.3, 0.3);
 
         var roadGeometry = new THREE.ExtrudeGeometry(squareShape, extrudeSettings);
-        var roadMaterial = new THREE.MeshPhongMaterial({ map: texture, specular: 0x555555, shininess: 10, wireframe: false });
+        var roadMaterial = new THREE.MeshPhongMaterial({ map: texture, wireframe: false });
         var road = new THREE.Mesh(roadGeometry, roadMaterial);
 
         road.position.set(pos_x, pos_y, pos_z);

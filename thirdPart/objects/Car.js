@@ -2,9 +2,6 @@ class Car extends MovingObject {
 	
 	constructor(initialPosition, initialVelocity, directionOfMovement) {
 
-		/* Position +10 on top of the road */
-		initialPosition.setY(10);
-
 		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement, 300);
 
@@ -18,6 +15,11 @@ class Car extends MovingObject {
 		this.angleDiffSecond = Math.PI;
 		this.angleBit = 0;
 
+		/* Stores lights of the car and their status */
+		this.lights = [];
+		this.lightsStatus = true;
+		this.maxStatus = false;
+
 		/* Collision box definitions */
 		this.size = [8,14,8];
 
@@ -26,7 +28,6 @@ class Car extends MovingObject {
 
 		/* Adds object to the scene */
 		scene.add(this.object);
-
 	}
 
 	_buildCar() {
@@ -67,11 +68,74 @@ class Car extends MovingObject {
 		var wheels = new THREE.Object3D();
 		wheels.position.set(0, -1, 0);
 
+		this.object.add(new Circle(10,20));
 		this._addCarWheelMesh(0.7, 0.25, 3, 0, 3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, 3, 0, -3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, -4, 0, 3.5, wheels, carMaterial);
 		this._addCarWheelMesh(0.7, 0.25, -4, 0, -3.5, wheels, carMaterial);
 
+		/* Car Lights */
+		/* The car has four lights: two in the front and too in the back. These are spot lights that need a direction.
+		Since the car can move they need to always be in the direction of movement. To do so four helper objects are created,
+		to which the each light points. Both front and rear lights pairs are separated by four units like in real life */
+
+		/* Front facing lights with white color and intensity of 2 */
+		var frontRightLamp = new THREE.SpotLight( 0xfffff0, 2, 100 ),
+			frontLeftLamp = new THREE.SpotLight( 0xfffff0, 2, 100 );
+
+		/* Rear facing lights with red color and intensity of 0.5 */
+		var rearRightLamp = new THREE.SpotLight( 0xff0000, 0.5, 30 ),
+			rearLeftLamp = new THREE.SpotLight( 0xff0000, 0.5, 30 );
+
+		/* Helper Guides */
+		var frontRightLightDirectionHelper= new THREE.Object3D(),
+			frontLeftLightDirectionHelper = new THREE.Object3D();
+
+		var rearRightLightDirectionHelper = new THREE.Object3D(),
+			rearLeftLightDirectionHelper = new THREE.Object3D();
+
+		/* Front facing Helper Guides position */
+		frontRightLightDirectionHelper.position.set( 5, 3, 2 );
+		frontLeftLightDirectionHelper.position.set( 5, 3, -2 );
+
+		/* Rear facing Helper Guides position */
+		rearRightLightDirectionHelper.position.set( -6, 3, 2 );
+		rearLeftLightDirectionHelper.position.set( -6, 3, -2 );
+
+		/* Front lights positions */
+		frontRightLamp.position.set( 4, 3, 2 );
+		frontLeftLamp.position.set( 4, 3, -2 );
+
+		/* Rear lights positions */
+		rearRightLamp.position.set( -5, 4, 2 );
+		rearLeftLamp.position.set( -5, 4, -2 );
+
+		/* Defines the helper object of each light */
+		frontRightLamp.target = frontRightLightDirectionHelper;
+		frontLeftLamp.target = frontLeftLightDirectionHelper;
+
+		rearRightLamp.target = rearRightLightDirectionHelper;
+		rearLeftLamp.target = rearLeftLightDirectionHelper;
+
+		/* Adds to the car the front facing lights and helper guides */
+		this.object.add(frontRightLightDirectionHelper);
+		this.object.add(frontLeftLightDirectionHelper);
+		this.object.add(frontRightLamp);
+		this.object.add(frontLeftLamp);
+
+		/* Adds to the car the rear facing lights and helper guides */
+		this.object.add(rearRightLightDirectionHelper);
+		this.object.add(rearLeftLightDirectionHelper);
+		this.object.add(rearRightLamp);
+		this.object.add(rearLeftLamp);
+
+		/* Stores for later use (on/off etc.) */
+		this.lights.push(frontRightLamp);
+		this.lights.push(frontLeftLamp);
+		this.lights.push(rearRightLamp);
+		this.lights.push(rearLeftLamp);
+
+		/* Car parts */
 		this.object.add(bottom);
 		this.object.add(middle);
 		this.object.add(top);
@@ -123,6 +187,64 @@ class Car extends MovingObject {
 		this.object.rotateY(turningAngle);
 		this.directionOfMovement.applyAxisAngle(new THREE.Vector3(0, 1, 0), turningAngle);
 	}
+	
+	/* This method turns the lights of the car on and off */
+	changeLights() {
+
+		/* Grabs the current status and changes it (on/off) */
+		var lightValue = this.lightsStatus;
+		this.lightsStatus = !this.lightsStatus;
+
+		/* Turns on or off each light */
+		this.lights.forEach(function(light, index) {
+			if ( lightValue ) {
+				light.intensity = 0;
+			} else {
+
+				/* Different Value for front and rear */
+				if (index <= 2) light.intensity = 2;
+				else light.intensity = 0.5;
+
+			}
+		});
+
+	}
+
+	/* This method turns on the maximus lights for fog */
+	maximumsLight() {
+		
+		/* Grabs the current status and changes it */
+		var maxValue = this.maxStatus;
+		this.maxStatus = !this.maxStatus;
+
+		/* Turns on or off each light */
+		this.lights.forEach(function(light, index) {
+			if ( maxValue ) {
+
+				/* Different Value for front and rear */
+				if (index <= 2) {
+					light.intensity = 2;
+					light.distance = 100; 
+				} else { 
+					light.intensity = 0.5; 
+					light.distance = 30;
+				}
+
+			} else {
+
+				/* Different Value for front and rear */
+				if (index <= 2) {
+					light.intensity = 4;
+					light.distance = 200; 
+				} else { 
+					light.intensity = 1; 
+					light.distance = 60;
+				}
+
+			}
+		});
+
+	}
 
 	update(deltaT) {
 		this.accelerate(deltaT);
@@ -161,7 +283,7 @@ class Car extends MovingObject {
 
 		/* When colliding with cheerio stops */
 		if (element instanceof Cheerio) {
-			this.elasticCollision(element);
+			this.elasticColision(element);
 		}
 
 	}
