@@ -51,6 +51,16 @@ function createScene() {
 
 	/* Adds light to the scene */
 	new DirectionalLight('#ffffff', -1, 6, 1);
+	var candle_positions = [new THREE.Vector3(100, 100, 100),
+							new THREE.Vector3(-140, 100, 200 ),
+							new THREE.Vector3(-100, 100, 100 ),
+							new THREE.Vector3(-200, 100, -60),
+							new THREE.Vector3(-200, 100, -60),
+							new THREE.Vector3(-200, 100, -160)]
+	
+	for (var i = 0; i < candle_positions.length; i++) {
+		new PointLight('#ffc20c', candle_positions[i]);
+	}
 
 	/* Creates a floor and table */
 	new Floor( new THREE.Vector3(0, -100, 0) );
@@ -223,6 +233,19 @@ function processKeys() {
 
 		keyStates['n'] = false;
 		keyStates['N'] = false;
+	}
+
+	/* Turns on/off Directional Light */
+	if (keyStates['c'] || keyStates['C']) {
+
+		scene.traverse(function (object) {
+			if (object.self instanceof PointLight == true) {
+				object.self.turnOnOff();
+			}
+		});
+
+		keyStates['c'] = false;
+		keyStates['C'] = false;
 	}
 
 	/* Turns on/off Car Maximums */
