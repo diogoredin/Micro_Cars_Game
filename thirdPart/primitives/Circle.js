@@ -45,8 +45,11 @@ class Circle extends Shape {
 
 		/* Geometry and Material */
 		var geom = new THREE.Geometry(),
-			mat = new THREE.MeshBasicMaterial({ color: '#fff', wireframe: true });
+			mat = new THREE.MeshPhongMaterial({ color: '#fff', wireframe: false });
 
+		/* Allows being seen from two sides */
+		mat.side = THREE.DoubleSide;
+			
 		/* Vertices of the triangle - Bottom is draw first */
 		var v1 = new THREE.Vector3(-triangleBase,triangleHeight,0),
 			v2 = new THREE.Vector3(triangleBase,triangleHeight,0),

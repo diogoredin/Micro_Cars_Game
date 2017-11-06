@@ -340,6 +340,10 @@ function processKeys() {
 					}
 			
 				}
+
+				/* Allows being seen from two sides */
+				node.material.side = THREE.DoubleSide;
+
 			}
 		});
 
