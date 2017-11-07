@@ -144,8 +144,8 @@ class Car extends MovingObject {
 	}
 
 	_addCarRectMesh(sizeX, sizeY, sizeZ, posX, posY, posZ, obj, material) {
-		var rectGeometry = new THREE.CubeGeometry(sizeX, sizeY, sizeZ);
-		var rectMesh =  new THREE.Mesh(rectGeometry, material);
+		var rectGeometry = new Box(sizeX, sizeY, sizeZ);
+		var rectMesh = new THREE.Mesh(rectGeometry, material);
 		rectMesh.position.set(posX, posY, posZ);
 		obj.add(rectMesh);
 	}
