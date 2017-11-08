@@ -51,9 +51,11 @@ class Car extends MovingObject {
 
 		//THE TOP
 		var top = new THREE.Object3D();
+		var trapGeo = new Trapezoid(8, 8, 4, 8, 2);
+		var trap = new THREE.Mesh(trapGeo, carMaterial);
+		trap.position.set(0,0,0);
+		top.add(trap);
 		top.position.set(0, 2, 0);
-
-		this._addCarRectMesh(4, 2, 8, 0, 0, 0, top, carMaterial);
 
 		//THE BOX
 		var box = new THREE.Object3D();

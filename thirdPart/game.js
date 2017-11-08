@@ -49,9 +49,6 @@ function createScene() {
 	/* Creates the scene */
 	scene = new THREE.Scene();
 
-
-	new CarTop(10, 20, 5, 10, new THREE.Vector3(20, 20, 20));
-
 	/* Adds light to the scene */
 	new DirectionalLight('#ffffff', -1, 6, 1);
 	var candle_positions = [new THREE.Vector3(100, 100, 100),
