@@ -31,7 +31,7 @@ class Car extends MovingObject {
 	}
 
 	_buildCar() {
-		var carMaterial = new THREE.MeshLambertMaterial({ color: 0xb23320, wireframe: false });
+		var carMaterial = new THREE.MeshPhongMaterial({ color: 0xb23320, specular: 0x000000, wireframe: false });
 
 		//THE BOTTOM
 		var bottom = new THREE.Object3D();
@@ -75,7 +75,7 @@ class Car extends MovingObject {
 		this._addCarWheelMesh(0.7, 0.30, -3.5, 0, -4, wheels, carMaterial);
 
 		/* Car Lights */
-		/* The car has four lights: two in the front and too in the back. These are spot lights that need a direction.
+		/* The car has four lights: two in the front and two in the back. These are spot lights that need a direction.
 		Since the car can move they need to always be in the direction of movement. To do so four helper objects are created,
 		to which the each light points. Both front and rear lights pairs are separated by four units like in real life */
 
