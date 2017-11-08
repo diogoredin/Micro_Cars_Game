@@ -69,10 +69,10 @@ class Car extends MovingObject {
 		var wheels = new THREE.Object3D();
 		wheels.position.set(0, -1, 0);
 
-		this._addCarWheelMesh(0.7, 0.30, 3, 0, 3, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.30, 3, 0, -4, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.30, -4, 0, 3, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.30, -4, 0, -4, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, 3.5, 0, 3, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, 3.5, 0, -4, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, -3.5, 0, 3, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, -3.5, 0, -4, wheels, carMaterial);
 
 		/* Car Lights */
 		/* The car has four lights: two in the front and too in the back. These are spot lights that need a direction.
