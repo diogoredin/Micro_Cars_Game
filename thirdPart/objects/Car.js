@@ -50,6 +50,7 @@ class Car extends MovingObject {
 		this._addCarRectMesh(9, 1, 8, 2.5, 0, 0, middle, carMaterial);
 
 		//THE TOP
+		//new CarTop(10, 20, 5, 10, new THREE.Vector3(20, 20, 20));
 		var top = new THREE.Object3D();
 		top.position.set(0, 2, 0);
 
@@ -68,11 +69,10 @@ class Car extends MovingObject {
 		var wheels = new THREE.Object3D();
 		wheels.position.set(0, -1, 0);
 
-		this.object.add(new Circle(10,20));
-		this._addCarWheelMesh(0.7, 0.25, 3, 0, 3.5, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.25, 3, 0, -3.5, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.25, -4, 0, 3.5, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.25, -4, 0, -3.5, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, 3, 0, 3, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, 3, 0, -4, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, -4, 0, 3, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, -4, 0, -4, wheels, carMaterial);
 
 		/* Car Lights */
 		/* The car has four lights: two in the front and too in the back. These are spot lights that need a direction.
@@ -151,10 +151,7 @@ class Car extends MovingObject {
 	}
 
 	_addCarWheelMesh(radius, tube, posX, posY, posZ, obj, material) {
-		var wheelGeometry = new THREE.TorusBufferGeometry(radius, tube, 30, 30);
-		var wheelMesh = new THREE.Mesh(wheelGeometry, material);
-		wheelMesh.position.set(posX, posY, posZ);
-		obj.add(wheelMesh);
+		new Circle(radius, 20, obj, posX, posY, posZ);
 	}
 
 	setAccelerationBit(bit) {

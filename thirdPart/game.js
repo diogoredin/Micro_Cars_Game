@@ -49,28 +49,27 @@ function createScene() {
 	/* Creates the scene */
 	scene = new THREE.Scene();
 
-
-	new CarTop(10, 20, 5, 10, new THREE.Vector3(20, 20, 20));
-
 	/* Adds light to the scene */
 	new DirectionalLight('#ffffff', -1, 6, 1);
-	var candle_positions = [new THREE.Vector3(100, 100, 100),
-							new THREE.Vector3(-140, 100, 200 ),
+
+	/* Adds candles to the top of the table */
+	var candle_positions = [new THREE.Vector3(100, 100, 30),
+							new THREE.Vector3(0, 100, 0 ),
 							new THREE.Vector3(-100, 100, 100 ),
-							new THREE.Vector3(-200, 100, -60),
-							new THREE.Vector3(-200, 100, -60),
-							new THREE.Vector3(-200, 100, -160)]
+							new THREE.Vector3(-100, 100, -60),
+							new THREE.Vector3(-100, 100, -60),
+							new THREE.Vector3(-100, 100, -160)]
 	
 	for (var i = 0; i < candle_positions.length; i++) {
-		new PointLight('#ffc20c', candle_positions[i]);
-	}
+		new PointLight('#ffffff', candle_positions[i]);
+	} // Prev color: #ffc20c
 
 	/* Creates a floor and table */
 	new Floor( new THREE.Vector3(0, -100, 0) );
 	new Table( new THREE.Vector3(0, 0, 0) );
 
 	/* Adds a car on height 8 because of the height of the table top. Second vector defines initial direction */
-	new Car( new THREE.Vector3(-50, 8, -10), 0, new THREE.Vector3(1, 0, 0) );
+	new Car( new THREE.Vector3(-50, 7.3, -10), 0, new THREE.Vector3(1, 0, 0) );
 
 	/* Adds 5 butters to our table on height 5.5 because of the height of the table top. */
 	var butter_positions = [new THREE.Vector3(100, 5.5, 100),
