@@ -53,12 +53,13 @@ function createScene() {
 	new DirectionalLight('#ffffff', -1, 6, 1);
 
 	/* Adds candles to the top of the table */
-	var candle_positions = [new THREE.Vector3(100, 100, 30),
-							new THREE.Vector3(0, 100, 0 ),
-							new THREE.Vector3(-100, 100, 100 ),
-							new THREE.Vector3(-100, 100, -60),
-							new THREE.Vector3(-100, 100, -60),
-							new THREE.Vector3(-100, 100, -160)]
+	var candle_positions = [new THREE.Vector3(0, 10, 220),
+							new THREE.Vector3(20, 10, 50 ),
+							new THREE.Vector3(200, 10, -100 ),
+							new THREE.Vector3(-100, 10, 100 ),
+							new THREE.Vector3(-100, 10, -100),
+							new THREE.Vector3(-200, 10, -30),
+						   ]
 	
 	for (var i = 0; i < candle_positions.length; i++) {
 		new PointLight('#ffffff', candle_positions[i]);
