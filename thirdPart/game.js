@@ -56,7 +56,7 @@ function createScene() {
 	var candle_positions = [new THREE.Vector3(0, 10, 220),
 							new THREE.Vector3(20, 10, 50 ),
 							new THREE.Vector3(200, 10, -100 ),
-							new THREE.Vector3(-100, 10, 100 ),
+							new THREE.Vector3(-200, 10, -200 ),
 							new THREE.Vector3(-100, 10, -100),
 							new THREE.Vector3(-200, 10, -30),
 						   ]
