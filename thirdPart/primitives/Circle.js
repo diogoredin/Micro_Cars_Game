@@ -52,9 +52,6 @@ class Circle extends THREE.Object3D {
 		var geom = new THREE.Geometry(),
 			mat = new THREE.MeshPhongMaterial({ color: '#fff', wireframe: false });
 
-		/* Allows being seen from two sides */
-		mat.side = THREE.DoubleSide;
-
 		/* Vertices of the triangle - Bottom is draw first */
 		var v1 = new THREE.Vector3(-triangleBase,triangleHeight,0),
 			v2 = new THREE.Vector3(triangleBase,triangleHeight,0),
@@ -80,6 +77,7 @@ class Circle extends THREE.Object3D {
 
 		/* Positions it where we can see it */
 		mesh.position.set(this.posX, this.posY, this.posZ);
+		mesh.material.side = THREE.DoubleSide;
 		this.group.add(mesh);
 	}
 

@@ -262,7 +262,7 @@ class Car extends MovingObject {
 		if (element instanceof Orange) {
 
 			/* Removes car and re-adds initial position */
-			let position = new THREE.Vector3(-50, 8, -10);
+			let position = new THREE.Vector3(-50, 7.3, -10);
 			car.setPosition(position);
 
 			/* Re-sets velocity */

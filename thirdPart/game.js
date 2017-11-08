@@ -94,6 +94,10 @@ function createScene() {
 	/* Adds an axis helper to visualize axis */
 	//scene.add(new THREE.AxisHelper(100));
 
+	/* For Debugging Purposes */
+	//var obj = new Circle(20, 20, new THREE.Object3D(), 0, 0, 0);
+	//scene.add( obj.object );
+
 }
 
 /*******************************************************************
