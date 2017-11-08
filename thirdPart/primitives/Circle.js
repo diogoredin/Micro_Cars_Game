@@ -1,24 +1,27 @@
-class Circle extends Shape {
+class Circle extends THREE.Object3D {
 	
-	constructor(radius, segments) {
+	constructor(radius, segments, obj, posX, posY, posZ) {
 
 		super();
 
 		/* Circle */
-		this.object = new THREE.Object3D();
+		this.object = obj;
+		this.group = new THREE.Group();
 
 		/* Circle Properties */
 		this.radius = radius;
 		this.segments = segments;
+		this.posX = posX;
+		this.posY = posY;
+		this.posZ = posZ;
 
 		/* Builds and adds to scene */
 		this._build();
-		scene.add(this.object);
 	}
 
 	/* Circle */
 	_build() {
-		
+
 		/* Number of segments is the number of triangles that compose the circle */
 		var angle = 0;
 
@@ -33,6 +36,8 @@ class Circle extends Shape {
 
 		}
 
+		this.group.rotation.y = 1/2 * Math.PI;
+		this.object.add(this.group);
 	}
 
 	/* Builds Triangles that compose the circle */
@@ -47,9 +52,6 @@ class Circle extends Shape {
 		var geom = new THREE.Geometry(),
 			mat = new THREE.MeshPhongMaterial({ color: '#fff', wireframe: false });
 
-		/* Allows being seen from two sides */
-		mat.side = THREE.DoubleSide;
-			
 		/* Vertices of the triangle - Bottom is draw first */
 		var v1 = new THREE.Vector3(-triangleBase,triangleHeight,0),
 			v2 = new THREE.Vector3(triangleBase,triangleHeight,0),
@@ -68,13 +70,15 @@ class Circle extends Shape {
 
 		/* Rotates it so it is 'flat' */
 		mesh.rotation.y = 1/2 * Math.PI;
+		mesh.rotation.z = Math.PI;
 
 		/* Applies the approriate angle */	
 		mesh.rotation.x = angle;
 
 		/* Positions it where we can see it */
-		mesh.position.set(20, 40, 20);
-		this.object.add(mesh);
+		mesh.position.set(this.posX, this.posY, this.posZ);
+		mesh.material.side = THREE.DoubleSide;
+		this.group.add(mesh);
 	}
 
 }

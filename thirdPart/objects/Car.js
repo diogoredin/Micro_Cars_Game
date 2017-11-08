@@ -31,7 +31,7 @@ class Car extends MovingObject {
 	}
 
 	_buildCar() {
-		var carMaterial = new THREE.MeshLambertMaterial({ color: 0xb23320, wireframe: false });
+		var carMaterial = new THREE.MeshPhongMaterial({ color: 0xb23320, specular: 0x000000, wireframe: false });
 
 		//THE BOTTOM
 		var bottom = new THREE.Object3D();
@@ -50,6 +50,7 @@ class Car extends MovingObject {
 		this._addCarRectMesh(9, 1, 8, 2.5, 0, 0, middle, carMaterial);
 
 		//THE TOP
+		//new CarTop(10, 20, 5, 10, new THREE.Vector3(20, 20, 20));
 		var top = new THREE.Object3D();
 		var trapGeo = new Trapezoid(8, 8, 4, 8, 2);
 		var trap = new THREE.Mesh(trapGeo, carMaterial);
@@ -70,24 +71,23 @@ class Car extends MovingObject {
 		var wheels = new THREE.Object3D();
 		wheels.position.set(0, -1, 0);
 
-		this.object.add(new Circle(10,20));
-		this._addCarWheelMesh(0.7, 0.25, 3, 0, 3.5, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.25, 3, 0, -3.5, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.25, -4, 0, 3.5, wheels, carMaterial);
-		this._addCarWheelMesh(0.7, 0.25, -4, 0, -3.5, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, 3.5, 0, 3, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, 3.5, 0, -4, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, -3.5, 0, 3, wheels, carMaterial);
+		this._addCarWheelMesh(0.7, 0.30, -3.5, 0, -4, wheels, carMaterial);
 
 		/* Car Lights */
-		/* The car has four lights: two in the front and too in the back. These are spot lights that need a direction.
+		/* The car has four lights: two in the front and two in the back. These are spot lights that need a direction.
 		Since the car can move they need to always be in the direction of movement. To do so four helper objects are created,
 		to which the each light points. Both front and rear lights pairs are separated by four units like in real life */
 
 		/* Front facing lights with white color and intensity of 2 */
-		var frontRightLamp = new THREE.SpotLight( 0xfffff0, 2, 100 ),
-			frontLeftLamp = new THREE.SpotLight( 0xfffff0, 2, 100 );
+		var frontRightLamp = new THREE.SpotLight( 0xfffff0, 0, 100 ),
+			frontLeftLamp = new THREE.SpotLight( 0xfffff0, 0, 100 );
 
 		/* Rear facing lights with red color and intensity of 0.5 */
-		var rearRightLamp = new THREE.SpotLight( 0xff0000, 0.5, 30 ),
-			rearLeftLamp = new THREE.SpotLight( 0xff0000, 0.5, 30 );
+		var rearRightLamp = new THREE.SpotLight( 0xff0000, 0, 30 ),
+			rearLeftLamp = new THREE.SpotLight( 0xff0000, 0, 30 );
 
 		/* Helper Guides */
 		var frontRightLightDirectionHelper= new THREE.Object3D(),
@@ -153,10 +153,7 @@ class Car extends MovingObject {
 	}
 
 	_addCarWheelMesh(radius, tube, posX, posY, posZ, obj, material) {
-		var wheelGeometry = new THREE.TorusBufferGeometry(radius, tube, 30, 30);
-		var wheelMesh = new THREE.Mesh(wheelGeometry, material);
-		wheelMesh.position.set(posX, posY, posZ);
-		obj.add(wheelMesh);
+		new Circle(radius, 20, obj, posX, posY, posZ);
 	}
 
 	setAccelerationBit(bit) {
@@ -267,7 +264,7 @@ class Car extends MovingObject {
 		if (element instanceof Orange) {
 
 			/* Removes car and re-adds initial position */
-			let position = new THREE.Vector3(-50, 8, -10);
+			let position = new THREE.Vector3(-50, 7.3, -10);
 			car.setPosition(position);
 
 			/* Re-sets velocity */

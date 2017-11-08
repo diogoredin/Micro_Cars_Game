@@ -25,7 +25,7 @@ class PointLight {
 
     constructor(color, position) {
 
-        this.light = new THREE.PointLight(color, 1, 100);
+        this.light = new THREE.PointLight(color, 2, 100);
         this.light.position.set(0, 0, 0);
         this.light.position.add(position);
         this.status = true;
@@ -39,7 +39,7 @@ class PointLight {
             this.light.intensity = 0;
             this.status = false;
         } else {
-            this.light.intensity = 1;
+            this.light.intensity = 2;
             this.status = true;
         }
     }
