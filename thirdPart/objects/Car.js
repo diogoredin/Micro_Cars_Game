@@ -80,12 +80,12 @@ class Car extends MovingObject {
 		to which the each light points. Both front and rear lights pairs are separated by four units like in real life */
 
 		/* Front facing lights with white color and intensity of 2 */
-		var frontRightLamp = new THREE.SpotLight( 0xfffff0, 2, 100 ),
-			frontLeftLamp = new THREE.SpotLight( 0xfffff0, 2, 100 );
+		var frontRightLamp = new THREE.SpotLight( 0xfffff0, 0, 100 ),
+			frontLeftLamp = new THREE.SpotLight( 0xfffff0, 0, 100 );
 
 		/* Rear facing lights with red color and intensity of 0.5 */
-		var rearRightLamp = new THREE.SpotLight( 0xff0000, 0.5, 30 ),
-			rearLeftLamp = new THREE.SpotLight( 0xff0000, 0.5, 30 );
+		var rearRightLamp = new THREE.SpotLight( 0xff0000, 0, 30 ),
+			rearLeftLamp = new THREE.SpotLight( 0xff0000, 0, 30 );
 
 		/* Helper Guides */
 		var frontRightLightDirectionHelper= new THREE.Object3D(),
