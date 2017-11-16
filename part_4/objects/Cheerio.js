@@ -66,4 +66,8 @@ class Cheerio extends MovingObject {
         this.object.position.add(this.initialPosition);
     }
 
+    restart() {
+        this.fallOffTable();
+    }
+
 }

@@ -5,6 +5,7 @@ class Orange extends MovingObject {
         /* Invokes constructor of parent class */
         super(initialPosition, initialVelocity, directionOfMovement, 60);
 
+        this.initialVelocity = initialVelocity;
         this.rotationAxis = new THREE.Vector3().crossVectors(directionOfMovement, new THREE.Vector3(0,1,0));
 
         /* Collision box definitions */
@@ -120,7 +121,7 @@ class Orange extends MovingObject {
 
             }, random_time);
         
-        }    
+        }
 
     }
 
@@ -130,4 +131,8 @@ class Orange extends MovingObject {
         super.setDirectionOfMovement(directionOfMovement);
     }
 
+    restart() {
+        this.fallOffTable();
+        this.velocity = this.initialVelocity;
+    }
 }
