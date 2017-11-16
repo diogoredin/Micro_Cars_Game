@@ -7,6 +7,8 @@
 'use strict'
 
 var scene, camera, renderer;
+var paused = false;
+var pPressed = false;
 var previousFrameTime = Date.now();
 var keyStates = {};
 
@@ -110,7 +112,7 @@ function animate() {
 
 	/* Calculates the time difference */
 	var currentFrameTime = Date.now(),
-		deltaT = currentFrameTime - previousFrameTime;
+		deltaT = paused ? 0 : currentFrameTime - previousFrameTime;
 
 	/* Updates the position of our moving objects */
 	scene.traverse( function(object) {
@@ -204,6 +206,16 @@ function onResize() {
 
 /* 3.2. Processes the events to trigger on click */
 function processKeys() {
+
+	/* Paused Game */
+	if (keyStates['p'] || keyStates['P']) {
+		if (!pPressed) {
+			pPressed = true;
+			paused = !paused;
+		}
+	} else {
+		pPressed = false;
+	}
 
 	/* Wireframe View */
 	if ( keyStates['a'] || keyStates['A'] ) {
