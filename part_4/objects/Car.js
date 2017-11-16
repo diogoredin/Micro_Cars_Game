@@ -5,6 +5,8 @@ class Car extends MovingObject {
 		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement, 300);
 
+		this.initialDOM = directionOfMovement;
+		this.initialPosition = initialPosition;
 		/* Number of lives */
 		this.lives = 5;
 
@@ -299,13 +301,27 @@ class Car extends MovingObject {
 
 		if (this.lives > 0) {
 			/* Removes orange and re-adds at random time */
-			let position = new THREE.Vector3(-50, 7.3, -10);
-			this.setPosition(position);
+			this.setPosition(this.initialPosition);
+			this.object.rotation.y = 0;
+			this.object.rotation.x = 0;
+			this.object.rotation.z = 0;
+			this.setDirectionOfMovement(new THREE.Vector3(1,0,0));
 			/* Re-sets velocity */
 			this.setVelocity(0);
 		} else {
 			gameOver = true;
 		}
+	}
+
+	restart() {
+		this.lives = 5;
+		this.setPosition(this.initialPosition);
+		this.object.rotation.y = 0;
+		this.object.rotation.x = 0;
+		this.object.rotation.z = 0;
+		this.setDirectionOfMovement(new THREE.Vector3(1, 0, 0));
+		/* Re-sets velocity */
+		this.setVelocity(0);
 	}
 
 }
