@@ -208,7 +208,7 @@ function onResize() {
 function processKeys() {
 
 	/* Paused Game */
-	if (keyStates['p'] || keyStates['P']) {
+	if (keyStates['s'] || keyStates['S']) {
 		if (!pPressed) {
 			pPressed = true;
 			paused = !paused;
