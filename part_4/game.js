@@ -218,6 +218,10 @@ function processKeys() {
 		pPressed = false;
 	}
 
+	if (keyStates['r'] || keyStates['R']) {
+		restartGame();
+	}
+
 	/* Wireframe View */
 	if ( keyStates['a'] || keyStates['A'] ) {
 
@@ -404,4 +408,14 @@ function processKeys() {
 
 	});
 
+}
+
+function restartGame() {
+	scene.traverse(function (obj) {
+		if (obj.self instanceof Car || obj.self instanceof Cheerio || obj.self instanceof Orange) { 
+			obj.self.restart();
+		}
+	});
+
+	gameOver = false;
 }
