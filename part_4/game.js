@@ -7,6 +7,7 @@
 'use strict'
 
 var scene, camera, renderer;
+var gameOver = false;
 var paused = false;
 var pPressed = false;
 var previousFrameTime = Date.now();
@@ -112,7 +113,7 @@ function animate() {
 
 	/* Calculates the time difference */
 	var currentFrameTime = Date.now(),
-		deltaT = paused ? 0 : currentFrameTime - previousFrameTime;
+		deltaT = (paused || gameOver) ? 0 : currentFrameTime - previousFrameTime;
 
 	/* Updates the position of our moving objects */
 	scene.traverse( function(object) {

@@ -5,6 +5,9 @@ class Car extends MovingObject {
 		/* Invokes constructor of parent class */
 		super(initialPosition, initialVelocity, directionOfMovement, 300);
 
+		/* Number of lives */
+		this.lives = 5;
+
 		this.maxVelocity = 100;
 		this.minVelocity = -100;
 		
@@ -266,14 +269,7 @@ class Car extends MovingObject {
 
 		/* When colliding with an orange goes to start */
 		if (element instanceof Orange) {
-
-			/* Removes car and re-adds initial position */
-			let position = new THREE.Vector3(-50, 7.3, -10);
-			car.setPosition(position);
-
-			/* Re-sets velocity */
-			car.setVelocity(0);
-
+			this.fallOffTable();
 		}
 
 		/* When colliding with butter stops */
@@ -299,16 +295,17 @@ class Car extends MovingObject {
 
 	fallOffTable() {
 
-		/* Store car so we dont lose context */
-		var car = this;
+		this.lives--;
 
-		/* Removes orange and re-adds at random time */
-		let position = new THREE.Vector3(-50, 8, -10);
-		car.setPosition(position);
-
-		/* Re-sets velocity */
-		car.setVelocity(0);
-
+		if (this.lives > 0) {
+			/* Removes orange and re-adds at random time */
+			let position = new THREE.Vector3(-50, 7.3, -10);
+			this.setPosition(position);
+			/* Re-sets velocity */
+			this.setVelocity(0);
+		} else {
+			gameOver = true;
+		}
 	}
 
 }
