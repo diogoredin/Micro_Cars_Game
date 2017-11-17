@@ -8,7 +8,10 @@
 
 var scene, camera, renderer;
 var gameOver = false;
+var gameOverT= new THREE.TextureLoader().load('./tiles/GameOver.png');
 var paused = false;
+var pausedT = new THREE.TextureLoader().load('./tiles/GamePaused.png');
+
 var pPressed = false;
 var previousFrameTime = Date.now();
 var keyStates = {};
@@ -114,6 +117,36 @@ function animate() {
 	/* Calculates the time difference */
 	var currentFrameTime = Date.now(),
 		deltaT = (paused || gameOver) ? 0 : currentFrameTime - previousFrameTime;
+	
+	var texture;
+	if (paused) {
+		texture = pausedT;
+	} else if (gameOver) {
+		texture = gameOverT;
+	} else {
+		orthographicTopCamera.box.material.visible = false;
+		perspectiveTopCamera.box.material.visible = false;
+		chaseCamera.box.material.visible = false;
+	}
+
+	if (texture != undefined) {
+		if (cameraIndex == 1) {
+			orthographicTopCamera.box.material.map = texture;
+			orthographicTopCamera.box.material.visible = true;
+			perspectiveTopCamera.box.material.visible = false;
+			chaseCamera.box.material.visible = false;
+		} else if (cameraIndex == 2) {
+			perspectiveTopCamera.box.material.map = texture;
+			perspectiveTopCamera.box.material.visible = true;
+			orthographicTopCamera.box.material.visible = false;
+			chaseCamera.box.material.visible = false;
+		} else if (cameraIndex == 3) {
+			chaseCamera.box.material.map = texture;
+			chaseCamera.box.material.visible = true;
+			orthographicTopCamera.box.material.visible = false;
+			perspectiveTopCamera.box.material.visible = false;
+		}
+	}
 
 	/* Updates the position of our moving objects */
 	scene.traverse( function(object) {
