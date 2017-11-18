@@ -1,4 +1,4 @@
-var orthographicTopCamera, perspectiveTopCamera, chaseCamera, helpCamera, controls, cameraIndex = 1;
+var orthographicTopCamera, perspectiveTopCamera, chaseCamera, helpCamera, livesCamera, controls, cameraIndex = 1;
 
 function createOrthographicTopCamera() {
     var tableSize = 600;
@@ -33,10 +33,26 @@ function createChaseCamera() {
 
 function createHelpCamera() {
     helpCamera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000);
-    helpCamera.position.y = 500;
+    helpCamera.position.set(500,500,500);
   
     controls = new THREE.OrbitControls( helpCamera );
     controls.addEventListener( 'change', render );
+}
+
+function createLivesCamera() {
+
+    var aspect = window.innerWidth / window.innerHeight;
+
+    if (aspect > 1) {
+        livesCamera = new THREE.OrthographicCamera(-50 * aspect * 0.5, 50 * aspect * 0.5, 50 * 0.5, -50 * 0.5, 1, 25);
+    } else {
+        livesCamera = new THREE.OrthographicCamera(-50 * 0.5, 50 * 0.5, 50 * 0.5 / aspect, -50 * 0.5 / aspect, 1, 25);
+    }
+
+    livesCamera.position.set(500, 500, 500);
+    scene.add(livesCamera);
+    livesCamera.add(new THREE.AxisHelper(10));
+    livesCamera.lookAt(new THREE.Vector3(500, 495, 500));
 }
 
 

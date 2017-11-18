@@ -23,6 +23,7 @@ function init() {
 
 	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.autoClear = false;
 	document.body.appendChild(renderer.domElement);
 
 	createScene();
@@ -30,6 +31,7 @@ function init() {
 	createOrthographicTopCamera();
 	createPerspectiveTopCamera();
 	createHelpCamera();
+	createLivesCamera();
 
 	window.addEventListener('resize', onResize);
 	window.addEventListener('keydown', function(e) { keyStates[e.key] = true; } );
@@ -38,6 +40,12 @@ function init() {
 }
 
 function render() {
+	renderer.clear();
+
+	renderer.setViewport(0.8 * window.innerWidth, 0.2 * window.innerHeight, 0.1 * window.innerWidth, 0.1 * window.innerHeight);
+	renderer.render(scene, livesCamera);
+
+	renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
 	if (cameraIndex == 1) { renderer.render(scene, orthographicTopCamera); }
 	else if (cameraIndex == 2) { renderer.render(scene, perspectiveTopCamera); }
 	else if (cameraIndex == 3) { renderer.render(scene, chaseCamera) }
