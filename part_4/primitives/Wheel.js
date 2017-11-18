@@ -7,11 +7,6 @@ class Wheel extends THREE.Geometry {
 		for (var i = 0; i < 2 * Math.PI; i = i + Math.PI / 30) {
 			self.vertices.push(new THREE.Vector3(radius * Math.cos(i), radius * Math.sin(i), -depth/2));
 			self.vertices.push(new THREE.Vector3(radius * Math.cos(i), radius * Math.sin(i), depth / 2));
-
-			var s = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshPhongMaterial());
-			s.position.set(radius * Math.cos(i), radius * Math.sin(i), -depth / 2);
-			scene.add(s);
-
 		}
 
 		self.vertices.push(new THREE.Vector3(0, 0, -depth / 2));

@@ -53,6 +53,7 @@ function createScene() {
 	scene = new THREE.Scene();
 
 	/* Adds light to the scene */
+	//new AmbientLight('#555555');
 	new DirectionalLight('#ffffff', -1, 6, 1);
 
 	/* Adds candles to the top of the table */
@@ -73,23 +74,23 @@ function createScene() {
 	new Table( new THREE.Vector3(0, 0, 0) );
 
 	/* Adds a car on height 8 because of the height of the table top. Second vector defines initial direction */
-	new Car( new THREE.Vector3(-50, 7.3, -10), 0, new THREE.Vector3(1, 0, 0) );
+	new Car( new THREE.Vector3(-50, 7.5, -10), 0, new THREE.Vector3(1, 0, 0) );
 
 	/* Adds 5 butters to our table on height 5.5 because of the height of the table top. */
-	var butter_positions = [new THREE.Vector3(100, 5.5, 100),
-							new THREE.Vector3(-140, 5.5, 200 ),
-							new THREE.Vector3(-100, 5.5, 100 ),
-							new THREE.Vector3(-200, 5.5, -60 ),
-							new THREE.Vector3(-200, 5.5, -160)];
+	var butter_positions = [new THREE.Vector3(100, 5.8, 100),
+							new THREE.Vector3(-140, 5.8, 200 ),
+							new THREE.Vector3(-100, 5.8, 100 ),
+							new THREE.Vector3(-200, 5.8, -60 ),
+							new THREE.Vector3(-200, 5.8, -160)];
 
 	for ( var i = 0; i < 5; i++ ) {
 		new Butter(butter_positions[i]);
 	}
 
 	/* Adds 3 oranges to our table on height 5.5 because of the height of the table top. */
-	var orange_positions = [new THREE.Vector3( 200, 15, 0 ),
-							new THREE.Vector3( -30, 15, 100 ),
-							new THREE.Vector3( -200, 15, 200 )];
+	var orange_positions = [new THREE.Vector3( 200, 15.5, 0 ),
+							new THREE.Vector3( -30, 15.5, 100 ),
+							new THREE.Vector3( -200, 15.5, 200 )];
 
 	for ( var i = 0; i < 3; i++ ) {
 		new Orange(orange_positions[i], 20, new THREE.Vector3(1, 0, 0), 10);
@@ -242,11 +243,11 @@ function processKeys() {
 		keyStates['A'] = false;
 	}
 
-	/* Turns on/off Directional Light */
+	/* Turns on/off Directional or Ambient Light */
 	if ( keyStates['n'] || keyStates['N'] ) {
 
 		scene.traverse( function(object) {
-			if ( object.self instanceof DirectionalLight == true) {
+			if ( object.self instanceof DirectionalLight == true || object.self instanceof AmbientLight == true) {
 				object.self.turnOnOff();
 			}
 		});

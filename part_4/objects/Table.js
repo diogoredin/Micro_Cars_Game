@@ -33,17 +33,20 @@ class Table extends StaticObject {
 
         var table = new THREE.Object3D();
 
-        this.addTableTop(table, 0, 0, 0);
-        this.addTableLeg(table, -(this.width / 2) + 10, -this.height / 2, -(this.width / 2) + 10);
-        this.addTableLeg(table, (this.width / 2) - 10, -this.height / 2, -(this.width / 2) + 10);
-        this.addTableLeg(table, -(this.width / 2) + 10, -this.height / 2, (this.width / 2) - 10);
-        this.addTableLeg(table, (this.width / 2) - 10, -this.height / 2, (this.width / 2) - 10);
+        this.addTowel(table, 0, 5.5, 0);
+        this.addTop(table, 0, 0, 0);
 
-        this.addRoad(table, 0, 5.5, 0);
+        this.addLeg(table, -(this.width / 2) + 10, -this.height / 2, -(this.width / 2) + 10);
+        this.addLeg(table, (this.width / 2) - 10, -this.height / 2, -(this.width / 2) + 10);
+        this.addLeg(table, -(this.width / 2) + 10, -this.height / 2, (this.width / 2) - 10);
+        this.addLeg(table, (this.width / 2) - 10, -this.height / 2, (this.width / 2) - 10);
+
+        this.addRoad(table, 0, 5.7, 0);
+
         this.object.add(table);
     }
-    
-    addTableTop(obj, pos_x, pos_y, pos_z) {
+
+    addTop(obj, pos_x, pos_y, pos_z) {
 
         var tableTopGeometry = new THREE.CubeGeometry(this.width, 10, this.width);
         var tableTopMesh = new THREE.Mesh(tableTopGeometry, this.tableMaterial);
@@ -52,7 +55,68 @@ class Table extends StaticObject {
         obj.add(tableTopMesh);
     }
 
-    addTableLeg(obj, pos_x, pos_y, pos_z) {
+    /* Adds a towel to the table at a relative position to the table */
+    addTowel(obj, pos_x, pos_y, pos_z) {
+
+        /* Properties of the towel */
+        var bordersRelation = 4.85,
+            topRelation = 1.85,
+            relativeHeight = 0,
+            towelHeight = 80,
+            offset = 0.1;
+
+        /* Material */
+        var towelTexture = new THREE.TextureLoader().load('./tiles/towel.png');
+        towelTexture.wrapS = THREE.RepeatWrapping;
+        towelTexture.wrapT = THREE.RepeatWrapping;
+        towelTexture.repeat.set(150, 150);
+
+        /* Creates the top of the towel */
+        var towelGeometry = new THREE.CircleGeometry( this.width / topRelation, 8 ), 
+            towelMaterial = new THREE.MeshPhongMaterial({ color: '#FFFFFF', map: towelTexture, wireframe: false, side: THREE.DoubleSide }), 
+            towel = new THREE.Mesh(towelGeometry, towelMaterial);
+
+        towel.rotation.z = 1 / 8 * Math.PI;
+        towel.rotation.x = 1 / 2 * Math.PI;
+        towel.position.set(pos_x, pos_y + relativeHeight, pos_z);
+
+        /* Creates a triangle to be used for the borders of the towel */
+        var borderGeometry = new THREE.Geometry(),
+            v1 = new THREE.Vector3( -this.width / bordersRelation, 0, 0),
+            v2 = new THREE.Vector3( this.width / bordersRelation, 0, 0),
+            v3 = new THREE.Vector3(0, -towelHeight, 0);
+
+        borderGeometry.vertices.push(v1);
+        borderGeometry.vertices.push(v2);
+        borderGeometry.vertices.push(v3);
+
+        borderGeometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+        borderGeometry.computeFaceNormals();
+
+        /* Creates and positions borders based on their positions */
+        var borderTop = new THREE.Mesh(borderGeometry, towelMaterial);
+        borderTop.position.set(pos_x, pos_y + relativeHeight, pos_z + (this.width / 2) + offset );
+
+        var borderBottom = new THREE.Mesh(borderGeometry, towelMaterial);
+        borderBottom.position.set(pos_x, pos_y + relativeHeight, pos_z - (this.width / 2) - offset );
+
+        var borderLeft = new THREE.Mesh(borderGeometry, towelMaterial);
+        borderLeft.position.set(pos_x - (this.width / 2) - offset, pos_y + relativeHeight, pos_z );
+        borderLeft.rotation.y = 1 / 2 * Math.PI;
+
+        var borderRight = new THREE.Mesh(borderGeometry, towelMaterial);
+        borderRight.position.set(pos_x + (this.width / 2) + offset, pos_y + relativeHeight, pos_z );
+        borderRight.rotation.y = 1 / 2 * Math.PI;
+
+        /* Adds towel components to the table */
+        //obj.add(borderTop);
+        //obj.add(borderBottom);
+        //obj.add(borderLeft);
+        //obj.add(borderRight);
+        obj.add(towel);
+    }
+
+    addLeg(obj, pos_x, pos_y, pos_z) {
 
         var tableLegGeometry = new THREE.CubeGeometry(10, 100, 10);
         var tableLegMesh = new THREE.Mesh(tableLegGeometry, this.tableMaterial);
@@ -89,8 +153,8 @@ class Table extends StaticObject {
 
         var geometry = new THREE.Geometry();
 
-        this.addCheerios(obj, closedSpline, 1, pos_y);
-        this.addCheerios(obj, closedSpline, -1, pos_y);
+        this.addCheerios(obj, closedSpline, 1, pos_y + 0.4);
+        this.addCheerios(obj, closedSpline, -1, pos_y + 0.4);
 
         var sqLength = 40,
             sqHeight = 0.1,
