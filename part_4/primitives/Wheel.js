@@ -4,7 +4,9 @@ class Wheel extends THREE.Geometry {
 
 		var self = this;
 
-		for (var i = 0; i < 2 * Math.PI; i = i + Math.PI / 30) {
+		var numberOfSegments = 10;
+
+		for (var i = 0; i < 2 * Math.PI; i = i + Math.PI / numberOfSegments) {
 			self.vertices.push(new THREE.Vector3(radius * Math.cos(i), radius * Math.sin(i), -depth/2));
 			self.vertices.push(new THREE.Vector3(radius * Math.cos(i), radius * Math.sin(i), depth / 2));
 		}
@@ -12,21 +14,21 @@ class Wheel extends THREE.Geometry {
 		self.vertices.push(new THREE.Vector3(0, 0, -depth / 2));
 		self.vertices.push(new THREE.Vector3(0, 0, depth / 2));
 
-		for (var i = 0; i < 60; i++) {
-			if (self.vertices[(2 * i) % 1200].z < self.vertices[(2 * i + 2) % 120].z) {
-				self.faces.push(new THREE.Face3((2 * i) % 120, (2 * i + 1) % 120, (2 * i + 2) % 120))
+		for (var i = 0; i < numberOfSegments * 2; i++) {
+			if (self.vertices[(2 * i) % (numberOfSegments * 4)].z < self.vertices[(2 * i + 2) % (numberOfSegments * 4)].z) {
+				self.faces.push(new THREE.Face3((2 * i) % (numberOfSegments * 4), (2 * i + 1) % (numberOfSegments * 4), (2 * i + 2) % (numberOfSegments * 4)))
 			} else {
-				self.faces.push(new THREE.Face3((2 * i + 2) % 120, (2 * i + 1) % 120, (2 * i) % 120))
+				self.faces.push(new THREE.Face3((2 * i + 2) % (numberOfSegments * 4), (2 * i + 1) % (numberOfSegments * 4), (2 * i) % (numberOfSegments * 4)))
 			}
 		}
 
-		for (var i = 0; i < 60; i++) {
-			self.faces.push(new THREE.Face3((2 * i + 2) % 120, (2 * i + 3) % 120, (2 * i + 1) % 120))
+		for (var i = 0; i < numberOfSegments * 2; i++) {
+			self.faces.push(new THREE.Face3((2 * i + 2) % (numberOfSegments * 4), (2 * i + 3) % (numberOfSegments * 4), (2 * i + 1) % (numberOfSegments * 4)))
 		}
 
-		for (var i = 0; i < 60; i++) {
-			self.faces.push(new THREE.Face3(120, (2 * i + 2) % 120, (2 * i) % 120));
-			self.faces.push(new THREE.Face3(121, (2 * i + 1 % 120), (2 * i + 3 % 120)));
+		for (var i = 0; i < numberOfSegments * 2; i++) {
+			self.faces.push(new THREE.Face3((numberOfSegments * 4), (2 * i + 2) % (numberOfSegments * 4), (2 * i) % (numberOfSegments * 4)));
+			self.faces.push(new THREE.Face3(1 + numberOfSegments * 4, (2 * i + 1 % (numberOfSegments * 4)), (2 * i + 3 % (numberOfSegments * 4))));
 
 		}
 
