@@ -70,7 +70,7 @@ function putTextBox(camera) {
 
     var vector = new THREE.Vector3(0, 0, - 1);
     box.position.set(0, 0, -1).multiplyScalar(1.5);
-    var rotationVector = new THREE.Vector3().crossVectors(vector.normalize(), camera.up).normalize();
+    //var rotationVector = new THREE.Vector3().crossVectors(vector.normalize(), camera.up).normalize();
 
     camera.box = box;
     camera.add(box);
