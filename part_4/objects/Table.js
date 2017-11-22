@@ -59,11 +59,8 @@ class Table extends StaticObject {
     addTowel(obj, pos_x, pos_y, pos_z) {
 
         /* Properties of the towel */
-        var bordersRelation = 4.85,
-            topRelation = 1.85,
-            relativeHeight = 0,
-            towelHeight = 80,
-            offset = 0.1;
+        var topRelation = 1.85,
+            relativeHeight = 0;
 
         /* Material */
         var towelTexture = new THREE.TextureLoader().load('./tiles/towel.png');
@@ -79,40 +76,6 @@ class Table extends StaticObject {
         towel.rotation.z = 1 / 8 * Math.PI;
         towel.rotation.x = 1 / 2 * Math.PI;
         towel.position.set(pos_x, pos_y + relativeHeight, pos_z);
-
-        /* Creates a triangle to be used for the borders of the towel */
-        var borderGeometry = new THREE.Geometry(),
-            v1 = new THREE.Vector3( -this.width / bordersRelation, 0, 0),
-            v2 = new THREE.Vector3( this.width / bordersRelation, 0, 0),
-            v3 = new THREE.Vector3(0, -towelHeight, 0);
-
-        borderGeometry.vertices.push(v1);
-        borderGeometry.vertices.push(v2);
-        borderGeometry.vertices.push(v3);
-
-        borderGeometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
-        borderGeometry.computeFaceNormals();
-
-        /* Creates and positions borders based on their positions */
-        var borderTop = new THREE.Mesh(borderGeometry, towelMaterial);
-        borderTop.position.set(pos_x, pos_y + relativeHeight, pos_z + (this.width / 2) + offset );
-
-        var borderBottom = new THREE.Mesh(borderGeometry, towelMaterial);
-        borderBottom.position.set(pos_x, pos_y + relativeHeight, pos_z - (this.width / 2) - offset );
-
-        var borderLeft = new THREE.Mesh(borderGeometry, towelMaterial);
-        borderLeft.position.set(pos_x - (this.width / 2) - offset, pos_y + relativeHeight, pos_z );
-        borderLeft.rotation.y = 1 / 2 * Math.PI;
-
-        var borderRight = new THREE.Mesh(borderGeometry, towelMaterial);
-        borderRight.position.set(pos_x + (this.width / 2) + offset, pos_y + relativeHeight, pos_z );
-        borderRight.rotation.y = 1 / 2 * Math.PI;
-
-        /* Adds towel components to the table */
-        //obj.add(borderTop);
-        //obj.add(borderBottom);
-        //obj.add(borderLeft);
-        //obj.add(borderRight);
         obj.add(towel);
     }
 
