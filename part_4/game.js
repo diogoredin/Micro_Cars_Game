@@ -219,6 +219,7 @@ function animate() {
 /* 3.1. Repositions animation on the window after resizing */
 function onResize() {
 	var tableSize = 600;
+	var livesSize = 50;
 
 	if (window.innerWidth > 0 && window.innerHeight > 0) {
 
@@ -230,13 +231,25 @@ function onResize() {
 			orthographicTopCamera.right = tableSize * aspect * 0.5;
 			orthographicTopCamera.top = tableSize * 0.5;
 			orthographicTopCamera.bottom = -tableSize * 0.5;
+
+			livesCamera.left = -livesSize * aspect * 0.5;
+			livesCamera.right = livesSize * aspect * 0.5;
+			livesCamera.top = livesSize * 0.5;
+			livesCamera.bottom = -livesSize * 0.5;
 		} else {
 			orthographicTopCamera.left = -tableSize * 0.5;
 			orthographicTopCamera.right = tableSize * 0.5;
 			orthographicTopCamera.top = tableSize * 0.5 / aspect;
 			orthographicTopCamera.bottom = -tableSize * 0.5 / aspect;
+
+			livesCamera.left = -livesSize * 0.5;
+			livesCamera.right = livesSize * 0.5;
+			livesCamera.top = livesSize * 0.5 / aspect;
+			livesCamera.bottom = -livesSize * 0.5 / aspect;
 		}
 
+		livesCamera.aspect = aspect;
+		livesCamera.updateProjectionMatrix();
 		orthographicTopCamera.aspect = aspect;
 		orthographicTopCamera.updateProjectionMatrix();
 		perspectiveTopCamera.aspect = aspect;
