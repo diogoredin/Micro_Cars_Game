@@ -10,25 +10,25 @@ python -m SimpleHTTPServer 8000
 ```
 
 ## Parts
-#### [Part 1](http://diogoredin.com/CG_project/part_1)
+#### [Part 1](http://diogoredin.com/Micro_Cars_Game/part_1)
 * Modelling the Car using three.js geometries
 * Implementing Car controls and movement
 * Implementing Scene Objects (Table, Oranges, Butters and Cheerios)
 
-#### [Part 2](http://diogoredin.com/CG_project/part_2)
+#### [Part 2](http://diogoredin.com/Micro_Cars_Game/part_2)
 * Implementing our own Collision Boxes
 * Handling Collisions
 * Rotating and giving movement to Oranges
 * Implementing Different Cameras (Ortographic -> 1, Perspective -> 2, Car View -> 3)
 
-#### [Part 3](http://diogoredin.com/CG_project/part_3)
+#### [Part 3](http://diogoredin.com/Micro_Cars_Game/part_3)
 * Adding Directional Lighting (on/off -> 'n')
 * Adding 6 Candle Lights (on/off -> 'c')
 * Allowing Disablement of Light Calculation (on/off -> 'l')
 * Changing Materials between Phong and Gourad (phong/gourad -> 'g')
 * Replacing Car Geometry with our own Poligons Geometries
 
-#### [Part 4](http://diogoredin.com/CG_project/part_4)
+#### [Part 4](http://diogoredin.com/Micro_Cars_Game/part_4)
 * Modelling a Towel for the Table
 * Adding Headlamps to the Car
 * Implementing Play/Pause and Pontuation
