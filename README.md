@@ -34,4 +34,4 @@ python -m SimpleHTTPServer 8000
 * Implementing Play/Pause and Pontuation
 
 ## Preview
-![Image of UML](http://diogoredin.me/aux/microcars.png)
+![Image of UML](http://diogoredin.com/aux/microcars.png)
